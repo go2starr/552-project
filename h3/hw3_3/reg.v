@@ -1,4 +1,4 @@
-module reg (data, out, clk, rst);
+module register (data, out, clk, rst);
     input [15:0] data;
     output [15:0] out;
     input clk;
