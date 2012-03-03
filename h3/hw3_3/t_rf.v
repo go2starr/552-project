@@ -14,7 +14,7 @@ endtask
   reg w;
   wire [15:0] r1d, r2d;  
 
-  rf_hier rfh(.read1data(r1d), .read2data(r2d), .read1regsel(r1rs), .read2regsel(r2rs), .writedata(wd), .write(w));
+  rf_hier rfh(.read1data(r1d), .read2data(r2d), .read1regsel(r1rs), .read2regsel(r2rs), .writeregsel(wrs), .writedata(wd), .write(w));
   
   initial begin
   #250;
