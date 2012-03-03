@@ -8,26 +8,23 @@ module rf (
    input [2:0] read1regsel;
    input [2:0] read2regsel;
    input [2:0] writeregsel;
-   input [15:0] writedata;
+   input [16:0] writedata;
    input        write;
 
-   output [15:0] read1data;
-   output [15:0] read2data;
+   output [16:0] read1data;
+   output [16:0] read2data;
    output        err;
    
-  // wire [15:0] readData [7:0];
-  // wire [15:0] writeRegData [7:0];
+   // TODO parameter WIDTH = 16;
+  
+   wire [16:0] readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7;
+   wire [16:0] writeData0, writeData1, writeData2, writeData3, writeData4, writeData5, writeData6, writeData7;
    
-   wire [15:0] readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7;
-   wire [15:0] writeData0, writeData1, writeData2, writeData3, writeData4, writeData5, writeData6, writeData7;
-   
-   reg [15:0] outData1, outData2;
-   
+   reg [16:0] outData1, outData2;
    assign read1data = outData1;
-   assign read2data = outData2;
-      
-  // register rf8 [7:0] (.data(writeRegData), .out(readData), .clk(clk), .rst(rst)); 
+   assign read2data = outData2; 
    
+   // module register (data, out, clk, rst);
    register r0 (.data(writeData0), .out(readData0), .clk(clk), .rst(rst));
    register r1 (.data(writeData1), .out(readData1), .clk(clk), .rst(rst));
    register r2 (.data(writeData2), .out(readData2), .clk(clk), .rst(rst));
@@ -36,18 +33,19 @@ module rf (
    register r5 (.data(writeData5), .out(readData5), .clk(clk), .rst(rst));
    register r6 (.data(writeData6), .out(readData6), .clk(clk), .rst(rst));
    register r7 (.data(writeData7), .out(readData7), .clk(clk), .rst(rst));
+
    
-   assign writeData0 = (write && (writeregsel == 3'b000)) ? writedata : writeData0;
-   assign writeData1 = (write && (writeregsel == 3'b001)) ? writedata : writeData1;
-   assign writeData2 = (write && (writeregsel == 3'b010)) ? writedata : writeData2;
-   assign writeData3 = (write && (writeregsel == 3'b011)) ? writedata : writeData3;
-   assign writeData4 = (write && (writeregsel == 3'b100)) ? writedata : writeData4;
-   assign writeData5 = (write && (writeregsel == 3'b101)) ? writedata : writeData5;
-   assign writeData6 = (write && (writeregsel == 3'b110)) ? writedata : writeData6;
-   assign writeData7 = (write && (writeregsel == 3'b111)) ? writedata : writeData7; 
+   assign writeData0 = (write & (writeregsel == 3'b000)) ? writedata : writeData0;
+   assign writeData1 = (write & (writeregsel == 3'b001)) ? writedata : writeData1;
+   assign writeData2 = (write & (writeregsel == 3'b010)) ? writedata : writeData2;
+   assign writeData3 = (write & (writeregsel == 3'b011)) ? writedata : writeData3;
+   assign writeData4 = (write & (writeregsel == 3'b100)) ? writedata : writeData4;
+   assign writeData5 = (write & (writeregsel == 3'b101)) ? writedata : writeData5;
+   assign writeData6 = (write & (writeregsel == 3'b110)) ? writedata : writeData6;
+   assign writeData7 = (write & (writeregsel == 3'b111)) ? writedata : writeData7; 
 
 
-always@(*)
+always@(read1regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7)
 case (read1regsel)
   3'b000: begin
   	  outData1 = readData0;
@@ -75,7 +73,7 @@ case (read1regsel)
   	  end
  endcase
  
- always@(*)
+ always@(read2regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7)
  case (read2regsel)
   3'b000: begin
   	  outData2 = readData0;
