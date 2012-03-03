@@ -19,6 +19,9 @@ module fifo(
    output        data_out_valid;
    output        err;
    
+   // Internal reg
+   
+
    
 endmodule
 
