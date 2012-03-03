@@ -435,6 +435,7 @@ libhm = $MODEL_TECH/libhm.sl
 Project_Version = 5
 Project_DefaultLib = work
 Project_SortMethod = unused
+<<<<<<< HEAD
 Project_Files_Count = 4
 Project_File_0 = /afs/cs.wisc.edu/u/k/a/katelyn/private/552-project/h3/hw3_3/rf.v
 Project_File_P_0 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 0 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 1 compile_to work vlog_upper 0 vlog_options {} compile_order 2 dont_compile 0 cover_stmt 1
@@ -444,6 +445,19 @@ Project_File_2 = /afs/cs.wisc.edu/u/k/a/katelyn/private/552-project/h3/hw3_3/reg
 Project_File_P_2 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 1330807543 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 0 compile_to work vlog_upper 0 vlog_options {} compile_order 1 dont_compile 0 cover_stmt 1
 Project_File_3 = /afs/cs.wisc.edu/u/k/a/katelyn/private/552-project/h3/hw3_3/t_rf.v
 Project_File_P_3 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 1330806580 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 0 compile_to work vlog_upper 0 vlog_options {} compile_order 3 dont_compile 0 cover_stmt 1
+=======
+Project_Files_Count = 5
+Project_File_0 = /afs/cs.wisc.edu/u/s/t/starr/sandbox/552-project/h3/hw3_5/fifo_hier.v
+Project_File_P_0 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 0 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 1 compile_to work vlog_upper 0 vlog_options {} compile_order 4 dont_compile 0 cover_stmt 1
+Project_File_1 = /afs/cs.wisc.edu/u/s/t/starr/sandbox/552-project/h3/hw3_5/clkrst.v
+Project_File_P_1 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 0 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 1 compile_to work vlog_upper 0 vlog_options {} compile_order 1 dont_compile 0 cover_stmt 1
+Project_File_2 = /afs/cs.wisc.edu/u/s/t/starr/sandbox/552-project/h3/hw3_5/fifo.v
+Project_File_P_2 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 0 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 1 compile_to work vlog_upper 0 vlog_options {} compile_order 3 dont_compile 0 cover_stmt 1
+Project_File_3 = /afs/cs.wisc.edu/u/s/t/starr/sandbox/552-project/h3/hw3_5/dff.v
+Project_File_P_3 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 0 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 1 compile_to work vlog_upper 0 vlog_options {} compile_order 2 dont_compile 0 cover_stmt 1
+Project_File_4 = /afs/cs.wisc.edu/u/f/e/fessler/Desktop/552-project/h3/sc.v
+Project_File_P_4 = vlog_protect 0 file_type Verilog group_id 0 vlog_1995compat 0 vlog_nodebug 0 folder {Top Level} last_compile 0 vlog_noload 0 vlog_disableopt 0 vlog_hazard 0 vlog_showsource 0 ood 0 compile_to work vlog_upper 0 vlog_options {} compile_order 0 dont_compile 0 cover_stmt 1
+>>>>>>> 7124a24c83743b74d69435654e4b08a3cb41205c
 Project_Sim_Count = 0
 Project_Folder_Count = 0
 Echo_Compile_Output = 0
