@@ -3,6 +3,9 @@
 .#*
 #*
 
+# ignore project files
+*.mpf
+
 # ignore ModelSim generated files and directories (temp files and so on)
 [_@]*
 
