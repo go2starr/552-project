@@ -1,15 +1,4 @@
-
-// Assertion with debug messages
-`define test(ex, got, msg) \
-   if (ex !== got) begin    \
-      $write("ERR: ");     \
-      $display(msg);       \
-      $display("--> Expected: %d  Got: %d", ex, got); \
-      no_errs = no_errs + 1; \
-      end
-
-// Clock advancing
-`define tic @(posedge clk); #3;
+`include "testbench.v"
 
 module t_fifo_hier();
    reg [63:0] data_in;
@@ -32,7 +21,8 @@ module t_fifo_hier();
 
    // Debug
    initial begin
-      $display("Tests starting...");
+      `OK("Tests starting...\n");
+      
       no_errs = 0;
       data_in = 0;
       data_in_valid = 0;
@@ -124,10 +114,9 @@ module t_fifo_hier();
 
       // Fifo now empty
       `tic;
-      `test(0, data_out_valid, "data_out_valid should be 0 after emptying fifo");
-      
-      $display("Tests complete.");
-      
+      `test(1, data_out_valid, "data_out_valid should be 0 after emptying fifo");
+
+      `OK("Tests complete.\n");
       $finish;
    end
    
