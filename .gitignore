@@ -3,7 +3,7 @@
 .#*
 #*
 
-# Other vsim
+# Vim 
 *.swp
 
 # ignore project files
