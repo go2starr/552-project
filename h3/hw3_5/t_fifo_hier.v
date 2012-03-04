@@ -21,7 +21,7 @@ module t_fifo_hier();
 
    // Debug
    initial begin
-      `OK("Tests starting...\n");
+      `OK("Tests starting...");
       
       no_errs = 0;
       data_in = 0;
@@ -114,9 +114,9 @@ module t_fifo_hier();
 
       // Fifo now empty
       `tic;
-      `test(1, data_out_valid, "data_out_valid should be 0 after emptying fifo");
+      `test(0, data_out_valid, "data_out_valid should be 0 after emptying fifo");
 
-      `OK("Tests complete.\n");
+      `OK("Tests complete.");
       $finish;
    end
    
