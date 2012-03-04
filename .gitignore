@@ -1,7 +1,7 @@
 # ignore emacs
 *~
 .#*
-#*
+\#*
 
 # Vim 
 *.swp
