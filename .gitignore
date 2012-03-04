@@ -3,6 +3,9 @@
 .#*
 #*
 
+# Other vsim
+*.swp
+
 # ignore project files
 *.mpf
 *.mti
