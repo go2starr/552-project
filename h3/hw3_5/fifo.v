@@ -29,7 +29,8 @@ module fifo(
    wire [63:0]   q_hold_next [MAX-1:0]; // Next if hold
    wire [63:0]   q_push_next [MAX-1:0]; // Next if push
 
-   reg [4:0]    size;          // Size register output
+   wire [MAX:0]    size;          // Size register output
+   wire [MAX:0]    size_next;     // Next size
 
    // Internal regs
    reg64 qrf0 (.in(q_next[0]), .rst(rst), .clk(clk), .out(q[0]));
@@ -47,16 +48,42 @@ module fifo(
    assign fifo_full  = size[MAX];
 
    // Next size
-   assign size_next[MAX-1:0] = data_in_valid ? // Push
-                               size_next[MAX-1:0] << 1 : 
-                               (pop_fifo ? // Pop
-                                size_next[MAX:1] :
-                                // Hold
-                                size_next[MAX-1:0]
+   assign size_next[MAX-1:0] = (size == 0) ? 
+                               1 : // Reset condition
+                               (data_in_valid ?
+                                size_next[MAX-1:0] << 1 : // Push
+                                (
+                                 pop_fifo ?
+                                 size_next[MAX:1] : // Pop
+                                 size_next[MAX-1:0] // Hold
+                                 )
                                 );
-   assign size_next[MAX] = data_in_valid ? // Push
-                           
+   assign size_next[MAX] = data_in_valid ?
+                           (size_next[MAX] ? // Push
+                            size_next[MAX] : // Push @max
+                            size_next[MAX-1]) :
+                           (pop_fifo ?
+                            0 : // Pop
+                            size_next[MAX] // Hold
+                            );
+   
+   // Next FIFO
+   assign q_next[0] = data_in_valid ? q_push_next[0] : // Push
+                      (pop_fifo ? q_pop_next[0] :      // Pop
+                       q_hold_next[0]);                // Hold
 
+   assign q_next[1] = data_in_valid ? q_push_next[1] : // Push
+                      (pop_fifo ? q_pop_next[1] :      // Pop
+                       q_hold_next[1]);                // Hold
+
+   assign q_next[2] = data_in_valid ? q_push_next[2] : // Push
+                      (pop_fifo ? q_pop_next[2] :      // Pop
+                       q_hold_next[2]);                // Hold
+
+   assign q_next[3] = data_in_valid ? q_push_next[3] : // Push
+                      (pop_fifo ? q_pop_next[3] :      // Pop
+                       q_hold_next[3]);                // Hold
+   
    // Pop
    assign q_pop_next[0] = q[1];
    assign q_pop_next[1] = q[2];
