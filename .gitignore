@@ -7,6 +7,9 @@
 *.mpf
 *.mti
 
+# Ignore libraries
+work
+
 # ignore ModelSim generated files and directories (temp files and so on)
 [_@]*
 
