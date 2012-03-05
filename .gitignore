@@ -1,11 +1,17 @@
 # ignore emacs
 *~
 .#*
-#*
+\#*
+
+# Vim 
+*.swp
 
 # ignore project files
 *.mpf
 *.mti
+
+# Ignore libraries
+work
 
 # ignore ModelSim generated files and directories (temp files and so on)
 [_@]*
