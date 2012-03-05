@@ -5,7 +5,7 @@ task compare;
   begin 
     #2;
     if (ex != got)
-      $display("ERR: Expected: 0x%d Got 0x%d", ex, got);
+      $display("ERR: Expected: 0x%x Got 0x%x", ex, got);
   end
 endtask
 
@@ -38,10 +38,10 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b000;
-  compare (wd, r1d);
   r2rs = 3'b000;
-  compare (wd, r2d);
   #100;
+  compare (wd, r1d);
+  compare (wd, r2d);
   
   wd = 16'hAAAA;
   w = 1'b1;
@@ -50,10 +50,12 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b000;
+  r1rs = 3'b000;
+  #100;
   compare (wd, r1d);
-  r2rs = 3'b000;
   compare (wd, r2d);
   #100;
+
   
   
   $display("  Testing register 1...");
@@ -64,8 +66,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b001;
-  compare (wd, r1d);
   r2rs = 3'b001;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -76,8 +79,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b001;
-  compare (wd, r1d);
   r2rs = 3'b001;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -90,8 +94,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b010;
-  compare (wd, r1d);
   r2rs = 3'b010;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -102,8 +107,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b010;
-  compare (wd, r1d);
   r2rs = 3'b010;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
    
@@ -116,8 +122,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b011;
-  compare (wd, r1d);
   r2rs = 3'b011;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -128,8 +135,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b011;
-  compare (wd, r1d);
   r2rs = 3'b011;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -141,8 +149,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b100;
-  compare (wd, r1d);
   r2rs = 3'b100;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -153,8 +162,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b100;
-  compare (wd, r1d);
   r2rs = 3'b100;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -167,8 +177,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b101;
-  compare (wd, r1d);
   r2rs = 3'b101;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -179,8 +190,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b101;
-  compare (wd, r1d);
   r2rs = 3'b101;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -193,8 +205,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b110;
-  compare (wd, r1d);
   r2rs = 3'b110;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -205,8 +218,9 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b110;
-  compare (wd, r1d);
   r2rs = 3'b110;
+  #100;
+  compare (wd, r1d);
   compare (wd, r2d);
   #100;
   
@@ -219,10 +233,12 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b111;
-  compare (wd, r1d);
   r2rs = 3'b111;
   #100;
+  compare (wd, r1d);
   compare (wd, r2d);
+  #100;
+  
   
   wd = 16'hAAAA;
   w = 1'b1;
@@ -231,10 +247,11 @@ endtask
   #100;
   w = 1'b0;
   r1rs = 3'b111;
-  compare (wd, r1d);
   r2rs = 3'b111;
   #100;
+  compare (wd, r1d);
   compare (wd, r2d);
+  #100;
   
   
   ////////////////////////////////////////////////////
@@ -242,12 +259,13 @@ endtask
   ////////////////////////////////////////////////////
   wd = 16'hBEEF;
   w = 1'b1;
-  wrs = 3'b000;
-  r1rs = 3'b000;
-  #100;
+  wrs = 3'b010;
+  r1rs = 3'b010;
+  #125;
   compare (r1d, 16'hAAAA);
   // wait clock cycle to read again
   w = 1'b0;
+  r1rs = 3'b010;
   #100;
   compare (r1d, wd);
 
