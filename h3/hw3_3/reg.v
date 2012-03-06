@@ -4,6 +4,6 @@ module register (data, out, clk, rst);
     input clk;
     input rst;
     
-    dff ff [15:0] (.q(out), .d(data), .clk(clk), .rst(rst)); 
+    dff ff [15:0] (.q(out), .d(data), .clk(clk), .rst(rst)); // 16 bit register
 
 endmodule
