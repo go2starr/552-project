@@ -16,12 +16,18 @@ module t_rf;
    reg [2:0]  r1rs, r2rs, wrs;
    reg        w;
    reg [15:0] data_out;
-   wire [15:0] r1d, r2d;  
+   wire [15:0] r1d, r2d;
 
    rf_hier rfh(.read1data(r1d), .read2data(r2d), .read1regsel(r1rs), .read2regsel(r2rs), .writeregsel(wrs), .writedata(wd), .write(w));
+
+   // Pull clk and rst from clkrst module
+   wire        clk, rst;
+   assign clk = rfh.clk;
+   assign rst = rfh.rst;
    
    initial begin
-      #250;
+      `tic;
+      `tic;
       $display("Starting Tests...");
       // initialize everything to 0
       r1rs = 3'b0;
@@ -40,11 +46,10 @@ module t_rf;
       wrs = 3'b000;
       // wait clock cycle to read
       `tic;
-      
       w = 1'b0;
       r1rs = 3'b000;
       r2rs = 3'b000;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -52,26 +57,24 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b000;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b000;
       r1rs = 3'b000;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
-
-      
       
       $display("  Testing register 1...");
       wd = 16'h5555;
       w = 1'b1;
       wrs = 3'b001;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b001;
       r2rs = 3'b001;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -79,11 +82,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b001;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b001;
       r2rs = 3'b001;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -93,11 +96,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b010;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b010;
       r2rs = 3'b010;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -105,11 +108,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b010;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b010;
       r2rs = 3'b010;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -119,11 +122,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b011;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b011;
       r2rs = 3'b011;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -131,11 +134,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b011;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b011;
       r2rs = 3'b011;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -144,11 +147,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b100;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b100;
       r2rs = 3'b100;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -156,11 +159,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b100;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b100;
       r2rs = 3'b100;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -170,11 +173,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b101;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b101;
       r2rs = 3'b101;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -182,11 +185,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b101;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b101;
       r2rs = 3'b101;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -196,11 +199,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b110;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b110;
       r2rs = 3'b110;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -208,11 +211,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b110;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b110;
       r2rs = 3'b110;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -222,11 +225,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b111;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b111;
       r2rs = 3'b111;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -235,11 +238,11 @@ module t_rf;
       w = 1'b1;
       wrs = 3'b111;
       // wait clock cycle to read
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b111;
       r2rs = 3'b111;
-      #100;
+      `tic;
       compare (wd, r1d);
       compare (wd, r2d);
       
@@ -254,10 +257,10 @@ module t_rf;
       data_out = r1d;
       compare (16'haaaa, data_out);
       // wait clock cycle to read again
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b111;
-      #100;
+      `tic;
       data_out = r1d;
       compare (wd, data_out);  // read new value 0xbeef
 
@@ -272,10 +275,10 @@ module t_rf;
       data_out = r1d;
       compare (16'hbeef, data_out);
       // wait clock cycle to read register 1
-      #100;
+      `tic;
       w = 1'b0;
       r1rs = 3'b100;
-      #100;
+      `tic;
       data_out = r1d;
       compare (wd, data_out);
       
@@ -285,15 +288,15 @@ module t_rf;
       ///////////////////////////////////////////////////////////////
       r1rs = 3'b000;
       r2rs = 3'b000;
-      #100;
+      `tic;
       compare (r1d, r2d);  
-      #100;
+      `tic;
       
       ///////////////////////////////
       $display("Testing Finished. ");
       /////////////////////////////// 
       
-      $stop;
+      $finish;
       
    end
 
