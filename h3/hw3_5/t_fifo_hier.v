@@ -32,7 +32,10 @@ module t_fifo_hier();
       `tic;
       `tic;
       `tic;
-      `tic;      
+      `tic;
+
+//      `define DEBUG 0
+      `info("Hello, world!");
       
       ////////////////////////////////////////////////////////////
       // Should reset to size == 0          

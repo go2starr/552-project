@@ -69,7 +69,7 @@ module fifo(
                                (data_in_valid ?
                                 size << 1 :
                                 (
-                                 pop_fifo ?
+                                 pop_fifo && !fifo_empty ?
                                  size[MAX:1] : // Pop
                                  size[MAX-1:0] // Hold
                                  )
@@ -81,7 +81,7 @@ module fifo(
                             (size[MAX] ? // Push
                              size[MAX] : // Push @max
                              size[MAX-1]) :
-                            (pop_fifo ?
+                            (pop_fifo && !fifo_empty ?
                              0 : // Pop
                              size[MAX] // Hold
                              )
