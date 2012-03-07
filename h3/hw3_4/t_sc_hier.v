@@ -28,7 +28,35 @@ sc_hier sctest(.out(out), .ctr_rst(rst));
    #250
    rst = 1'b1;
    #100
-    rst = 1'b0;
+   rst = 1'b0;
+   compare(3'b0, out);
+   #100
+   compare(3'b001, out);
+   #100 
+   compare(3'b010, out);
+   #100 
+   compare(3'b011, out);
+   #100
+   rst = 1'b1;
+   #100
+   rst = 1'b0;
+   compare(3'b0, out);
+   #100
+   compare(3'b001, out);
+   #100
+   compare(3'b010, out);
+   #100 
+   compare(3'b011, out);
+   #100 
+   compare(3'b100, out);
+   #100 
+   compare(3'b101, out);
+   #100 
+   compare(3'b101, out);
+   
+   
+   
+   $display("Done testing");  
       
    end
    
