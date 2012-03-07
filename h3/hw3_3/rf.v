@@ -4,23 +4,25 @@ module rf (
            // Inputs
            clk, rst, read1regsel, read2regsel, writeregsel, writedata, write
            );
+   parameter WIDTH = 16;
+   
    input clk, rst;
    input [2:0] read1regsel;
    input [2:0] read2regsel;
    input [2:0] writeregsel;
-   input [15:0] writedata;
+   input [(WIDTH-1):0] writedata;
    input        write;
 
-   output [15:0] read1data;
-   output [15:0] read2data;
+   output [(WIDTH-1):0] read1data;
+   output [(WIDTH-1):0] read2data;
    output        err;
    
    // TODO parameter WIDTH = 16;
   
-   wire [15:0] readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7;
-   wire [15:0] writeData0, writeData1, writeData2, writeData3, writeData4, writeData5, writeData6, writeData7;
+   wire [(WIDTH-1):0] readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7;
+   wire [(WIDTH-1):0] writeData0, writeData1, writeData2, writeData3, writeData4, writeData5, writeData6, writeData7;
    
-   reg [15:0] outData1, outData2;
+   reg [(WIDTH-1):0] outData1, outData2;
    assign read1data = outData1;
    assign read2data = outData2; 
    
