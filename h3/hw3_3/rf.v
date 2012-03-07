@@ -45,59 +45,30 @@ module rf (
    assign writeData7 = (write & (writeregsel == 3'b111)) ? writedata : writeData7; 
 
 
-always@(read1regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7)
-case (read1regsel)
-  3'b000: begin
-  	  outData1 = readData0;
-  	  end
-  3'b001: begin
-          outData1 = readData1; 
-  	  end
-  3'b010: begin
-   	  outData1 = readData2;  	   
-  	  end
-  3'b011: begin
-   	  outData1 = readData3; 
-  	  end 
-  3'b100: begin
-          outData1 = readData4;  
-  	  end
-  3'b101: begin
-  	  outData1 = readData5;
-  	  end
-  3'b110: begin
-          outData1 = readData6;
-  	  end
-  3'b111: begin
-  	  outData1 = readData7;
-  	  end
- endcase
- 
- always@(read2regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7)
- case (read2regsel)
-  3'b000: begin
-  	  outData2 = readData0;
-  	  end
-  3'b001: begin
-          outData2 = readData1; 
-  	  end
-  3'b010: begin
-   	  outData2 = readData2;  	   
-  	  end
-  3'b011: begin
-   	  outData2 = readData3; 
-  	  end 
-  3'b100: begin
-          outData2 = readData4;  
-  	  end
-  3'b101: begin
-  	  outData2 = readData5;
-  	  end
-  3'b110: begin
-          outData2 = readData6;
-  	  end
-  3'b111: begin
-  	  outData2 = readData7;
-  	  end
- endcase
+   always@(read1regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7) begin
+     case (read1regsel)
+       3'b000: outData1 = readData0;
+       3'b001: outData1 = readData1; 
+       3'b010: outData1 = readData2;  	   
+       3'b011: outData1 = readData3; 
+       3'b100: outData1 = readData4;  
+       3'b101: outData1 = readData5;
+       3'b110: outData1 = readData6;
+       3'b111: outData1 = readData7;
+     endcase // case (read1regsel)
+   end
+
+   
+   always@(read2regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7) begin
+     case (read2regsel)
+       3'b000: outData2 = readData0;
+       3'b001: outData2 = readData1; 
+       3'b010: outData2 = readData2;  	   
+       3'b011: outData2 = readData3; 
+       3'b100: outData2 = readData4;  
+       3'b101: outData2 = readData5;
+       3'b110: outData2 = readData6;
+       3'b111: outData2 = readData7;
+     endcase // case (read2regsel)
+   end
 endmodule
