@@ -7,8 +7,8 @@ module mux16_4_1(
 		 out
 		 );
    // Inputs
-   input [15:0] in_1, in_2, in_3, in_4,
-   input [1:0]  s
+   input [15:0] in_1, in_2, in_3, in_4;
+   input [1:0]  s;
 
    // Outputs
    output [15:0] out;

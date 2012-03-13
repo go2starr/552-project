@@ -24,7 +24,7 @@
 //     <hex data 1>
 //     ...etc
 //
-// If input "createdump" is true on rising clock,
+	// If input "createdump" is true on rising clock,
 // contents of memory will be dumped to
 // file "dumpfile", from location 0 up through
 // the highest location modified by a write.

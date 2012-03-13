@@ -1,5 +1,5 @@
 /* se11_16.v - 11 to 16-bit sign extender */
-module se8_16(
+module se11_16(
 	      // Inputs
 	      in,
 	      // Outputs
