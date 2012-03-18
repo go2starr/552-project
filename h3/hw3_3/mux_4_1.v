@@ -9,8 +9,8 @@ output Out;
 wire m1Out;
 wire m2Out;
 
-mux_2_1 m1 (.InA(InA), .InB(InC), .S(S[1]), .Out(m1Out));
-mux_2_1 m2 (.InA(InB), .InB(InD), .S(S[1]), .Out(m2Out));
-mux_2_1 m3 (.InA(m1Out), .InB(m2Out), .S(S[0]), .Out(Out));
+mux2_1 m1 (.InA(InA), .InB(InC), .S(S[1]), .Out(m1Out));
+mux2_1 m2 (.InA(InB), .InB(InD), .S(S[1]), .Out(m2Out));
+mux2_1 m3 (.InA(m1Out), .InB(m2Out), .S(S[0]), .Out(Out));
 
 endmodule
