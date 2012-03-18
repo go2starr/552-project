@@ -36,6 +36,8 @@ module t_rf;
       wd = 15'b0;
       w = 1'b0;
       
+      `tic;
+      
       /////////////////////////////////////////////////
       $display("Testing Register Reads and Writes... ");
       /////////////////////////////////////////////////
@@ -53,6 +55,7 @@ module t_rf;
       compare (wd, r1d);
       compare (wd, r2d);
       
+         
       wd = 16'hAAAA;
       w = 1'b1;
       wrs = 3'b000;
