@@ -1,5 +1,5 @@
 echo "********** CS552 Reading files begin ********************"
-set my_verilog_files [list dff.v fifo.v reg64.v testbench.v   ]
+set my_verilog_files [list dff.v fifo.v reg64.v    ]
 set my_toplevel fifo
 define_design_lib WORK -path ./WORK
 analyze -f verilog $my_verilog_files

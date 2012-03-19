@@ -52,7 +52,6 @@ vsim.dbg
 *.qws
 *.sof
 *.smsg
-*.txt
 db/
 incremental_db/
 simulation/

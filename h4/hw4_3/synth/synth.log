@@ -27,8 +27,8 @@ for which you have lawfully obtained a valid license key.
 Initializing...
 echo "********** CS552 Reading files begin ********************"
 ********** CS552 Reading files begin ********************
-set my_verilog_files [list dff.v fifo.v reg64.v testbench.v   ]
-dff.v fifo.v reg64.v testbench.v
+set my_verilog_files [list dff.v fifo.v reg64.v    ]
+dff.v fifo.v reg64.v
 set my_toplevel fifo
 fifo
 define_design_lib WORK -path ./WORK
@@ -38,12 +38,10 @@ Running PRESTO HDLC
 Searching for ./dff.v
 Searching for ./fifo.v
 Searching for ./reg64.v
-Searching for ./testbench.v
 Compiling source file ./dff.v
 Warning:  ./dff.v:12: delays for continuous assignment are ignored. (VER-173)
 Compiling source file ./fifo.v
 Compiling source file ./reg64.v
-Compiling source file ./testbench.v
 Presto compilation completed successfully.
 Loading db file '/u/k/a/karu/courses/cs552/cad/Synopsys_Libraries/libs/gscl45nm.db'
 1
@@ -102,7 +100,7 @@ report_hierarchy
 Report : hierarchy
 Design : fifo
 Version: B-2008.09-SP3
-Date   : Sun Mar 18 17:25:42 2012
+Date   : Sun Mar 18 19:26:14 2012
 ****************************************
 
 Information: This design contains unmapped logic. (RPT-7)
@@ -335,7 +333,7 @@ Information: Updating design information... (UID-85)
     0:00:02    5895.8      0.00       0.0       1.3                          
     0:00:03    7499.9      0.00       0.0       0.7 n591                     
     0:00:05    8882.0      0.00       0.0       0.2 n608                     
-    0:00:07    8876.3      0.00       0.0       0.2                          
+    0:00:08    8876.3      0.00       0.0       0.2                          
 
 
   Beginning Area-Recovery Phase  (cleanup)
@@ -344,8 +342,8 @@ Information: Updating design information... (UID-85)
    ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
     TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
   --------- --------- --------- --------- --------- -------------------------
-    0:00:07    8876.3      0.00       0.0       0.2                          
-    0:00:07    8876.3      0.00       0.0       0.2                          
+    0:00:08    8876.3      0.00       0.0       0.2                          
+    0:00:08    8876.3      0.00       0.0       0.2                          
     0:00:08    7182.6      0.00       0.0       0.2                          
     0:00:08    6964.4      0.00       0.0       0.2                          
     0:00:08    6939.1      0.00       0.0       0.2                          
@@ -381,7 +379,7 @@ Report : constraint
         -all_violators
 Design : fifo
 Version: B-2008.09-SP3
-Date   : Sun Mar 18 17:25:52 2012
+Date   : Sun Mar 18 19:26:23 2012
 ****************************************
 
 
