@@ -1,3 +1,24 @@
+Creating synth.tcl
+File list and2.v
+ decode3_8.v
+ dff.v
+ mux2_1.v
+ mux4_1.v
+ mux8_1.v
+ nand2.v
+ nand3.v
+ nor2.v
+ nor3.v
+ not1.v
+ register.v
+ rf_bypass.v
+ rf.v
+ xor2.v
+ xor3.v
+
+Cleaning temporary directory WORK
+Executing synth.tcl on Synopsys DC Compiler
+This phase does optimizations, so will take some time
 
                         DC Professional (TM)
                            DC Expert (TM)
@@ -1732,3 +1753,11 @@ Information: Defining new variable 'my_clock_pin'. (CMD-041)
 Information: Defining new variable 'my_input_delay_ns'. (CMD-041)
 
 Thank you...
+************************************************
+Synthesis messages saved in synth.log.
+Synthesized files are in synth/rf.syn.v
+Subset of errors found follow
+---begin
+---end
+Cleaning temporary directory WORK
+Look for files in synth/
