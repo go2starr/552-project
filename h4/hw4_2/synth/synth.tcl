@@ -1,5 +1,5 @@
 echo "********** CS552 Reading files begin ********************"
-set my_verilog_files [list and2.v decode3_8.v dff.v mux2_1.v mux_4_1.v mux8_1.v nand2.v nor2.v nor3.v not1.v register.v rf.v  ]
+set my_verilog_files [list and2.v decode3_8.v dff.v mux2_1.v mux4_1.v mux8_1.v nand2.v nand3.v nor2.v nor3.v not1.v register.v rf_bypass.v rf.v xor2.v xor3.v  ]
 set my_toplevel rf
 define_design_lib WORK -path ./WORK
 analyze -f verilog $my_verilog_files
