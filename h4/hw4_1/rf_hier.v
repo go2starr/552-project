@@ -55,7 +55,7 @@ module rf_hier (
    clkrst clk_generator(.clk(clk), .rst(rst), .err(err) );
 
 
-   rf rf0(
+   rf_bypass rf_bypass0(
 
           // Outputs
 
