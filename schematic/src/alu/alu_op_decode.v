@@ -27,20 +27,19 @@ parameter SLBI  = 20;
 parameter JINST = 21;
 parameter JAL   = 22;
 parameter JR    = 23;
-parameter JAL   = 24;
-parameter JALR  = 25;
-parameter RET   = 26;
-parameter SIIC  = 27;
-parameter RTI   = 28;
-parameter NOP   = 29;
-parameter HALT  = 30;
+parameter JALR  = 24;
+parameter RET   = 25;
+parameter SIIC  = 26;
+parameter RTI   = 27;
+parameter NOP   = 28;
+parameter HALT  = 29;
 
 // wires and reg vars
 reg [4:0] op;
 wire instr_op;
 
 // assigns
-assign instr_op= {instr[15:11], instr[1:0]}
+assign instr_op = {instr[15:11], instr[1:0]};
 assign alu_op = op;
 
 // case statement/decode logic
