@@ -1,4 +1,4 @@
-module ALU_bench();
+module t_ALU_bench();
 
    // Inputs
    reg [15:0] a, b, expected;
