@@ -1,5 +1,3 @@
-`include "testbench.v"
-
 module t_ALU_bench();
 
    // Inputs
