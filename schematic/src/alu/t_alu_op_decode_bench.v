@@ -44,6 +44,8 @@ module t_alu_op_decode_bench();
 	reg err;
 	clkrst cr1 (.clk(clk), .rst(rst), .err(err));
 
+	reg [15:0] numErrors;
+
    // Instantiate
    alu_op_decode aluop (.instr(instr), .alu_op (out));
 
@@ -52,14 +54,17 @@ module t_alu_op_decode_bench();
       input [4:0] ex, got;
       begin
          #2;
-         if (ex !== got)
+         if (ex !== got) begin
            $display ("ERR: Expected: 0x%d Got: 0x%d", ex, got);
+			  numErrors = numErrors + 1;
+		   end
       end
    endtask // compare
 
    initial begin
       $display("Starting tests...");
 		instr = 16'b0000000000000000;
+		numErrors = 0;
 		#2;
 		
 	   ////////////////////////////////////////
@@ -226,7 +231,7 @@ module t_alu_op_decode_bench();
 		////////////////////////////////////////
       $display("Testing BNEZ...");
       ////////////////////////////////////////
-		instr = 16'b01101000000000001;
+		instr = 16'b0110100000000000;
 		#2;
 		compare (BNEZ, out);
 
@@ -300,7 +305,7 @@ module t_alu_op_decode_bench();
 		#2;
 		compare (RTI, out);   
       
-      $display("Testing finished");
+      $display("Testing finished:   Num Errors = %d", numErrors);
    	$finish;
 	end
 endmodule // ALU_t

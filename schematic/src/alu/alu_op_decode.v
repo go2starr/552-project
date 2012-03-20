@@ -36,7 +36,7 @@ parameter HALT  = 29;
 
 // wires and reg vars
 reg [4:0] op;
-wire instr_op;
+wire [6:0] instr_op;
 
 // assigns
 assign instr_op = {instr[15:11], instr[1:0]};
@@ -44,7 +44,7 @@ assign alu_op = op;
 
 // case statement/decode logic
 always @ (instr_op) begin
-	case (instr_op)
+	casex (instr_op)
 	7'b1101100 : op = ADD;
 	7'b1101101 : op = SUB;
 	7'b1101110 : op = OR;
@@ -81,7 +81,9 @@ always @ (instr_op) begin
 	7'b00110xx : op = JAL;
 	7'b00111xx : op = JALR;
 	7'b01110xx : op = RET;
+	7'b00010xx : op = SIIC;
 	7'b00011xx : op = RTI;
+	default	  : op = 5'b11111;
 	endcase
 end
 endmodule
