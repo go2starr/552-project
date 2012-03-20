@@ -224,6 +224,19 @@ module t_ALU_bench();
       #1;
       compare (0, zero);
       
+      
+      
+     
+      
+      
+      
+      
+
+      
+      
+      
+
+      
       $display("Testing finished");
    end
 endmodule // ALU_t

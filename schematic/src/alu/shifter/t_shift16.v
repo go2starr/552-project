@@ -1,6 +1,6 @@
 /* shift16_t.v - testbench for shift16.v */
 
-module t_shift16_bench();
+module shift16_t();
    reg [15:0] in, expected;
    reg [3:0]  cnt;
    reg [1:0]  op;
