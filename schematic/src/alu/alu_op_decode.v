@@ -36,7 +36,7 @@ parameter HALT  = 29;
 
 // wires and reg vars
 reg [4:0] op;
-wire instr_op;
+wire [6:0] instr_op;
 
 // assigns
 assign instr_op = {instr[15:11], instr[1:0]};
