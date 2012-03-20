@@ -53,7 +53,7 @@ module ALU (
 	
    // Wires
    wire [15:0]   opA;
-	reg  [15:0]   opB;
+	wire  [15:0]   opB;
 
    // Wires - shifter
    wire [15:0]   shifter_Out;
@@ -81,7 +81,7 @@ module ALU (
 
    // Zero detection
    assign Zero = (Out == 0) &&
-                 (Op == OP_ADD); // Not logical operations
+                 (Op == ADD); // Not logical operations
 
 	
    // Opcode decode   // TODO finish filling in operations
@@ -111,16 +111,16 @@ module ALU (
 		ST    : Out = add_Sum; 
 		STU   : Out = add_Sum;
 		BTR   : Out = 16'b0;			// TODO
-		SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h000i0;
+		SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
 		SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
 		SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
 		SCO   : Out = 16'b0;			// TODO
-		BEQZ  : Out = OpB;	// Outputs immediate value to be added to 2 + PC if OpA == 0
-		BNEZ  : Out = OpB;	// Outputs immediate value to be added to 2 + PC if OpA != 0
-		BLTZ  : Out = OpB;	// Outputs immediate value to be added to 2 + PC if OpA < 0
-		LBI   : Out = OpB;
+		BEQZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA == 0
+		BNEZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA != 0
+		BLTZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA < 0
+		LBI   : Out = opB;
 		SLBI  : Out = 16'b0;		// TODO
-		JINST : Out = OpB;   // Outputs displacement value to be added to 2 + PC
+		JINST : Out = opB;   // Outputs displacement value to be added to 2 + PC
 		JR		: Out = add_Sum;
 		JAL   : Out = 16'b0;		// Don't care
 		JALR  : Out = add_Sum;

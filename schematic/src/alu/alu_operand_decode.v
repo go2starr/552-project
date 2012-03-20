@@ -1,4 +1,4 @@
-module alu_operand_decode (instr, rsVal, rtVal, opA, opB) begin
+module alu_operand_decode (instr, rsVal, rtVal, opA, opB);
 	input [15:0] instr;
 	input [15:0] rsVal;
 	input [15:0] rtVal;
@@ -80,7 +80,7 @@ module alu_operand_decode (instr, rsVal, rtVal, opA, opB) begin
 			7'b10010xx : // SLBI
 							 opBVal = {8'b0, instr[7:0]};					// zero extended immediate
 			7'b00100xx : // JINST
-							 opBVal = {{5{instr[10]}}, instr[10:0]}	// sign extended displacement
+							 opBVal = {{5{instr[10]}}, instr[10:0]};	// sign extended displacement
 			7'b00101xx : // JR
 							 opBVal = {{8{instr[7]}}, instr[7:0]};		// sign extended immediate
 			7'b00110xx : // JAL

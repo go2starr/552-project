@@ -74,7 +74,9 @@ module proc(
     *********************************************************************************/
    wire [15:0] alu_op1, alu_op2, alu_out;
    wire        cin, alu_ofl, alu_zero, alu_signed;
-   
+	
+	alu_operand_decode aopd(.instr(instr), .rsVal (rf_rd1), .rtVal (rf_rd2), .opA (alu_op1), .opB(alu_op2));   
+
    ALU alu(.A(alu_op1),
            .B(alu_op2),
            .Cin(cin),
