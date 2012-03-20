@@ -1,0 +1,735 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 20
+Design : fifo
+Version: B-2008.09-SP3
+Date   : Sun Mar 18 19:26:24 2012
+****************************************
+
+Operating Conditions: typical   Library: gscl45nm
+Wire Load Model Mode: top
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<6>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1317/Y (INVX1)                          0.13       0.56 r
+  U802/Y (AOI22X1)                         0.05       0.62 f
+  U1897/Y (BUFX2)                          0.04       0.65 f
+  U801/Y (NAND2X1)                         0.00       0.66 r
+  data_out<6> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<7>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1315/Y (INVX1)                          0.13       0.56 r
+  U799/Y (AOI22X1)                         0.05       0.62 f
+  U1898/Y (BUFX2)                          0.04       0.65 f
+  U798/Y (NAND2X1)                         0.00       0.66 r
+  data_out<7> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<8>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U796/Y (AOI22X1)                         0.05       0.62 f
+  U1899/Y (BUFX2)                          0.04       0.65 f
+  U795/Y (NAND2X1)                         0.00       0.66 r
+  data_out<8> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<9>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1319/Y (INVX1)                          0.13       0.56 r
+  U793/Y (AOI22X1)                         0.05       0.62 f
+  U1900/Y (BUFX2)                          0.04       0.65 f
+  U792/Y (NAND2X1)                         0.00       0.66 r
+  data_out<9> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<60>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1317/Y (INVX1)                          0.13       0.56 r
+  U814/Y (AOI22X1)                         0.05       0.62 f
+  U1893/Y (BUFX2)                          0.04       0.65 f
+  U813/Y (NAND2X1)                         0.00       0.66 r
+  data_out<60> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<61>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1315/Y (INVX1)                          0.13       0.56 r
+  U811/Y (AOI22X1)                         0.05       0.62 f
+  U1894/Y (BUFX2)                          0.04       0.65 f
+  U810/Y (NAND2X1)                         0.00       0.66 r
+  data_out<61> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<62>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U808/Y (AOI22X1)                         0.05       0.62 f
+  U1895/Y (BUFX2)                          0.04       0.65 f
+  U807/Y (NAND2X1)                         0.00       0.66 r
+  data_out<62> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<63>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1319/Y (INVX1)                          0.13       0.56 r
+  U805/Y (AOI22X1)                         0.05       0.62 f
+  U1896/Y (BUFX2)                          0.04       0.65 f
+  U804/Y (NAND2X1)                         0.00       0.66 r
+  data_out<63> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<0>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U982/Y (AOI22X1)                         0.05       0.62 f
+  U1837/Y (BUFX2)                          0.04       0.65 f
+  U981/Y (NAND2X1)                         0.00       0.66 r
+  data_out<0> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<1>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U949/Y (AOI22X1)                         0.05       0.62 f
+  U1848/Y (BUFX2)                          0.04       0.65 f
+  U948/Y (NAND2X1)                         0.00       0.66 r
+  data_out<1> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<2>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1315/Y (INVX1)                          0.13       0.56 r
+  U916/Y (AOI22X1)                         0.05       0.62 f
+  U1859/Y (BUFX2)                          0.04       0.65 f
+  U915/Y (NAND2X1)                         0.00       0.66 r
+  data_out<2> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<4>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1319/Y (INVX1)                          0.13       0.56 r
+  U850/Y (AOI22X1)                         0.05       0.62 f
+  U1881/Y (BUFX2)                          0.04       0.65 f
+  U849/Y (NAND2X1)                         0.00       0.66 r
+  data_out<4> (out)                        0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<10>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U979/Y (AOI22X1)                         0.05       0.62 f
+  U1838/Y (BUFX2)                          0.04       0.65 f
+  U978/Y (NAND2X1)                         0.00       0.66 r
+  data_out<10> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<11>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U976/Y (AOI22X1)                         0.05       0.62 f
+  U1839/Y (BUFX2)                          0.04       0.65 f
+  U975/Y (NAND2X1)                         0.00       0.66 r
+  data_out<11> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<12>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U973/Y (AOI22X1)                         0.05       0.62 f
+  U1840/Y (BUFX2)                          0.04       0.65 f
+  U972/Y (NAND2X1)                         0.00       0.66 r
+  data_out<12> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<13>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U970/Y (AOI22X1)                         0.05       0.62 f
+  U1841/Y (BUFX2)                          0.04       0.65 f
+  U969/Y (NAND2X1)                         0.00       0.66 r
+  data_out<13> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<14>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U967/Y (AOI22X1)                         0.05       0.62 f
+  U1842/Y (BUFX2)                          0.04       0.65 f
+  U966/Y (NAND2X1)                         0.00       0.66 r
+  data_out<14> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<15>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U964/Y (AOI22X1)                         0.05       0.62 f
+  U1843/Y (BUFX2)                          0.04       0.65 f
+  U963/Y (NAND2X1)                         0.00       0.66 r
+  data_out<15> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<16>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U961/Y (AOI22X1)                         0.05       0.62 f
+  U1844/Y (BUFX2)                          0.04       0.65 f
+  U960/Y (NAND2X1)                         0.00       0.66 r
+  data_out<16> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+  Startpoint: rs0/state_reg
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out<17>
+            (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  rs0/state_reg/CLK (DFFPOSX1)             0.00       0.00 r
+  rs0/state_reg/Q (DFFPOSX1)               0.10       0.10 f
+  rs0/q (dff_261)                          0.00       0.10 f
+  U1308/Y (INVX1)                          0.03       0.14 r
+  U1293/Y (INVX1)                          0.10       0.24 f
+  U983/Y (NOR3X1)                          0.14       0.38 r
+  U1309/Y (INVX1)                          0.06       0.44 f
+  U1313/Y (INVX1)                          0.13       0.56 r
+  U958/Y (AOI22X1)                         0.05       0.62 f
+  U1845/Y (BUFX2)                          0.04       0.65 f
+  U957/Y (NAND2X1)                         0.00       0.66 r
+  data_out<17> (out)                       0.00       0.66 r
+  data arrival time                                   0.66
+
+  clock clk (rise edge)                    1.00       1.00
+  clock network delay (ideal)              0.00       1.00
+  output external delay                   -0.10       0.90
+  data required time                                  0.90
+  -----------------------------------------------------------
+  data required time                                  0.90
+  data arrival time                                  -0.66
+  -----------------------------------------------------------
+  slack (MET)                                         0.24
+
+
+1

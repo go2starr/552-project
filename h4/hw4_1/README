@@ -1,0 +1,9 @@
+The register file was augmented by:
+1. Instantiating a register file in rf_bypass
+2. Instatiating a rf_bypass in rf_hier
+3. In rf_bypass:
+	We XORed the write selection and the read selections
+	The outputs of the XORs for each read select was NORed
+	The outputs of the NORs were ANDed with the write signal
+	The outputs of the ANDs were used as the select for 2 MUXes
+	The MUXes take the output of the register file as their first input and the data input as their second input.  The output of the MUXes are the overall outputs.

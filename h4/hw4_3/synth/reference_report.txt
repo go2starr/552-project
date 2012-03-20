@@ -1,0 +1,42 @@
+ 
+****************************************
+Report : reference
+Design : fifo
+Version: B-2008.09-SP3
+Date   : Sun Mar 18 19:26:24 2012
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1             gscl45nm       2.346500     258    605.396979  
+AOI22X1            gscl45nm       3.285100     132    433.633198  
+BUFX2              gscl45nm       2.346500     132    309.737989  
+INVX1              gscl45nm       1.407900     593    834.884686  
+NAND2X1            gscl45nm       1.877200      64    120.140800  
+NOR3X1             gscl45nm       2.815800       2      5.631600  
+OAI21X1            gscl45nm       2.815800     261    734.923787  
+OR2X1              gscl45nm       2.346500       5     11.732500  
+dff_256                          13.140400       1     13.140400  h, n
+dff_257                          13.140400       1     13.140400  h, n
+dff_258                          13.140400       1     13.140400  h, n
+dff_259                          13.140400       1     13.140400  h, n
+dff_260                          13.140400       1     13.140400  h, n
+dff_261                          13.140400       1     13.140400  h, n
+reg64_0                         849.432980       1    849.432980  h, n
+reg64_1                         849.432980       1    849.432980  h, n
+reg64_2                         848.025080       1    848.025080  h, n
+reg64_3                         848.025080       1    848.025080  h, n
+-----------------------------------------------------------------------------
+Total 18 references                                  6529.840059
+1

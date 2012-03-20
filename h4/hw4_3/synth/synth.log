@@ -1,0 +1,554 @@
+
+                        DC Professional (TM)
+                           DC Expert (TM)
+                            DC Ultra (TM)
+                       FloorPlan Manager (TM)
+                          HDL Compiler (TM)
+                         VHDL Compiler (TM)
+                        Library Compiler (TM)
+                      DesignWare Developer (TM)
+                          DFT Compiler (TM)
+                            BSD Compiler
+                         Power Compiler (TM)
+
+           Version B-2008.09-SP3 for amd64 -- Jan 19, 2009
+              Copyright (c) 1988-2008 by Synopsys, Inc.
+                         ALL RIGHTS RESERVED
+
+This software and the associated documentation are confidential and 
+proprietary to Synopsys, Inc. Your use or disclosure of this software 
+is subject to the terms and conditions of a written license agreement 
+between you, or your company, and Synopsys, Inc.
+
+The above trademark notice does not imply that you are licensed to use 
+all of the listed products. You are licensed to use only those products 
+for which you have lawfully obtained a valid license key.
+
+Initializing...
+echo "********** CS552 Reading files begin ********************"
+********** CS552 Reading files begin ********************
+set my_verilog_files [list dff.v fifo.v reg64.v    ]
+dff.v fifo.v reg64.v
+set my_toplevel fifo
+fifo
+define_design_lib WORK -path ./WORK
+1
+analyze -f verilog $my_verilog_files
+Running PRESTO HDLC
+Searching for ./dff.v
+Searching for ./fifo.v
+Searching for ./reg64.v
+Compiling source file ./dff.v
+Warning:  ./dff.v:12: delays for continuous assignment are ignored. (VER-173)
+Compiling source file ./fifo.v
+Compiling source file ./reg64.v
+Presto compilation completed successfully.
+Loading db file '/u/k/a/karu/courses/cs552/cad/Synopsys_Libraries/libs/gscl45nm.db'
+1
+elaborate $my_toplevel -architecture verilog
+Loading db file '/s/synopsys-2009_03_09/@sys/B-2008.09-SP3/libraries/syn/gtech.db'
+Loading db file '/s/synopsys-2009_03_09/@sys/B-2008.09-SP3/libraries/syn/standard.sldb'
+  Loading link library 'gscl45nm'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Presto compilation completed successfully.
+Elaborated 1 design.
+Current design is now 'fifo'.
+Information: Building the design 'reg64'. (HDL-193)
+Presto compilation completed successfully.
+Information: Building the design 'dff'. (HDL-193)
+
+Inferred memory devices in process
+	in routine dff line 14 in file
+		'./dff.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|      state_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully.
+1
+echo "********** CS552 Reading files end ********************"
+********** CS552 Reading files end ********************
+current_design $my_toplevel
+Current design is 'fifo'.
+{fifo}
+#/* The name of the clock pin. If no clock-pin     */
+#/* exists, pick anything                          */
+set my_clock_pin clk
+clk
+#/* Target frequency in MHz for optimization       */
+set my_clk_freq_MHz 1000
+1000
+#/* Delay of input signals (Clock-to-Q, Package etc.)  */
+set my_input_delay_ns 0.1
+0.1
+#/* Reserved time for output signals (Holdtime etc.)   */
+set my_output_delay_ns 0.1
+0.1
+#/**************************************************/
+#/* No modifications needed below                  */
+#/**************************************************/
+set verilogout_show_unconnected_pins "true"
+true
+# analyze -f verilog $my_verilog_files
+# elaborate $my_toplevel -architecture verilog
+# current_design $my_toplevel
+report_hierarchy 
+ 
+****************************************
+Report : hierarchy
+Design : fifo
+Version: B-2008.09-SP3
+Date   : Sun Mar 18 19:26:14 2012
+****************************************
+
+Information: This design contains unmapped logic. (RPT-7)
+
+fifo
+    GTECH_AND2                           gtech
+    GTECH_BUF                            gtech
+    GTECH_NOT                            gtech
+    GTECH_OR2                            gtech
+    dff
+        GTECH_BUF                        gtech
+        GTECH_NOT                        gtech
+    reg64
+        dff
+            ...
+1
+link
+
+  Linking design 'fifo'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  gscl45nm (library)          /u/k/a/karu/courses/cs552/cad/Synopsys_Libraries/libs/gscl45nm.db
+
+1
+uniquify
+Removing uniquified design 'reg64'.
+Removing uniquified design 'dff'.
+  Uniquified 4 instances of design 'reg64'.
+  Uniquified 262 instances of design 'dff'.
+1
+set my_period [expr 1000 / $my_clk_freq_MHz]
+1
+set find_clock [ find port [list $my_clock_pin] ]
+{clk}
+if {  $find_clock != [list] } {
+   set clk_name $my_clock_pin
+   create_clock -period $my_period $clk_name
+} else {
+   set clk_name vclk
+   create_clock -period $my_period -name $clk_name
+} 
+1
+set_driving_cell  -lib_cell INVX1  [all_inputs]
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+Warning: Design rule attributes from the driving cell will be
+	set on the port. (UID-401)
+1
+set_input_delay $my_input_delay_ns -clock $clk_name [remove_from_collection [all_inputs] $my_clock_pin]
+1
+set_output_delay $my_output_delay_ns -clock $clk_name [all_outputs]
+1
+compile -map_effort low  -area_effort low
+Warning: The compile -map_effort low is obsolete. Setting this variable now defaults to compile -map_effort medium. Please update your script accordingly. (OPT-1303)
+Warning: Setting attribute 'fix_multiple_port_nets' on design 'fifo'. (UIO-59)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library       |      Version       | Available |
+============================================================================
+| Basic DW Building Blocks                | B-2008.09-DWBB_0901
+                                                               |     *     |
+| Licensed DW Building Blocks             |                    |           |
+============================================================================
+
+
+Information: There are 1 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'dff_256'
+  Processing 'reg64_0'
+  Processing 'fifo'
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Mapping Optimizations  (Medium effort)
+  -------------------------------
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:02    5895.8      0.00       0.0       1.3                          
+
+
+  Beginning Design Rule Fixing  (max_capacitance)
+  ----------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:02    5895.8      0.00       0.0       1.3                          
+    0:00:03    7499.9      0.00       0.0       0.7 n591                     
+    0:00:05    8882.0      0.00       0.0       0.2 n608                     
+    0:00:08    8876.3      0.00       0.0       0.2                          
+
+
+  Beginning Area-Recovery Phase  (cleanup)
+  -----------------------------
+
+   ELAPSED            WORST NEG TOTAL NEG  DESIGN                            
+    TIME      AREA      SLACK     SLACK   RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:00:08    8876.3      0.00       0.0       0.2                          
+    0:00:08    8876.3      0.00       0.0       0.2                          
+    0:00:08    7182.6      0.00       0.0       0.2                          
+    0:00:08    6964.4      0.00       0.0       0.2                          
+    0:00:08    6939.1      0.00       0.0       0.2                          
+    0:00:08    6902.9      0.00       0.0       0.2                          
+    0:00:08    6886.5      0.00       0.0       0.2                          
+    0:00:08    6886.5      0.00       0.0       0.2                          
+    0:00:08    6886.5      0.00       0.0       0.2                          
+    0:00:08    6724.1      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+    0:00:09    6529.8      0.00       0.0       0.2                          
+Loading db file '/u/k/a/karu/courses/cs552/cad/Synopsys_Libraries/libs/gscl45nm.db'
+
+  Optimization Complete
+  ---------------------
+1
+check_design -summary
+Warning: In design 'fifo', there is 1 port not connected to any nets. (LINT-30)
+
+Information: Use the 'check_design' command for 
+	 more information about warnings. (LINT-98)
+
+1
+report_constraint -all_violators
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : fifo
+Version: B-2008.09-SP3
+Date   : Sun Mar 18 19:26:23 2012
+****************************************
+
+
+   max_capacitance
+
+                             Required        Actual
+   Net                      Capacitance    Capacitance       Slack
+   -----------------------------------------------------------------
+   n266                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n268                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n269                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n271                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n530                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n531                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n534                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n535                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n536                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n537                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n538                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n539                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n540                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n541                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n542                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n543                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n544                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n545                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n546                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n547                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n548                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n549                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n550                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n551                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n552                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n553                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n554                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n555                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n556                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n557                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n558                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n559                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n560                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n561                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n562                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n563                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n564                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n565                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n566                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n567                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n568                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n569                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n570                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n571                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n572                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n573                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n574                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n575                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n576                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n577                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n578                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n579                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n580                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n581                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n582                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n583                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n584                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n585                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n586                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n587                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n588                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n589                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n590                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n591                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n592                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n593                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n594                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n595                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n596                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n597                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n598                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n599                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n600                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n601                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n602                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n603                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n604                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n605                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n606                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n607                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n608                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n609                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n610                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n611                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n612                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n613                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n614                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n615                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n616                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n617                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n618                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n619                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n620                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n621                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n622                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n623                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n624                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n625                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n626                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n627                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n628                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n629                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n630                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n631                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n632                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n633                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n634                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n635                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n636                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n637                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n638                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n639                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n640                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n641                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n642                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n643                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n644                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n645                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n646                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n647                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n648                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n649                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n650                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n651                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n652                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n653                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n654                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n655                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n656                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n657                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n658                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+   n659                         0.00           0.00           0.00  (VIOLATED: increase signficant digits)
+
+
+1
+set filename [format "%s%s"  $my_toplevel ".syn.v"]
+fifo.syn.v
+write -hierarchy -f verilog $my_toplevel -output synth/$filename
+Writing verilog file '/afs/cs.wisc.edu/u/s/t/starr/sandbox/552-project/h3/hw3_5/synth/fifo.syn.v'.
+Warning: Bus naming style currently specified as %s<%d>, verilog syntax requires bus naming style to be "[]".  (VO-13)
+1
+set filename [format "%s%s"  $my_toplevel ".ddc"]
+fifo.ddc
+write -hierarchy -format ddc -output synth/$filename
+Writing ddc file 'synth/fifo.ddc'.
+1
+report_reference > synth/reference_report.txt
+report_area > synth/area_report.txt
+report_cell > synth/cell_report.txt
+report_timing -max_paths 20 > synth/timing_report.txt
+report_power > synth/power_report.txt
+quit
+Information: Defining new variable 'filename'. (CMD-041)
+Information: Defining new variable 'my_clk_freq_MHz'. (CMD-041)
+Information: Defining new variable 'my_toplevel'. (CMD-041)
+Information: Defining new variable 'clk_name'. (CMD-041)
+Information: Defining new variable 'find_clock'. (CMD-041)
+Information: Defining new variable 'my_output_delay_ns'. (CMD-041)
+Information: Defining new variable 'my_period'. (CMD-041)
+Information: Defining new variable 'my_verilog_files'. (CMD-041)
+Information: Defining new variable 'my_clock_pin'. (CMD-041)
+Information: Defining new variable 'my_input_delay_ns'. (CMD-041)
+
+Thank you...

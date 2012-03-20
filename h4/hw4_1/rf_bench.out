@@ -1,0 +1,767 @@
+# Compile of and2.v was successful.
+# Compile of clkrst.v was successful.
+# Compile of decode3_8.v was successful.
+# Compile of dff.v was successful.
+# Compile of mux2_1.v was successful.
+# Compile of mux4_1.v was successful.
+# Compile of mux8_1.v was successful.
+# Compile of nand2.v was successful.
+# Compile of nand3.v was successful.
+# Compile of nor2.v was successful.
+# Compile of nor3.v was successful.
+# Compile of not1.v was successful.
+# Compile of register.v was successful.
+# Compile of rf.v was successful.
+# Compile of rf_bench.v was successful.
+# Compile of rf_bypass.v was successful.
+# Compile of rf_bypass_bench.v was successful.
+# Compile of rf_hier.v was successful.
+# Compile of t_rf.v was successful.
+# Compile of t_rfBench.v was successful.
+# Compile of xor2.v was successful.
+# Compile of xor3.v was successful.
+# 22 compiles, 0 failed with no errors. 
+vsim work.rf_bench
+# vsim work.rf_bench 
+# Loading work.rf_bench
+# Loading work.rf_hier
+# Loading work.clkrst
+# Loading work.rf
+# Loading work.decode3_8
+# Loading work.not1
+# Loading work.nor3
+# Loading work.and2
+# Loading work.register
+# Loading work.dff
+# Loading work.mux2_1
+# Loading work.nand2
+# Loading work.mux8_1
+# Loading work.mux4_1
+run -all
+# Simulation 1000 cycles
+# Cycle:           0 R1: 4 Sim:     z Exp:     0 R2: 1 Sim:     z Exp:     0 W: 3 data: 54793 enable: 1
+# Cycle:           1 R1: 5 Sim:     z Exp:     0 R2: 5 Sim:     z Exp:     0 W: 1 data: 21010 enable: 1
+# Cycle:           2 R1: 6 Sim:     z Exp:     0 R2: 5 Sim:     z Exp:     0 W: 4 data: 22509 enable: 1
+# Cycle:           3 R1: 6 Sim:     z Exp:     0 R2: 5 Sim:     z Exp:     0 W: 5 data: 53930 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:           4 R1: 2 Sim:     z Exp:     0 R2: 7 Sim:     z Exp:     0 W: 6 data: 27122 enable: 0
+# Cycle:           5 R1: 5 Sim:     z Exp: 53930 R2: 4 Sim:     z Exp: 22509 W: 5 data: 10429 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:           6 R1: 3 Sim:     z Exp:     0 R2: 2 Sim:     z Exp:     0 W: 0 data:  8832 enable: 0
+# Cycle:           7 R1: 5 Sim:     z Exp: 10429 R2: 6 Sim:     z Exp:     0 W: 5 data: 47123 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:           8 R1: 3 Sim:     z Exp:     0 R2: 5 Sim:     z Exp: 47123 W: 6 data: 18946 enable: 1
+# Cycle:           9 R1: 7 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 2 data: 25866 enable: 0
+# Cycle:          10 R1: 2 Sim:     z Exp:     0 R2: 2 Sim:     z Exp:     0 W: 0 data: 45889 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          11 R1: 1 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 6 data: 26038 enable: 0
+# Cycle:          12 R1: 4 Sim:     z Exp: 22509 R2: 2 Sim:     z Exp:     0 W: 1 data: 39435 enable: 1
+# Cycle:          13 R1: 7 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 6 data: 13114 enable: 1
+# Cycle:          14 R1: 1 Sim:     z Exp: 39435 R2: 1 Sim:     z Exp: 39435 W: 4 data:  1890 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:          15 R1: 7 Sim:     z Exp:     0 R2: 0 Sim:     z Exp:     0 W: 7 data: 24759 enable: 0
+# Cycle:          16 R1: 3 Sim:     z Exp:     0 R2: 1 Sim:     z Exp: 39435 W: 0 data: 12873 enable: 1
+# Cycle:          17 R1: 1 Sim:     z Exp: 39435 R2: 6 Sim:     z Exp: 13114 W: 2 data: 32524 enable: 0
+# Cycle:          18 R1: 7 Sim:     z Exp:     0 R2: 5 Sim:     z Exp: 47123 W: 6 data: 56082 enable: 1
+# Cycle:          19 R1: 1 Sim:     z Exp: 39435 R2: 7 Sim:     z Exp:     0 W: 5 data: 63187 enable: 0
+# Cycle:          20 R1: 3 Sim:     z Exp:     0 R2: 1 Sim:     z Exp: 39435 W: 2 data: 44607 enable: 0
+# Cycle:          21 R1: 6 Sim:     z Exp: 56082 R2: 6 Sim:     z Exp: 56082 W: 2 data: 62108 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          22 R1: 3 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 3 data: 43055 enable: 1
+# Eventlog: Both read ports are same
+# Eventlog: Read/write of same port
+# Cycle:          23 R1: 4 Sim:     z Exp:  1890 R2: 7 Sim:     z Exp:     0 W: 6 data: 14027 enable: 0
+# Cycle:          24 R1: 1 Sim:     z Exp: 39435 R2: 5 Sim:     z Exp: 47123 W: 5 data: 27866 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          25 R1: 7 Sim:     z Exp:     0 R2: 1 Sim:     z Exp: 39435 W: 0 data: 65348 enable: 0
+# Cycle:          26 R1: 3 Sim:     z Exp: 43055 R2: 6 Sim:     z Exp: 56082 W: 2 data: 44508 enable: 1
+# Cycle:          27 R1: 3 Sim:     z Exp: 43055 R2: 6 Sim:     z Exp: 56082 W: 7 data: 59726 enable: 0
+# Cycle:          28 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 0 data: 34681 enable: 0
+# Cycle:          29 R1: 3 Sim:     z Exp: 43055 R2: 4 Sim:     z Exp:  1890 W: 3 data: 51801 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          30 R1: 1 Sim:     z Exp: 39435 R2: 5 Sim:     z Exp: 27866 W: 2 data: 57974 enable: 0
+# Cycle:          31 R1: 5 Sim:     z Exp: 27866 R2: 6 Sim:     z Exp: 56082 W: 7 data: 39684 enable: 1
+# Cycle:          32 R1: 4 Sim:     z Exp:  1890 R2: 0 Sim:     z Exp: 12873 W: 5 data: 55592 enable: 1
+# Cycle:          33 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 5 data: 17692 enable: 1
+# Cycle:          34 R1: 4 Sim:     z Exp:  1890 R2: 6 Sim:     z Exp: 56082 W: 5 data:  2266 enable: 0
+# Cycle:          35 R1: 0 Sim:     z Exp: 12873 R2: 3 Sim:     z Exp: 51801 W: 6 data: 39354 enable: 0
+# Cycle:          36 R1: 5 Sim:     z Exp: 17692 R2: 2 Sim:     z Exp: 44508 W: 7 data:   185 enable: 0
+# Cycle:          37 R1: 0 Sim:     z Exp: 12873 R2: 6 Sim:     z Exp: 56082 W: 5 data:  6838 enable: 0
+# Cycle:          38 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 3 data: 39806 enable: 1
+# Cycle:          39 R1: 1 Sim:     z Exp: 39435 R2: 2 Sim:     z Exp: 44508 W: 7 data: 61025 enable: 1
+# Cycle:          40 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 5 data: 23029 enable: 1
+# Cycle:          41 R1: 1 Sim:     z Exp: 39435 R2: 5 Sim:     z Exp: 23029 W: 3 data: 46232 enable: 1
+# Cycle:          42 R1: 4 Sim:     z Exp:  1890 R2: 2 Sim:     z Exp: 44508 W: 0 data: 53582 enable: 1
+# Cycle:          43 R1: 1 Sim:     z Exp: 39435 R2: 6 Sim:     z Exp: 56082 W: 7 data: 26342 enable: 0
+# Cycle:          44 R1: 2 Sim:     z Exp: 44508 R2: 5 Sim:     z Exp: 23029 W: 0 data: 65438 enable: 1
+# Cycle:          45 R1: 0 Sim:     z Exp: 65438 R2: 2 Sim:     z Exp: 44508 W: 3 data: 16659 enable: 1
+# Cycle:          46 R1: 6 Sim:     z Exp: 56082 R2: 2 Sim:     z Exp: 44508 W: 1 data: 43972 enable: 0
+# Cycle:          47 R1: 4 Sim:     z Exp:  1890 R2: 7 Sim:     z Exp: 61025 W: 2 data: 36998 enable: 0
+# Cycle:          48 R1: 2 Sim:     z Exp: 44508 R2: 5 Sim:     z Exp: 23029 W: 4 data: 52612 enable: 0
+# Cycle:          49 R1: 1 Sim:     z Exp: 39435 R2: 1 Sim:     z Exp: 39435 W: 3 data: 43406 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:          50 R1: 7 Sim:     z Exp: 61025 R2: 1 Sim:     z Exp: 39435 W: 5 data: 58678 enable: 1
+# Break at /afs/cs.wisc.edu/u/k/a/katelyn/private/552-project/h4/hw4_1/t_rfBench.v line 115
+quit -sim
+# Compile of and2.v was successful.
+# Compile of clkrst.v was successful.
+# Compile of decode3_8.v was successful.
+# Compile of dff.v was successful.
+# Compile of mux2_1.v was successful.
+# Compile of mux4_1.v was successful.
+# Compile of mux8_1.v was successful.
+# Compile of nand2.v was successful.
+# Compile of nand3.v was successful.
+# Compile of nor2.v was successful.
+# Compile of nor3.v was successful.
+# Compile of not1.v was successful.
+# Compile of register.v was successful.
+# Compile of rf.v was successful.
+# Compile of rf_bench.v was successful.
+# Compile of rf_bypass.v was successful.
+# Compile of rf_hier.v was successful.
+# Compile of t_rf.v was successful.
+# Compile of t_rfBench.v was successful.
+# Compile of xor2.v was successful.
+# Compile of xor3.v was successful.
+# Compile of rf_bypass_bench.v was successful.
+# 22 compiles, 0 failed with no errors. 
+vsim work.rf_bypass_bench
+# vsim work.rf_bypass_bench 
+# Loading work.rf_bypass_bench
+# Loading work.rf_hier
+# Loading work.clkrst
+# Loading work.rf_bypass
+# Loading work.rf
+# Loading work.decode3_8
+# Loading work.not1
+# Loading work.nor3
+# Loading work.and2
+# Loading work.register
+# Loading work.xor2
+# Loading work.mux2_1
+# Loading work.nand2
+# Loading work.dff
+# Loading work.mux8_1
+# Loading work.mux4_1
+run -all
+# Simulation 1000 cycles
+# Cycle:           0 R1: 4 Sim:     z Exp:     0 R2: 1 Sim:     z Exp:     0 W: 3 data: 54793 enable: 1
+# Cycle:           1 R1: 5 Sim:     z Exp:     0 R2: 5 Sim:     z Exp:     0 W: 1 data: 21010 enable: 1
+# Cycle:           2 R1: 6 Sim:     z Exp:     0 R2: 5 Sim:     z Exp:     0 W: 4 data: 22509 enable: 1
+# Cycle:           3 R1: 6 Sim:     z Exp:     0 R2: 5 Sim:     z Exp: 53930 W: 5 data: 53930 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:           4 R1: 2 Sim:     z Exp:     0 R2: 7 Sim:     z Exp:     0 W: 6 data: 27122 enable: 0
+# Cycle:           5 R1: 5 Sim:     z Exp: 10429 R2: 4 Sim:     z Exp: 22509 W: 5 data: 10429 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:           6 R1: 3 Sim:     z Exp:     0 R2: 2 Sim:     z Exp:     0 W: 0 data:  8832 enable: 0
+# Cycle:           7 R1: 5 Sim:     z Exp: 47123 R2: 6 Sim:     z Exp:     0 W: 5 data: 47123 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:           8 R1: 3 Sim:     z Exp:     0 R2: 5 Sim:     z Exp: 47123 W: 6 data: 18946 enable: 1
+# Cycle:           9 R1: 7 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 2 data: 25866 enable: 0
+# Cycle:          10 R1: 2 Sim:     z Exp:     0 R2: 2 Sim:     z Exp:     0 W: 0 data: 45889 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          11 R1: 1 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 6 data: 26038 enable: 0
+# Cycle:          12 R1: 4 Sim:     z Exp: 22509 R2: 2 Sim:     z Exp:     0 W: 1 data: 39435 enable: 1
+# Cycle:          13 R1: 7 Sim:     z Exp:     0 R2: 3 Sim:     z Exp:     0 W: 6 data: 13114 enable: 1
+# Cycle:          14 R1: 1 Sim:     z Exp: 39435 R2: 1 Sim:     z Exp: 39435 W: 4 data:  1890 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:          15 R1: 7 Sim:     z Exp:     0 R2: 0 Sim:     z Exp:     0 W: 7 data: 24759 enable: 0
+# Cycle:          16 R1: 3 Sim:     z Exp:     0 R2: 1 Sim:     z Exp: 39435 W: 0 data: 12873 enable: 1
+# Cycle:          17 R1: 1 Sim:     z Exp: 39435 R2: 6 Sim:     z Exp: 13114 W: 2 data: 32524 enable: 0
+# Cycle:          18 R1: 7 Sim:     z Exp:     0 R2: 5 Sim:     z Exp: 47123 W: 6 data: 56082 enable: 1
+# Cycle:          19 R1: 1 Sim:     z Exp: 39435 R2: 7 Sim:     z Exp:     0 W: 5 data: 63187 enable: 0
+# Cycle:          20 R1: 3 Sim:     z Exp:     0 R2: 1 Sim:     z Exp: 39435 W: 2 data: 44607 enable: 0
+# Cycle:          21 R1: 6 Sim:     z Exp: 56082 R2: 6 Sim:     z Exp: 56082 W: 2 data: 62108 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          22 R1: 3 Sim:     z Exp: 43055 R2: 3 Sim:     z Exp: 43055 W: 3 data: 43055 enable: 1
+# Eventlog: Both read ports are same
+# Eventlog: Read/write of same port
+# Cycle:          23 R1: 4 Sim:     z Exp:  1890 R2: 7 Sim:     z Exp:     0 W: 6 data: 14027 enable: 0
+# Cycle:          24 R1: 1 Sim:     z Exp: 39435 R2: 5 Sim:     z Exp: 27866 W: 5 data: 27866 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          25 R1: 7 Sim:     z Exp:     0 R2: 1 Sim:     z Exp: 39435 W: 0 data: 65348 enable: 0
+# Cycle:          26 R1: 3 Sim:     z Exp: 43055 R2: 6 Sim:     z Exp: 56082 W: 2 data: 44508 enable: 1
+# Cycle:          27 R1: 3 Sim:     z Exp: 43055 R2: 6 Sim:     z Exp: 56082 W: 7 data: 59726 enable: 0
+# Cycle:          28 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 0 data: 34681 enable: 0
+# Cycle:          29 R1: 3 Sim:     z Exp: 51801 R2: 4 Sim:     z Exp:  1890 W: 3 data: 51801 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          30 R1: 1 Sim:     z Exp: 39435 R2: 5 Sim:     z Exp: 27866 W: 2 data: 57974 enable: 0
+# Cycle:          31 R1: 5 Sim:     z Exp: 27866 R2: 6 Sim:     z Exp: 56082 W: 7 data: 39684 enable: 1
+# Cycle:          32 R1: 4 Sim:     z Exp:  1890 R2: 0 Sim:     z Exp: 12873 W: 5 data: 55592 enable: 1
+# Cycle:          33 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 5 data: 17692 enable: 1
+# Cycle:          34 R1: 4 Sim:     z Exp:  1890 R2: 6 Sim:     z Exp: 56082 W: 5 data:  2266 enable: 0
+# Cycle:          35 R1: 0 Sim:     z Exp: 12873 R2: 3 Sim:     z Exp: 51801 W: 6 data: 39354 enable: 0
+# Cycle:          36 R1: 5 Sim:     z Exp: 17692 R2: 2 Sim:     z Exp: 44508 W: 7 data:   185 enable: 0
+# Cycle:          37 R1: 0 Sim:     z Exp: 12873 R2: 6 Sim:     z Exp: 56082 W: 5 data:  6838 enable: 0
+# Cycle:          38 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 3 data: 39806 enable: 1
+# Cycle:          39 R1: 1 Sim:     z Exp: 39435 R2: 2 Sim:     z Exp: 44508 W: 7 data: 61025 enable: 1
+# Cycle:          40 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 12873 W: 5 data: 23029 enable: 1
+# Cycle:          41 R1: 1 Sim:     z Exp: 39435 R2: 5 Sim:     z Exp: 23029 W: 3 data: 46232 enable: 1
+# Cycle:          42 R1: 4 Sim:     z Exp:  1890 R2: 2 Sim:     z Exp: 44508 W: 0 data: 53582 enable: 1
+# Cycle:          43 R1: 1 Sim:     z Exp: 39435 R2: 6 Sim:     z Exp: 56082 W: 7 data: 26342 enable: 0
+# Cycle:          44 R1: 2 Sim:     z Exp: 44508 R2: 5 Sim:     z Exp: 23029 W: 0 data: 65438 enable: 1
+# Cycle:          45 R1: 0 Sim:     z Exp: 65438 R2: 2 Sim:     z Exp: 44508 W: 3 data: 16659 enable: 1
+# Cycle:          46 R1: 6 Sim:     z Exp: 56082 R2: 2 Sim:     z Exp: 44508 W: 1 data: 43972 enable: 0
+# Cycle:          47 R1: 4 Sim:     z Exp:  1890 R2: 7 Sim:     z Exp: 61025 W: 2 data: 36998 enable: 0
+# Cycle:          48 R1: 2 Sim:     z Exp: 44508 R2: 5 Sim:     z Exp: 23029 W: 4 data: 52612 enable: 0
+# Cycle:          49 R1: 1 Sim:     z Exp: 39435 R2: 1 Sim:     z Exp: 39435 W: 3 data: 43406 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:          50 R1: 7 Sim:     z Exp: 61025 R2: 1 Sim:     z Exp: 39435 W: 5 data: 58678 enable: 1
+# Cycle:          51 R1: 3 Sim:     z Exp: 43406 R2: 0 Sim:     z Exp: 65438 W: 3 data: 46254 enable: 0
+# Cycle:          52 R1: 0 Sim:     z Exp: 65438 R2: 5 Sim:     z Exp: 58678 W: 2 data: 24395 enable: 0
+# Cycle:          53 R1: 5 Sim:     z Exp: 58678 R2: 4 Sim:     z Exp:  1890 W: 1 data: 40216 enable: 0
+# Cycle:          54 R1: 1 Sim:     z Exp: 39435 R2: 3 Sim:     z Exp: 43406 W: 3 data: 63960 enable: 0
+# Cycle:          55 R1: 3 Sim:     z Exp: 43406 R2: 2 Sim:     z Exp: 44508 W: 3 data: 57860 enable: 0
+# Cycle:          56 R1: 2 Sim:     z Exp: 44508 R2: 0 Sim:     z Exp: 65438 W: 5 data:  4665 enable: 1
+# Cycle:          57 R1: 3 Sim:     z Exp: 43406 R2: 1 Sim:     z Exp: 39435 W: 7 data: 34248 enable: 1
+# Cycle:          58 R1: 7 Sim:     z Exp: 34248 R2: 4 Sim:     z Exp:  1890 W: 6 data:  9048 enable: 0
+# Cycle:          59 R1: 2 Sim:     z Exp: 44508 R2: 6 Sim:     z Exp: 56082 W: 5 data: 58033 enable: 1
+# Cycle:          60 R1: 3 Sim:     z Exp: 43406 R2: 5 Sim:     z Exp: 58033 W: 7 data:   941 enable: 0
+# Cycle:          61 R1: 7 Sim:     z Exp: 34248 R2: 7 Sim:     z Exp: 34248 W: 1 data: 37049 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:          62 R1: 1 Sim:     z Exp: 37049 R2: 1 Sim:     z Exp: 37049 W: 2 data: 24225 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          63 R1: 5 Sim:     z Exp: 58033 R2: 3 Sim:     z Exp: 43406 W: 2 data: 17020 enable: 0
+# Cycle:          64 R1: 0 Sim:     z Exp: 65438 R2: 7 Sim:     z Exp: 34248 W: 0 data:  3462 enable: 0
+# Cycle:          65 R1: 0 Sim:     z Exp: 65438 R2: 0 Sim:     z Exp: 65438 W: 5 data: 43510 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          66 R1: 4 Sim:     z Exp:  1890 R2: 1 Sim:     z Exp: 37049 W: 4 data: 27312 enable: 0
+# Cycle:          67 R1: 2 Sim:     z Exp: 44508 R2: 5 Sim:     z Exp: 58033 W: 7 data: 20193 enable: 1
+# Cycle:          68 R1: 1 Sim:     z Exp: 52005 R2: 6 Sim:     z Exp: 56082 W: 1 data: 52005 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          69 R1: 2 Sim:     z Exp: 44508 R2: 7 Sim:     z Exp: 20193 W: 4 data: 31532 enable: 1
+# Cycle:          70 R1: 3 Sim:     z Exp: 43406 R2: 6 Sim:     z Exp: 56082 W: 6 data: 49911 enable: 0
+# Cycle:          71 R1: 5 Sim:     z Exp: 58033 R2: 0 Sim:     z Exp: 65438 W: 2 data:  4768 enable: 0
+# Cycle:          72 R1: 5 Sim:     z Exp: 58033 R2: 5 Sim:     z Exp: 58033 W: 1 data: 39243 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          73 R1: 5 Sim:     z Exp: 58033 R2: 3 Sim:     z Exp: 29583 W: 3 data: 29583 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          74 R1: 5 Sim:     z Exp: 58033 R2: 1 Sim:     z Exp: 52005 W: 5 data: 40772 enable: 0
+# Cycle:          75 R1: 5 Sim:     z Exp: 58033 R2: 2 Sim:     z Exp: 44508 W: 5 data: 23544 enable: 0
+# Cycle:          76 R1: 4 Sim:     z Exp: 31532 R2: 6 Sim:     z Exp: 56082 W: 0 data: 37516 enable: 1
+# Cycle:          77 R1: 2 Sim:     z Exp: 44508 R2: 4 Sim:     z Exp: 31532 W: 4 data: 48298 enable: 0
+# Cycle:          78 R1: 2 Sim:     z Exp: 44508 R2: 3 Sim:     z Exp: 29583 W: 5 data: 65190 enable: 0
+# Cycle:          79 R1: 2 Sim:     z Exp: 44508 R2: 1 Sim:     z Exp: 52005 W: 5 data: 45076 enable: 1
+# Cycle:          80 R1: 4 Sim:     z Exp: 31532 R2: 7 Sim:     z Exp: 20193 W: 1 data: 38790 enable: 0
+# Cycle:          81 R1: 0 Sim:     z Exp: 37516 R2: 4 Sim:     z Exp: 31532 W: 7 data: 17804 enable: 0
+# Cycle:          82 R1: 1 Sim:     z Exp: 52005 R2: 0 Sim:     z Exp: 37516 W: 3 data: 40523 enable: 0
+# Cycle:          83 R1: 3 Sim:     z Exp: 29583 R2: 4 Sim:     z Exp: 31532 W: 1 data: 26057 enable: 1
+# Cycle:          84 R1: 4 Sim:     z Exp: 31532 R2: 7 Sim:     z Exp: 20193 W: 0 data: 16797 enable: 0
+# Cycle:          85 R1: 1 Sim:     z Exp: 26057 R2: 1 Sim:     z Exp: 26057 W: 4 data: 46880 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:          86 R1: 3 Sim:     z Exp: 29583 R2: 2 Sim:     z Exp: 44508 W: 5 data: 63688 enable: 0
+# Cycle:          87 R1: 4 Sim:     z Exp: 46880 R2: 3 Sim:     z Exp: 29583 W: 2 data: 32569 enable: 0
+# Cycle:          88 R1: 1 Sim:     z Exp: 26057 R2: 0 Sim:     z Exp: 37516 W: 7 data: 60014 enable: 1
+# Cycle:          89 R1: 6 Sim:     z Exp: 56082 R2: 3 Sim:     z Exp: 29583 W: 7 data: 31744 enable: 1
+# Cycle:          90 R1: 4 Sim:     z Exp: 46880 R2: 1 Sim:     z Exp: 26057 W: 7 data: 18885 enable: 0
+# Cycle:          91 R1: 1 Sim:     z Exp: 26057 R2: 1 Sim:     z Exp: 26057 W: 2 data: 52599 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:          92 R1: 3 Sim:     z Exp: 29583 R2: 4 Sim:     z Exp: 46880 W: 7 data: 45496 enable: 0
+# Cycle:          93 R1: 0 Sim:     z Exp: 37516 R2: 7 Sim:     z Exp: 31744 W: 4 data: 51125 enable: 1
+# Cycle:          94 R1: 6 Sim:     z Exp: 56082 R2: 1 Sim:     z Exp: 35723 W: 1 data: 35723 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          95 R1: 0 Sim:     z Exp: 56005 R2: 2 Sim:     z Exp: 44508 W: 0 data: 56005 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:          96 R1: 6 Sim:     z Exp: 56082 R2: 7 Sim:     z Exp: 31744 W: 0 data: 28393 enable: 0
+# Cycle:          97 R1: 7 Sim:     z Exp: 31744 R2: 1 Sim:     z Exp: 35723 W: 6 data: 31893 enable: 0
+# Cycle:          98 R1: 5 Sim:     z Exp: 45076 R2: 0 Sim:     z Exp: 56005 W: 1 data: 32100 enable: 1
+# Cycle:          99 R1: 7 Sim:     z Exp: 31744 R2: 6 Sim:     z Exp: 56082 W: 5 data: 62849 enable: 0
+# Cycle:         100 R1: 0 Sim:     z Exp: 56005 R2: 2 Sim:     z Exp: 44508 W: 1 data: 49935 enable: 1
+# Cycle:         101 R1: 6 Sim:     z Exp: 56082 R2: 2 Sim:     z Exp: 44508 W: 1 data: 19772 enable: 1
+# Cycle:         102 R1: 3 Sim:     z Exp: 29583 R2: 7 Sim:     z Exp: 31744 W: 1 data: 39754 enable: 1
+# Cycle:         103 R1: 3 Sim:     z Exp: 29583 R2: 5 Sim:     z Exp: 45076 W: 7 data: 10065 enable: 1
+# Cycle:         104 R1: 2 Sim:     z Exp: 44508 R2: 1 Sim:     z Exp: 39754 W: 4 data:  1890 enable: 0
+# Cycle:         105 R1: 5 Sim:     z Exp: 41957 R2: 1 Sim:     z Exp: 39754 W: 5 data: 41957 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         106 R1: 1 Sim:     z Exp: 39754 R2: 7 Sim:     z Exp: 10065 W: 5 data:  7387 enable: 0
+# Cycle:         107 R1: 6 Sim:     z Exp: 56082 R2: 2 Sim:     z Exp: 44508 W: 2 data: 15805 enable: 0
+# Cycle:         108 R1: 0 Sim:     z Exp: 56005 R2: 3 Sim:     z Exp: 29583 W: 0 data: 22565 enable: 0
+# Cycle:         109 R1: 4 Sim:     z Exp: 51125 R2: 3 Sim:     z Exp: 29583 W: 0 data: 43897 enable: 1
+# Cycle:         110 R1: 6 Sim:     z Exp: 56082 R2: 3 Sim:     z Exp: 29583 W: 6 data:   780 enable: 0
+# Cycle:         111 R1: 1 Sim:     z Exp: 39754 R2: 1 Sim:     z Exp: 39754 W: 4 data: 49331 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         112 R1: 4 Sim:     z Exp: 49331 R2: 1 Sim:     z Exp: 39754 W: 5 data: 37634 enable: 1
+# Cycle:         113 R1: 6 Sim:     z Exp: 56082 R2: 2 Sim:     z Exp: 44508 W: 0 data: 20920 enable: 1
+# Cycle:         114 R1: 7 Sim:     z Exp: 10065 R2: 0 Sim:     z Exp: 20920 W: 5 data:  2448 enable: 0
+# Cycle:         115 R1: 3 Sim:     z Exp: 29583 R2: 0 Sim:     z Exp: 20920 W: 5 data:   805 enable: 0
+# Cycle:         116 R1: 5 Sim:     z Exp: 37634 R2: 1 Sim:     z Exp: 39754 W: 0 data: 20924 enable: 0
+# Cycle:         117 R1: 0 Sim:     z Exp: 20920 R2: 1 Sim:     z Exp: 39754 W: 5 data: 16205 enable: 1
+# Cycle:         118 R1: 5 Sim:     z Exp: 16205 R2: 4 Sim:     z Exp: 49331 W: 4 data: 42602 enable: 0
+# Cycle:         119 R1: 6 Sim:     z Exp: 56082 R2: 2 Sim:     z Exp: 44508 W: 7 data:  2886 enable: 1
+# Cycle:         120 R1: 5 Sim:     z Exp: 16205 R2: 7 Sim:     z Exp:  2886 W: 3 data: 61765 enable: 1
+# Cycle:         121 R1: 6 Sim:     z Exp: 56082 R2: 0 Sim:     z Exp: 20920 W: 0 data: 58398 enable: 0
+# Cycle:         122 R1: 4 Sim:     z Exp: 49331 R2: 1 Sim:     z Exp: 39754 W: 0 data:  8107 enable: 1
+# Cycle:         123 R1: 0 Sim:     z Exp:  8107 R2: 5 Sim:     z Exp: 16205 W: 3 data: 42893 enable: 0
+# Cycle:         124 R1: 4 Sim:     z Exp: 49331 R2: 4 Sim:     z Exp: 49331 W: 5 data: 36121 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         125 R1: 3 Sim:     z Exp: 61765 R2: 0 Sim:     z Exp:  8107 W: 4 data: 27588 enable: 0
+# Cycle:         126 R1: 2 Sim:     z Exp: 44508 R2: 0 Sim:     z Exp:  8107 W: 2 data: 26309 enable: 0
+# Cycle:         127 R1: 3 Sim:     z Exp: 61765 R2: 2 Sim:     z Exp: 44508 W: 1 data: 25356 enable: 1
+# Cycle:         128 R1: 3 Sim:     z Exp: 61765 R2: 0 Sim:     z Exp:  8107 W: 1 data:  1010 enable: 1
+# Cycle:         129 R1: 3 Sim:     z Exp: 61765 R2: 5 Sim:     z Exp: 49512 W: 5 data: 49512 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         130 R1: 3 Sim:     z Exp: 61765 R2: 3 Sim:     z Exp: 61765 W: 5 data: 16000 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         131 R1: 4 Sim:     z Exp: 49331 R2: 7 Sim:     z Exp:  2886 W: 2 data: 35638 enable: 1
+# Cycle:         132 R1: 4 Sim:     z Exp: 49331 R2: 6 Sim:     z Exp: 56082 W: 0 data: 60586 enable: 0
+# Cycle:         133 R1: 4 Sim:     z Exp: 49331 R2: 1 Sim:     z Exp:  1010 W: 4 data: 36859 enable: 0
+# Cycle:         134 R1: 7 Sim:     z Exp:  2886 R2: 1 Sim:     z Exp:  1010 W: 5 data:  8683 enable: 1
+# Cycle:         135 R1: 7 Sim:     z Exp:  2886 R2: 7 Sim:     z Exp:  2886 W: 3 data: 10928 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         136 R1: 2 Sim:     z Exp: 35638 R2: 2 Sim:     z Exp: 35638 W: 7 data: 42865 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         137 R1: 1 Sim:     z Exp:  1010 R2: 5 Sim:     z Exp:  8683 W: 4 data: 17157 enable: 0
+# Cycle:         138 R1: 4 Sim:     z Exp: 49331 R2: 2 Sim:     z Exp: 35638 W: 7 data: 19045 enable: 1
+# Cycle:         139 R1: 6 Sim:     z Exp: 56082 R2: 5 Sim:     z Exp:  8683 W: 0 data:  3646 enable: 0
+# Cycle:         140 R1: 0 Sim:     z Exp: 19730 R2: 6 Sim:     z Exp: 56082 W: 0 data: 19730 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         141 R1: 6 Sim:     z Exp: 56082 R2: 6 Sim:     z Exp: 56082 W: 3 data:  2547 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         142 R1: 7 Sim:     z Exp: 19045 R2: 7 Sim:     z Exp: 19045 W: 2 data: 46612 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         143 R1: 4 Sim:     z Exp: 49331 R2: 3 Sim:     z Exp:  2547 W: 4 data: 49771 enable: 0
+# Cycle:         144 R1: 5 Sim:     z Exp:  8683 R2: 1 Sim:     z Exp: 48517 W: 1 data: 48517 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         145 R1: 0 Sim:     z Exp: 19730 R2: 6 Sim:     z Exp: 56082 W: 7 data: 52028 enable: 0
+# Cycle:         146 R1: 3 Sim:     z Exp:  2547 R2: 6 Sim:     z Exp: 56082 W: 0 data:  9180 enable: 0
+# Cycle:         147 R1: 0 Sim:     z Exp: 19730 R2: 3 Sim:     z Exp:  2547 W: 1 data: 37368 enable: 1
+# Cycle:         148 R1: 0 Sim:     z Exp: 19730 R2: 7 Sim:     z Exp: 19045 W: 2 data: 37511 enable: 1
+# Cycle:         149 R1: 0 Sim:     z Exp: 19730 R2: 3 Sim:     z Exp:  2547 W: 2 data: 14385 enable: 0
+# Cycle:         150 R1: 5 Sim:     z Exp:  8683 R2: 5 Sim:     z Exp:  8683 W: 4 data:  1856 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         151 R1: 0 Sim:     z Exp: 19730 R2: 3 Sim:     z Exp:  2547 W: 5 data: 34499 enable: 0
+# Cycle:         152 R1: 0 Sim:     z Exp: 19730 R2: 7 Sim:     z Exp: 19045 W: 3 data:  9823 enable: 1
+# Cycle:         153 R1: 0 Sim:     z Exp: 19730 R2: 2 Sim:     z Exp: 37511 W: 7 data: 48585 enable: 0
+# Cycle:         154 R1: 6 Sim:     z Exp: 56082 R2: 7 Sim:     z Exp: 19045 W: 3 data: 42020 enable: 0
+# Cycle:         155 R1: 5 Sim:     z Exp:  8683 R2: 5 Sim:     z Exp:  8683 W: 0 data: 29210 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         156 R1: 0 Sim:     z Exp: 19730 R2: 0 Sim:     z Exp: 19730 W: 4 data: 39587 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         157 R1: 2 Sim:     z Exp: 37511 R2: 6 Sim:     z Exp: 56082 W: 3 data: 32852 enable: 0
+# Cycle:         158 R1: 0 Sim:     z Exp: 19730 R2: 7 Sim:     z Exp: 19045 W: 5 data: 62456 enable: 1
+# Cycle:         159 R1: 3 Sim:     z Exp:  9823 R2: 3 Sim:     z Exp:  9823 W: 0 data: 56629 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         160 R1: 7 Sim:     z Exp: 19045 R2: 0 Sim:     z Exp: 56629 W: 5 data: 50200 enable: 0
+# Cycle:         161 R1: 1 Sim:     z Exp: 37368 R2: 1 Sim:     z Exp: 37368 W: 7 data: 29525 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         162 R1: 6 Sim:     z Exp: 56082 R2: 3 Sim:     z Exp:  9823 W: 1 data: 45352 enable: 0
+# Cycle:         163 R1: 5 Sim:     z Exp: 62456 R2: 3 Sim:     z Exp:  9823 W: 4 data:  5076 enable: 0
+# Cycle:         164 R1: 6 Sim:     z Exp: 56082 R2: 7 Sim:     z Exp: 29525 W: 0 data: 17539 enable: 0
+# Cycle:         165 R1: 7 Sim:     z Exp: 29525 R2: 5 Sim:     z Exp: 15991 W: 5 data: 15991 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         166 R1: 0 Sim:     z Exp: 22892 R2: 6 Sim:     z Exp: 56082 W: 0 data: 22892 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         167 R1: 4 Sim:     z Exp: 39587 R2: 4 Sim:     z Exp: 39587 W: 6 data:  7855 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         168 R1: 2 Sim:     z Exp: 37511 R2: 6 Sim:     z Exp:  7855 W: 2 data: 29829 enable: 0
+# Cycle:         169 R1: 2 Sim:     z Exp: 20947 R2: 2 Sim:     z Exp: 20947 W: 2 data: 20947 enable: 1
+# Eventlog: Both read ports are same
+# Eventlog: Read/write of same port
+# Cycle:         170 R1: 3 Sim:     z Exp:  9823 R2: 2 Sim:     z Exp: 20947 W: 1 data: 10444 enable: 0
+# Cycle:         171 R1: 1 Sim:     z Exp: 37368 R2: 3 Sim:     z Exp:  9823 W: 1 data: 53439 enable: 0
+# Cycle:         172 R1: 1 Sim:     z Exp: 29524 R2: 6 Sim:     z Exp:  7855 W: 1 data: 29524 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         173 R1: 7 Sim:     z Exp: 29525 R2: 4 Sim:     z Exp: 39587 W: 3 data: 54659 enable: 1
+# Cycle:         174 R1: 5 Sim:     z Exp: 15991 R2: 7 Sim:     z Exp: 29525 W: 6 data:  6897 enable: 1
+# Cycle:         175 R1: 4 Sim:     z Exp: 39587 R2: 2 Sim:     z Exp: 20947 W: 3 data: 46076 enable: 0
+# Cycle:         176 R1: 7 Sim:     z Exp: 29525 R2: 2 Sim:     z Exp: 20947 W: 2 data:  6515 enable: 0
+# Cycle:         177 R1: 6 Sim:     z Exp:  6897 R2: 4 Sim:     z Exp: 39587 W: 2 data: 47035 enable: 0
+# Cycle:         178 R1: 7 Sim:     z Exp: 29525 R2: 0 Sim:     z Exp: 22892 W: 0 data: 60831 enable: 0
+# Cycle:         179 R1: 5 Sim:     z Exp: 15991 R2: 3 Sim:     z Exp: 54659 W: 4 data:  4020 enable: 1
+# Cycle:         180 R1: 3 Sim:     z Exp:   821 R2: 4 Sim:     z Exp:  4020 W: 3 data:   821 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         181 R1: 7 Sim:     z Exp: 29525 R2: 4 Sim:     z Exp:  4020 W: 4 data: 41557 enable: 0
+# Cycle:         182 R1: 7 Sim:     z Exp: 29525 R2: 1 Sim:     z Exp:  5860 W: 1 data:  5860 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         183 R1: 2 Sim:     z Exp: 20947 R2: 5 Sim:     z Exp: 15991 W: 5 data: 62463 enable: 0
+# Cycle:         184 R1: 3 Sim:     z Exp:   821 R2: 2 Sim:     z Exp: 20947 W: 6 data: 36663 enable: 0
+# Cycle:         185 R1: 0 Sim:     z Exp: 22892 R2: 2 Sim:     z Exp: 20947 W: 4 data:   546 enable: 0
+# Cycle:         186 R1: 2 Sim:     z Exp: 20947 R2: 6 Sim:     z Exp:  6897 W: 3 data: 56041 enable: 1
+# Cycle:         187 R1: 6 Sim:     z Exp:  6897 R2: 6 Sim:     z Exp:  6897 W: 5 data: 11644 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         188 R1: 2 Sim:     z Exp: 20947 R2: 7 Sim:     z Exp: 29525 W: 1 data: 54915 enable: 0
+# Cycle:         189 R1: 2 Sim:     z Exp: 20947 R2: 5 Sim:     z Exp: 11644 W: 4 data:  1997 enable: 0
+# Cycle:         190 R1: 4 Sim:     z Exp: 12003 R2: 2 Sim:     z Exp: 20947 W: 4 data: 12003 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         191 R1: 5 Sim:     z Exp: 11644 R2: 4 Sim:     z Exp: 17885 W: 4 data: 17885 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         192 R1: 7 Sim:     z Exp: 47531 R2: 0 Sim:     z Exp: 22892 W: 7 data: 47531 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         193 R1: 3 Sim:     z Exp: 56041 R2: 4 Sim:     z Exp: 17885 W: 6 data: 38843 enable: 1
+# Cycle:         194 R1: 2 Sim:     z Exp: 20947 R2: 2 Sim:     z Exp: 20947 W: 6 data: 53784 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         195 R1: 6 Sim:     z Exp: 35174 R2: 5 Sim:     z Exp: 11644 W: 6 data: 35174 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         196 R1: 7 Sim:     z Exp: 47531 R2: 5 Sim:     z Exp: 11644 W: 4 data: 52603 enable: 1
+# Cycle:         197 R1: 1 Sim:     z Exp:  5860 R2: 1 Sim:     z Exp:  5860 W: 2 data: 25012 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         198 R1: 7 Sim:     z Exp: 47531 R2: 5 Sim:     z Exp: 11644 W: 3 data: 16752 enable: 1
+# Cycle:         199 R1: 4 Sim:     z Exp: 52603 R2: 0 Sim:     z Exp: 22892 W: 6 data:  1273 enable: 0
+# Cycle:         200 R1: 7 Sim:     z Exp: 47531 R2: 1 Sim:     z Exp:  5860 W: 0 data: 30084 enable: 1
+# Cycle:         201 R1: 0 Sim:     z Exp: 30084 R2: 6 Sim:     z Exp: 35174 W: 1 data: 53420 enable: 1
+# Cycle:         202 R1: 1 Sim:     z Exp: 53420 R2: 5 Sim:     z Exp: 11644 W: 3 data: 46993 enable: 0
+# Cycle:         203 R1: 7 Sim:     z Exp: 47531 R2: 6 Sim:     z Exp: 33719 W: 6 data: 33719 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         204 R1: 4 Sim:     z Exp: 52603 R2: 7 Sim:     z Exp: 47531 W: 3 data: 50756 enable: 0
+# Cycle:         205 R1: 1 Sim:     z Exp: 53420 R2: 6 Sim:     z Exp: 33719 W: 6 data:  4749 enable: 0
+# Cycle:         206 R1: 0 Sim:     z Exp: 12016 R2: 7 Sim:     z Exp: 47531 W: 0 data: 12016 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         207 R1: 1 Sim:     z Exp: 53420 R2: 3 Sim:     z Exp: 16752 W: 5 data: 37599 enable: 0
+# Cycle:         208 R1: 7 Sim:     z Exp: 47531 R2: 7 Sim:     z Exp: 47531 W: 1 data: 41478 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         209 R1: 7 Sim:     z Exp: 47531 R2: 5 Sim:     z Exp: 11644 W: 3 data:  4941 enable: 1
+# Cycle:         210 R1: 6 Sim:     z Exp: 33719 R2: 1 Sim:     z Exp: 25824 W: 1 data: 25824 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         211 R1: 1 Sim:     z Exp: 25824 R2: 7 Sim:     z Exp: 47531 W: 5 data: 32254 enable: 1
+# Cycle:         212 R1: 3 Sim:     z Exp:  4941 R2: 1 Sim:     z Exp: 25824 W: 2 data: 42326 enable: 0
+# Cycle:         213 R1: 1 Sim:     z Exp: 25824 R2: 3 Sim:     z Exp:  4941 W: 0 data: 31290 enable: 0
+# Cycle:         214 R1: 1 Sim:     z Exp: 25824 R2: 5 Sim:     z Exp: 32254 W: 6 data: 54793 enable: 0
+# Cycle:         215 R1: 3 Sim:     z Exp:  4941 R2: 2 Sim:     z Exp: 25012 W: 4 data: 20736 enable: 0
+# Cycle:         216 R1: 4 Sim:     z Exp: 52603 R2: 0 Sim:     z Exp: 12016 W: 1 data:  9501 enable: 0
+# Cycle:         217 R1: 2 Sim:     z Exp: 25012 R2: 0 Sim:     z Exp: 12016 W: 4 data: 48064 enable: 1
+# Cycle:         218 R1: 1 Sim:     z Exp: 25824 R2: 1 Sim:     z Exp: 25824 W: 3 data: 48709 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         219 R1: 0 Sim:     z Exp: 12016 R2: 4 Sim:     z Exp: 48064 W: 1 data: 55112 enable: 1
+# Cycle:         220 R1: 7 Sim:     z Exp: 47531 R2: 3 Sim:     z Exp:  4941 W: 0 data: 16959 enable: 0
+# Cycle:         221 R1: 6 Sim:     z Exp: 33719 R2: 1 Sim:     z Exp: 55112 W: 6 data: 64398 enable: 0
+# Cycle:         222 R1: 1 Sim:     z Exp:  7007 R2: 2 Sim:     z Exp: 25012 W: 1 data:  7007 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         223 R1: 5 Sim:     z Exp: 32254 R2: 4 Sim:     z Exp: 48064 W: 6 data: 40024 enable: 1
+# Cycle:         224 R1: 3 Sim:     z Exp:  4941 R2: 7 Sim:     z Exp: 47531 W: 4 data: 56276 enable: 0
+# Cycle:         225 R1: 4 Sim:     z Exp: 48064 R2: 6 Sim:     z Exp: 40024 W: 1 data: 10863 enable: 1
+# Cycle:         226 R1: 6 Sim:     z Exp: 40024 R2: 2 Sim:     z Exp: 25012 W: 3 data: 42402 enable: 0
+# Cycle:         227 R1: 3 Sim:     z Exp: 60977 R2: 0 Sim:     z Exp: 12016 W: 3 data: 60977 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         228 R1: 1 Sim:     z Exp: 10863 R2: 6 Sim:     z Exp: 40024 W: 5 data: 34509 enable: 0
+# Cycle:         229 R1: 2 Sim:     z Exp: 25012 R2: 7 Sim:     z Exp: 47531 W: 4 data: 62128 enable: 0
+# Cycle:         230 R1: 5 Sim:     z Exp: 32254 R2: 6 Sim:     z Exp: 40024 W: 5 data: 55480 enable: 0
+# Cycle:         231 R1: 5 Sim:     z Exp: 32254 R2: 1 Sim:     z Exp: 10863 W: 4 data: 55537 enable: 1
+# Cycle:         232 R1: 4 Sim:     z Exp: 55537 R2: 3 Sim:     z Exp: 60977 W: 1 data: 41773 enable: 0
+# Cycle:         233 R1: 4 Sim:     z Exp: 55537 R2: 6 Sim:     z Exp: 40024 W: 4 data: 49508 enable: 0
+# Cycle:         234 R1: 2 Sim:     z Exp: 25012 R2: 3 Sim:     z Exp: 62669 W: 3 data: 62669 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         235 R1: 3 Sim:     z Exp: 62669 R2: 5 Sim:     z Exp: 32254 W: 2 data:  9433 enable: 0
+# Cycle:         236 R1: 7 Sim:     z Exp: 47531 R2: 5 Sim:     z Exp: 32254 W: 6 data: 19603 enable: 1
+# Cycle:         237 R1: 1 Sim:     z Exp: 10863 R2: 4 Sim:     z Exp: 55537 W: 0 data: 49259 enable: 1
+# Cycle:         238 R1: 5 Sim:     z Exp: 32254 R2: 7 Sim:     z Exp: 47531 W: 7 data: 62326 enable: 0
+# Cycle:         239 R1: 5 Sim:     z Exp: 32254 R2: 7 Sim:     z Exp: 47531 W: 6 data: 25414 enable: 0
+# Cycle:         240 R1: 7 Sim:     z Exp: 47531 R2: 4 Sim:     z Exp: 55537 W: 4 data: 24404 enable: 0
+# Cycle:         241 R1: 0 Sim:     z Exp: 49259 R2: 5 Sim:     z Exp: 32254 W: 2 data: 56454 enable: 0
+# Cycle:         242 R1: 7 Sim:     z Exp: 47531 R2: 0 Sim:     z Exp: 49259 W: 1 data: 36671 enable: 0
+# Cycle:         243 R1: 5 Sim:     z Exp: 32254 R2: 6 Sim:     z Exp: 19603 W: 6 data: 56504 enable: 0
+# Cycle:         244 R1: 5 Sim:     z Exp: 32254 R2: 1 Sim:     z Exp: 10863 W: 5 data: 29903 enable: 0
+# Cycle:         245 R1: 6 Sim:     z Exp: 19603 R2: 5 Sim:     z Exp: 32254 W: 1 data: 50266 enable: 1
+# Cycle:         246 R1: 7 Sim:     z Exp: 47531 R2: 4 Sim:     z Exp: 55537 W: 7 data: 18041 enable: 0
+# Cycle:         247 R1: 1 Sim:     z Exp: 50266 R2: 5 Sim:     z Exp: 32254 W: 3 data: 40325 enable: 0
+# Cycle:         248 R1: 6 Sim:     z Exp: 19603 R2: 4 Sim:     z Exp: 55537 W: 1 data: 60733 enable: 1
+# Cycle:         249 R1: 4 Sim:     z Exp: 55537 R2: 5 Sim:     z Exp: 32254 W: 6 data: 58036 enable: 1
+# Cycle:         250 R1: 1 Sim:     z Exp: 60733 R2: 4 Sim:     z Exp: 55537 W: 5 data: 21790 enable: 0
+# Cycle:         251 R1: 3 Sim:     z Exp: 62669 R2: 4 Sim:     z Exp: 55537 W: 1 data: 28747 enable: 0
+# Cycle:         252 R1: 1 Sim:     z Exp: 60733 R2: 3 Sim:     z Exp: 62669 W: 4 data: 57523 enable: 0
+# Cycle:         253 R1: 2 Sim:     z Exp: 25012 R2: 5 Sim:     z Exp: 32254 W: 4 data: 25070 enable: 1
+# Cycle:         254 R1: 0 Sim:     z Exp: 49259 R2: 2 Sim:     z Exp: 25012 W: 6 data: 46941 enable: 0
+# Cycle:         255 R1: 3 Sim:     z Exp: 62669 R2: 3 Sim:     z Exp: 62669 W: 0 data: 58548 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         256 R1: 1 Sim:     z Exp: 60733 R2: 5 Sim:     z Exp: 11410 W: 5 data: 11410 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         257 R1: 6 Sim:     z Exp: 58036 R2: 5 Sim:     z Exp: 11410 W: 3 data: 11712 enable: 1
+# Cycle:         258 R1: 1 Sim:     z Exp: 60733 R2: 2 Sim:     z Exp: 25012 W: 3 data: 10163 enable: 0
+# Cycle:         259 R1: 1 Sim:     z Exp: 60733 R2: 4 Sim:     z Exp: 25070 W: 0 data: 17583 enable: 0
+# Cycle:         260 R1: 5 Sim:     z Exp: 11410 R2: 1 Sim:     z Exp: 60733 W: 7 data: 28173 enable: 0
+# Cycle:         261 R1: 4 Sim:     z Exp: 25070 R2: 7 Sim:     z Exp: 47531 W: 1 data: 62047 enable: 0
+# Cycle:         262 R1: 2 Sim:     z Exp: 25012 R2: 3 Sim:     z Exp: 11712 W: 6 data:  8473 enable: 1
+# Cycle:         263 R1: 7 Sim:     z Exp: 47531 R2: 5 Sim:     z Exp: 11410 W: 4 data: 40369 enable: 1
+# Cycle:         264 R1: 6 Sim:     z Exp:  8473 R2: 0 Sim:     z Exp: 49259 W: 7 data:    20 enable: 0
+# Cycle:         265 R1: 6 Sim:     z Exp:  8473 R2: 7 Sim:     z Exp: 47531 W: 5 data:  8006 enable: 0
+# Cycle:         266 R1: 2 Sim:     z Exp: 25012 R2: 4 Sim:     z Exp: 40369 W: 0 data: 58163 enable: 0
+# Cycle:         267 R1: 0 Sim:     z Exp: 49259 R2: 1 Sim:     z Exp: 60733 W: 6 data: 47375 enable: 1
+# Cycle:         268 R1: 3 Sim:     z Exp: 11712 R2: 6 Sim:     z Exp: 47375 W: 2 data:    74 enable: 1
+# Cycle:         269 R1: 0 Sim:     z Exp: 56689 R2: 5 Sim:     z Exp: 11410 W: 0 data: 56689 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         270 R1: 4 Sim:     z Exp: 40369 R2: 5 Sim:     z Exp: 11410 W: 7 data: 26622 enable: 0
+# Cycle:         271 R1: 1 Sim:     z Exp: 60733 R2: 3 Sim:     z Exp: 11712 W: 5 data:  8728 enable: 1
+# Cycle:         272 R1: 0 Sim:     z Exp: 56689 R2: 5 Sim:     z Exp:  8728 W: 3 data: 18504 enable: 0
+# Cycle:         273 R1: 2 Sim:     z Exp:    74 R2: 7 Sim:     z Exp: 47531 W: 0 data:  6256 enable: 0
+# Cycle:         274 R1: 7 Sim:     z Exp: 47531 R2: 2 Sim:     z Exp:    74 W: 4 data: 27122 enable: 0
+# Cycle:         275 R1: 0 Sim:     z Exp: 56689 R2: 6 Sim:     z Exp: 47375 W: 5 data: 11256 enable: 1
+# Cycle:         276 R1: 7 Sim:     z Exp: 47531 R2: 0 Sim:     z Exp: 56689 W: 1 data: 30176 enable: 0
+# Cycle:         277 R1: 1 Sim:     z Exp: 60733 R2: 1 Sim:     z Exp: 60733 W: 3 data: 32549 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         278 R1: 6 Sim:     z Exp: 47375 R2: 4 Sim:     z Exp: 40369 W: 0 data: 26390 enable: 0
+# Cycle:         279 R1: 5 Sim:     z Exp: 11256 R2: 5 Sim:     z Exp: 11256 W: 7 data: 55557 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         280 R1: 0 Sim:     z Exp: 56689 R2: 0 Sim:     z Exp: 56689 W: 3 data: 58007 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         281 R1: 2 Sim:     z Exp:    74 R2: 3 Sim:     z Exp: 58007 W: 1 data: 30854 enable: 0
+# Cycle:         282 R1: 4 Sim:     z Exp: 40369 R2: 2 Sim:     z Exp:    74 W: 4 data: 39666 enable: 0
+# Cycle:         283 R1: 4 Sim:     z Exp: 64140 R2: 2 Sim:     z Exp:    74 W: 4 data: 64140 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         284 R1: 5 Sim:     z Exp: 11256 R2: 1 Sim:     z Exp: 60733 W: 3 data: 44053 enable: 0
+# Cycle:         285 R1: 2 Sim:     z Exp:    74 R2: 5 Sim:     z Exp: 11256 W: 6 data: 13885 enable: 1
+# Cycle:         286 R1: 6 Sim:     z Exp: 13885 R2: 3 Sim:     z Exp: 58007 W: 4 data:   740 enable: 0
+# Cycle:         287 R1: 2 Sim:     z Exp:    74 R2: 1 Sim:     z Exp: 60733 W: 3 data:  7605 enable: 0
+# Cycle:         288 R1: 7 Sim:     z Exp: 47531 R2: 1 Sim:     z Exp: 60733 W: 7 data: 45246 enable: 0
+# Cycle:         289 R1: 4 Sim:     z Exp: 64140 R2: 0 Sim:     z Exp: 56689 W: 1 data: 41075 enable: 0
+# Cycle:         290 R1: 6 Sim:     z Exp: 13885 R2: 5 Sim:     z Exp: 22989 W: 5 data: 22989 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         291 R1: 3 Sim:     z Exp: 58007 R2: 6 Sim:     z Exp: 13885 W: 2 data: 35734 enable: 1
+# Cycle:         292 R1: 5 Sim:     z Exp: 22989 R2: 4 Sim:     z Exp: 64140 W: 2 data: 35109 enable: 1
+# Cycle:         293 R1: 3 Sim:     z Exp: 58007 R2: 5 Sim:     z Exp: 22989 W: 1 data: 26032 enable: 0
+# Cycle:         294 R1: 0 Sim:     z Exp: 56689 R2: 2 Sim:     z Exp: 35109 W: 5 data:  6530 enable: 0
+# Cycle:         295 R1: 7 Sim:     z Exp: 47531 R2: 1 Sim:     z Exp: 60733 W: 0 data: 20492 enable: 0
+# Cycle:         296 R1: 1 Sim:     z Exp: 60733 R2: 7 Sim:     z Exp: 47531 W: 3 data: 37032 enable: 0
+# Cycle:         297 R1: 1 Sim:     z Exp: 60733 R2: 5 Sim:     z Exp: 22989 W: 7 data: 61208 enable: 1
+# Cycle:         298 R1: 5 Sim:     z Exp: 22989 R2: 6 Sim:     z Exp: 13885 W: 1 data: 32779 enable: 1
+# Cycle:         299 R1: 7 Sim:     z Exp: 61208 R2: 2 Sim:     z Exp: 35109 W: 5 data: 14971 enable: 1
+# Cycle:         300 R1: 7 Sim:     z Exp: 59082 R2: 5 Sim:     z Exp: 14971 W: 7 data: 59082 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         301 R1: 5 Sim:     z Exp: 14971 R2: 2 Sim:     z Exp: 27371 W: 2 data: 27371 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         302 R1: 3 Sim:     z Exp: 58007 R2: 6 Sim:     z Exp: 13885 W: 6 data: 35357 enable: 0
+# Cycle:         303 R1: 6 Sim:     z Exp: 54007 R2: 2 Sim:     z Exp: 27371 W: 6 data: 54007 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         304 R1: 6 Sim:     z Exp: 54007 R2: 5 Sim:     z Exp: 14971 W: 4 data: 25767 enable: 0
+# Cycle:         305 R1: 1 Sim:     z Exp: 32779 R2: 6 Sim:     z Exp: 54007 W: 5 data: 50317 enable: 1
+# Cycle:         306 R1: 7 Sim:     z Exp: 59082 R2: 4 Sim:     z Exp: 64140 W: 7 data: 62411 enable: 0
+# Cycle:         307 R1: 3 Sim:     z Exp: 58007 R2: 4 Sim:     z Exp: 64140 W: 3 data: 26639 enable: 0
+# Cycle:         308 R1: 7 Sim:     z Exp: 59082 R2: 7 Sim:     z Exp: 59082 W: 6 data: 42784 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         309 R1: 2 Sim:     z Exp: 27371 R2: 4 Sim:     z Exp: 64140 W: 0 data: 42756 enable: 1
+# Cycle:         310 R1: 3 Sim:     z Exp: 58007 R2: 7 Sim:     z Exp: 59082 W: 4 data: 14300 enable: 1
+# Cycle:         311 R1: 4 Sim:     z Exp: 14300 R2: 6 Sim:     z Exp: 42784 W: 1 data:  1198 enable: 0
+# Cycle:         312 R1: 2 Sim:     z Exp: 27371 R2: 5 Sim:     z Exp: 50317 W: 4 data:  2566 enable: 0
+# Cycle:         313 R1: 1 Sim:     z Exp: 32779 R2: 2 Sim:     z Exp: 27371 W: 3 data: 32823 enable: 1
+# Cycle:         314 R1: 1 Sim:     z Exp: 32779 R2: 6 Sim:     z Exp: 42784 W: 3 data: 37334 enable: 1
+# Cycle:         315 R1: 2 Sim:     z Exp: 27371 R2: 3 Sim:     z Exp: 37334 W: 0 data: 30024 enable: 1
+# Cycle:         316 R1: 4 Sim:     z Exp: 14300 R2: 5 Sim:     z Exp: 50317 W: 1 data: 44017 enable: 1
+# Cycle:         317 R1: 1 Sim:     z Exp: 44017 R2: 7 Sim:     z Exp: 59082 W: 7 data: 31426 enable: 0
+# Cycle:         318 R1: 5 Sim:     z Exp: 50317 R2: 0 Sim:     z Exp: 30024 W: 6 data: 65047 enable: 1
+# Cycle:         319 R1: 7 Sim:     z Exp: 59082 R2: 5 Sim:     z Exp: 50317 W: 7 data: 18136 enable: 0
+# Cycle:         320 R1: 3 Sim:     z Exp: 37334 R2: 4 Sim:     z Exp: 25094 W: 4 data: 25094 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         321 R1: 1 Sim:     z Exp: 44017 R2: 7 Sim:     z Exp: 59082 W: 7 data: 34248 enable: 0
+# Cycle:         322 R1: 6 Sim:     z Exp: 65047 R2: 3 Sim:     z Exp: 37334 W: 2 data: 15117 enable: 0
+# Cycle:         323 R1: 7 Sim:     z Exp: 59082 R2: 0 Sim:     z Exp: 30024 W: 2 data: 49615 enable: 0
+# Cycle:         324 R1: 1 Sim:     z Exp: 53337 R2: 7 Sim:     z Exp: 59082 W: 1 data: 53337 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         325 R1: 6 Sim:     z Exp: 65047 R2: 3 Sim:     z Exp: 37334 W: 4 data: 18310 enable: 1
+# Cycle:         326 R1: 0 Sim:     z Exp: 30024 R2: 4 Sim:     z Exp: 18310 W: 3 data: 49657 enable: 0
+# Cycle:         327 R1: 0 Sim:     z Exp: 30024 R2: 2 Sim:     z Exp: 27371 W: 4 data: 62605 enable: 1
+# Cycle:         328 R1: 3 Sim:     z Exp: 37334 R2: 4 Sim:     z Exp: 62605 W: 5 data: 20271 enable: 0
+# Cycle:         329 R1: 3 Sim:     z Exp: 37334 R2: 7 Sim:     z Exp: 59082 W: 4 data: 12053 enable: 0
+# Cycle:         330 R1: 7 Sim:     z Exp: 59082 R2: 1 Sim:     z Exp: 53337 W: 3 data: 53046 enable: 0
+# Cycle:         331 R1: 3 Sim:     z Exp: 37334 R2: 1 Sim:     z Exp: 53337 W: 1 data: 44149 enable: 0
+# Cycle:         332 R1: 2 Sim:     z Exp: 27371 R2: 0 Sim:     z Exp: 30024 W: 5 data: 64203 enable: 1
+# Cycle:         333 R1: 1 Sim:     z Exp: 53337 R2: 3 Sim:     z Exp: 37334 W: 4 data: 26906 enable: 0
+# Cycle:         334 R1: 2 Sim:     z Exp: 24448 R2: 1 Sim:     z Exp: 53337 W: 2 data: 24448 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         335 R1: 6 Sim:     z Exp: 65047 R2: 0 Sim:     z Exp: 30024 W: 5 data: 29755 enable: 0
+# Cycle:         336 R1: 3 Sim:     z Exp: 37334 R2: 0 Sim:     z Exp: 44811 W: 0 data: 44811 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         337 R1: 6 Sim:     z Exp: 65047 R2: 4 Sim:     z Exp: 62605 W: 2 data: 57558 enable: 0
+# Cycle:         338 R1: 0 Sim:     z Exp: 44811 R2: 3 Sim:     z Exp: 37334 W: 7 data: 11566 enable: 0
+# Cycle:         339 R1: 6 Sim:     z Exp: 65047 R2: 1 Sim:     z Exp: 53337 W: 0 data: 38788 enable: 1
+# Cycle:         340 R1: 1 Sim:     z Exp: 53337 R2: 2 Sim:     z Exp: 24448 W: 1 data:  1918 enable: 0
+# Cycle:         341 R1: 6 Sim:     z Exp: 65047 R2: 4 Sim:     z Exp: 62605 W: 4 data: 16473 enable: 0
+# Cycle:         342 R1: 4 Sim:     z Exp: 62605 R2: 2 Sim:     z Exp: 24448 W: 7 data: 47068 enable: 1
+# Cycle:         343 R1: 0 Sim:     z Exp: 38788 R2: 7 Sim:     z Exp: 47068 W: 6 data:  8551 enable: 0
+# Cycle:         344 R1: 6 Sim:     z Exp: 65047 R2: 4 Sim:     z Exp: 62605 W: 2 data: 24636 enable: 0
+# Cycle:         345 R1: 5 Sim:     z Exp: 64203 R2: 3 Sim:     z Exp: 37334 W: 2 data: 63550 enable: 1
+# Cycle:         346 R1: 7 Sim:     z Exp: 47068 R2: 3 Sim:     z Exp: 37334 W: 4 data: 13943 enable: 0
+# Cycle:         347 R1: 2 Sim:     z Exp: 57589 R2: 2 Sim:     z Exp: 57589 W: 2 data: 57589 enable: 1
+# Eventlog: Both read ports are same
+# Eventlog: Read/write of same port
+# Cycle:         348 R1: 4 Sim:     z Exp: 62605 R2: 1 Sim:     z Exp: 55085 W: 1 data: 55085 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         349 R1: 3 Sim:     z Exp: 37334 R2: 4 Sim:     z Exp: 62605 W: 0 data: 12475 enable: 1
+# Cycle:         350 R1: 7 Sim:     z Exp: 47068 R2: 3 Sim:     z Exp: 37334 W: 4 data: 43820 enable: 1
+# Cycle:         351 R1: 1 Sim:     z Exp: 55085 R2: 6 Sim:     z Exp: 65047 W: 5 data: 24145 enable: 0
+# Cycle:         352 R1: 4 Sim:     z Exp: 43820 R2: 5 Sim:     z Exp: 64203 W: 0 data: 18163 enable: 0
+# Cycle:         353 R1: 7 Sim:     z Exp: 47068 R2: 0 Sim:     z Exp: 12475 W: 2 data: 55155 enable: 1
+# Cycle:         354 R1: 5 Sim:     z Exp: 64203 R2: 6 Sim:     z Exp: 65047 W: 3 data: 52261 enable: 1
+# Cycle:         355 R1: 7 Sim:     z Exp: 47068 R2: 3 Sim:     z Exp: 52261 W: 7 data: 59519 enable: 0
+# Cycle:         356 R1: 5 Sim:     z Exp: 64203 R2: 7 Sim:     z Exp: 19011 W: 7 data: 19011 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         357 R1: 0 Sim:     z Exp: 12475 R2: 1 Sim:     z Exp: 38593 W: 1 data: 38593 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         358 R1: 2 Sim:     z Exp: 55155 R2: 2 Sim:     z Exp: 55155 W: 7 data:  6557 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         359 R1: 5 Sim:     z Exp: 64203 R2: 7 Sim:     z Exp: 19011 W: 1 data: 35702 enable: 0
+# Cycle:         360 R1: 7 Sim:     z Exp: 19011 R2: 6 Sim:     z Exp: 65047 W: 0 data: 16327 enable: 0
+# Cycle:         361 R1: 6 Sim:     z Exp: 65047 R2: 0 Sim:     z Exp: 12475 W: 6 data: 57074 enable: 0
+# Cycle:         362 R1: 4 Sim:     z Exp: 43820 R2: 3 Sim:     z Exp: 52261 W: 6 data: 52527 enable: 1
+# Cycle:         363 R1: 6 Sim:     z Exp: 52527 R2: 6 Sim:     z Exp: 52527 W: 3 data:  3983 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         364 R1: 3 Sim:     z Exp:  3983 R2: 4 Sim:     z Exp: 43820 W: 6 data: 15968 enable: 1
+# Cycle:         365 R1: 3 Sim:     z Exp:  3983 R2: 7 Sim:     z Exp: 19011 W: 4 data: 54588 enable: 0
+# Cycle:         366 R1: 7 Sim:     z Exp: 19011 R2: 4 Sim:     z Exp: 43820 W: 0 data: 58347 enable: 1
+# Cycle:         367 R1: 1 Sim:     z Exp: 38593 R2: 0 Sim:     z Exp: 58347 W: 1 data:  1269 enable: 0
+# Cycle:         368 R1: 1 Sim:     z Exp: 38593 R2: 3 Sim:     z Exp:  3983 W: 4 data: 10474 enable: 0
+# Cycle:         369 R1: 6 Sim:     z Exp: 15968 R2: 5 Sim:     z Exp: 64203 W: 6 data: 27584 enable: 0
+# Cycle:         370 R1: 4 Sim:     z Exp: 43820 R2: 4 Sim:     z Exp: 43820 W: 0 data:  5662 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         371 R1: 1 Sim:     z Exp: 38593 R2: 1 Sim:     z Exp: 38593 W: 3 data: 46358 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         372 R1: 4 Sim:     z Exp: 43820 R2: 4 Sim:     z Exp: 43820 W: 0 data: 38977 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         373 R1: 2 Sim:     z Exp: 55155 R2: 0 Sim:     z Exp:  5662 W: 3 data: 19326 enable: 0
+# Cycle:         374 R1: 4 Sim:     z Exp: 43820 R2: 2 Sim:     z Exp: 55155 W: 5 data: 59201 enable: 1
+# Cycle:         375 R1: 5 Sim:     z Exp: 59201 R2: 3 Sim:     z Exp: 46358 W: 7 data: 12239 enable: 1
+# Cycle:         376 R1: 3 Sim:     z Exp: 46358 R2: 0 Sim:     z Exp:  5662 W: 2 data: 59843 enable: 0
+# Cycle:         377 R1: 3 Sim:     z Exp: 46358 R2: 7 Sim:     z Exp: 12239 W: 4 data: 56971 enable: 0
+# Cycle:         378 R1: 7 Sim:     z Exp: 12239 R2: 4 Sim:     z Exp: 43820 W: 3 data: 35868 enable: 0
+# Cycle:         379 R1: 4 Sim:     z Exp: 43820 R2: 6 Sim:     z Exp: 15968 W: 0 data: 15168 enable: 1
+# Cycle:         380 R1: 7 Sim:     z Exp: 12239 R2: 3 Sim:     z Exp: 46358 W: 0 data: 13316 enable: 1
+# Cycle:         381 R1: 4 Sim:     z Exp: 43820 R2: 3 Sim:     z Exp: 46358 W: 3 data: 22113 enable: 0
+# Cycle:         382 R1: 1 Sim:     z Exp: 38593 R2: 6 Sim:     z Exp: 15968 W: 0 data:  1652 enable: 0
+# Cycle:         383 R1: 4 Sim:     z Exp: 43820 R2: 3 Sim:     z Exp: 46358 W: 7 data: 26381 enable: 1
+# Cycle:         384 R1: 1 Sim:     z Exp: 38593 R2: 4 Sim:     z Exp: 43820 W: 5 data: 22758 enable: 1
+# Cycle:         385 R1: 1 Sim:     z Exp: 38593 R2: 2 Sim:     z Exp: 55155 W: 6 data: 39844 enable: 0
+# Cycle:         386 R1: 2 Sim:     z Exp: 55155 R2: 6 Sim:     z Exp: 15968 W: 1 data:  3937 enable: 0
+# Cycle:         387 R1: 1 Sim:     z Exp: 38593 R2: 2 Sim:     z Exp: 55155 W: 3 data: 65282 enable: 0
+# Cycle:         388 R1: 0 Sim:     z Exp: 13316 R2: 4 Sim:     z Exp: 43820 W: 6 data: 62422 enable: 0
+# Cycle:         389 R1: 2 Sim:     z Exp: 55155 R2: 3 Sim:     z Exp: 46358 W: 7 data: 22579 enable: 1
+# Cycle:         390 R1: 0 Sim:     z Exp: 13316 R2: 3 Sim:     z Exp: 46358 W: 0 data:  8356 enable: 0
+# Cycle:         391 R1: 2 Sim:     z Exp: 55155 R2: 3 Sim:     z Exp: 46358 W: 5 data:  3778 enable: 0
+# Cycle:         392 R1: 2 Sim:     z Exp: 55155 R2: 3 Sim:     z Exp: 46358 W: 4 data: 23653 enable: 0
+# Cycle:         393 R1: 3 Sim:     z Exp: 46358 R2: 5 Sim:     z Exp: 22758 W: 1 data: 64986 enable: 0
+# Cycle:         394 R1: 7 Sim:     z Exp: 22579 R2: 4 Sim:     z Exp: 43820 W: 1 data: 31494 enable: 0
+# Cycle:         395 R1: 1 Sim:     z Exp: 38593 R2: 2 Sim:     z Exp: 55155 W: 5 data: 24980 enable: 0
+# Cycle:         396 R1: 3 Sim:     z Exp: 46358 R2: 4 Sim:     z Exp: 43820 W: 0 data: 46320 enable: 0
+# Cycle:         397 R1: 2 Sim:     z Exp: 55155 R2: 6 Sim:     z Exp: 15968 W: 7 data: 45953 enable: 0
+# Cycle:         398 R1: 2 Sim:     z Exp: 55155 R2: 6 Sim:     z Exp: 15968 W: 7 data:  5947 enable: 1
+# Cycle:         399 R1: 1 Sim:     z Exp: 38593 R2: 5 Sim:     z Exp: 22758 W: 5 data: 34029 enable: 0
+# Cycle:         400 R1: 2 Sim:     z Exp: 55155 R2: 7 Sim:     z Exp:  5947 W: 1 data: 54414 enable: 1
+# Cycle:         401 R1: 1 Sim:     z Exp: 54414 R2: 3 Sim:     z Exp: 26162 W: 3 data: 26162 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         402 R1: 7 Sim:     z Exp:  5947 R2: 5 Sim:     z Exp: 22758 W: 7 data: 45104 enable: 0
+# Cycle:         403 R1: 4 Sim:     z Exp: 43820 R2: 4 Sim:     z Exp: 43820 W: 5 data: 50111 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         404 R1: 4 Sim:     z Exp: 43820 R2: 6 Sim:     z Exp: 15968 W: 2 data: 22791 enable: 0
+# Cycle:         405 R1: 5 Sim:     z Exp: 50111 R2: 4 Sim:     z Exp: 43820 W: 0 data: 50370 enable: 0
+# Cycle:         406 R1: 1 Sim:     z Exp: 54414 R2: 2 Sim:     z Exp: 55155 W: 1 data: 51022 enable: 0
+# Cycle:         407 R1: 5 Sim:     z Exp: 50111 R2: 4 Sim:     z Exp: 43820 W: 0 data: 10812 enable: 0
+# Cycle:         408 R1: 3 Sim:     z Exp: 26162 R2: 2 Sim:     z Exp: 55155 W: 1 data: 40701 enable: 0
+# Cycle:         409 R1: 1 Sim:     z Exp: 54414 R2: 7 Sim:     z Exp:  5947 W: 1 data: 13959 enable: 0
+# Cycle:         410 R1: 1 Sim:     z Exp: 54414 R2: 5 Sim:     z Exp: 50111 W: 2 data: 37536 enable: 0
+# Cycle:         411 R1: 4 Sim:     z Exp: 43820 R2: 1 Sim:     z Exp: 34063 W: 1 data: 34063 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         412 R1: 1 Sim:     z Exp: 34063 R2: 6 Sim:     z Exp: 15968 W: 2 data: 49165 enable: 1
+# Cycle:         413 R1: 0 Sim:     z Exp: 13316 R2: 5 Sim:     z Exp: 50111 W: 0 data: 60130 enable: 0
+# Cycle:         414 R1: 5 Sim:     z Exp: 50111 R2: 3 Sim:     z Exp: 26162 W: 5 data:  4696 enable: 0
+# Cycle:         415 R1: 5 Sim:     z Exp: 50111 R2: 5 Sim:     z Exp: 50111 W: 5 data: 24241 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         416 R1: 0 Sim:     z Exp: 39957 R2: 0 Sim:     z Exp: 39957 W: 0 data: 39957 enable: 1
+# Eventlog: Both read ports are same
+# Eventlog: Read/write of same port
+# Cycle:         417 R1: 2 Sim:     z Exp: 49165 R2: 4 Sim:     z Exp: 43820 W: 0 data: 52993 enable: 1
+# Cycle:         418 R1: 2 Sim:     z Exp: 49165 R2: 6 Sim:     z Exp: 15968 W: 4 data:   165 enable: 1
+# Cycle:         419 R1: 0 Sim:     z Exp: 52993 R2: 0 Sim:     z Exp: 52993 W: 3 data:  1259 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         420 R1: 5 Sim:     z Exp: 50111 R2: 4 Sim:     z Exp:   165 W: 7 data: 51805 enable: 1
+# Cycle:         421 R1: 6 Sim:     z Exp: 15968 R2: 2 Sim:     z Exp: 49165 W: 6 data: 35500 enable: 0
+# Cycle:         422 R1: 2 Sim:     z Exp: 49165 R2: 7 Sim:     z Exp: 51805 W: 6 data: 55388 enable: 0
+# Cycle:         423 R1: 0 Sim:     z Exp: 33316 R2: 5 Sim:     z Exp: 50111 W: 0 data: 33316 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         424 R1: 0 Sim:     z Exp: 33316 R2: 7 Sim:     z Exp: 51805 W: 2 data: 44248 enable: 1
+# Cycle:         425 R1: 2 Sim:     z Exp: 44248 R2: 4 Sim:     z Exp:   165 W: 6 data: 35954 enable: 1
+# Cycle:         426 R1: 6 Sim:     z Exp: 35954 R2: 3 Sim:     z Exp:  1259 W: 2 data: 55398 enable: 1
+# Cycle:         427 R1: 0 Sim:     z Exp: 33316 R2: 6 Sim:     z Exp: 35954 W: 1 data: 42373 enable: 1
+# Cycle:         428 R1: 0 Sim:     z Exp: 33316 R2: 6 Sim:     z Exp: 35954 W: 5 data: 22845 enable: 1
+# Cycle:         429 R1: 6 Sim:     z Exp: 35954 R2: 1 Sim:     z Exp: 42373 W: 3 data:   279 enable: 1
+# Cycle:         430 R1: 2 Sim:     z Exp: 55398 R2: 4 Sim:     z Exp: 64356 W: 4 data: 64356 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         431 R1: 7 Sim:     z Exp: 62628 R2: 3 Sim:     z Exp:   279 W: 7 data: 62628 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         432 R1: 2 Sim:     z Exp: 55398 R2: 2 Sim:     z Exp: 55398 W: 6 data: 44828 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         433 R1: 5 Sim:     z Exp: 22845 R2: 2 Sim:     z Exp: 55398 W: 0 data: 54160 enable: 0
+# Cycle:         434 R1: 0 Sim:     z Exp: 33316 R2: 2 Sim:     z Exp: 55398 W: 0 data: 64148 enable: 0
+# Cycle:         435 R1: 0 Sim:     z Exp: 33316 R2: 0 Sim:     z Exp: 33316 W: 5 data: 49836 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         436 R1: 0 Sim:     z Exp: 33316 R2: 4 Sim:     z Exp: 64356 W: 6 data: 19400 enable: 1
+# Cycle:         437 R1: 3 Sim:     z Exp:   279 R2: 0 Sim:     z Exp: 33316 W: 7 data: 44144 enable: 1
+# Cycle:         438 R1: 0 Sim:     z Exp: 33316 R2: 7 Sim:     z Exp: 44144 W: 0 data: 22108 enable: 0
+# Cycle:         439 R1: 6 Sim:     z Exp: 19400 R2: 1 Sim:     z Exp: 42373 W: 4 data:  5821 enable: 1
+# Cycle:         440 R1: 5 Sim:     z Exp: 22845 R2: 5 Sim:     z Exp: 22845 W: 3 data: 33827 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         441 R1: 2 Sim:     z Exp: 55398 R2: 4 Sim:     z Exp:  5821 W: 7 data: 65298 enable: 0
+# Cycle:         442 R1: 5 Sim:     z Exp: 22845 R2: 1 Sim:     z Exp: 42373 W: 3 data: 18555 enable: 1
+# Cycle:         443 R1: 2 Sim:     z Exp: 55398 R2: 0 Sim:     z Exp: 33316 W: 2 data: 48768 enable: 0
+# Cycle:         444 R1: 6 Sim:     z Exp: 19400 R2: 3 Sim:     z Exp: 18555 W: 3 data: 32308 enable: 0
+# Cycle:         445 R1: 1 Sim:     z Exp: 42373 R2: 0 Sim:     z Exp: 33316 W: 1 data: 61541 enable: 0
+# Cycle:         446 R1: 6 Sim:     z Exp: 19400 R2: 5 Sim:     z Exp: 22845 W: 3 data: 53080 enable: 1
+# Cycle:         447 R1: 2 Sim:     z Exp: 55398 R2: 2 Sim:     z Exp: 55398 W: 0 data: 18330 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         448 R1: 7 Sim:     z Exp: 44144 R2: 0 Sim:     z Exp: 33316 W: 2 data:  3986 enable: 0
+# Cycle:         449 R1: 5 Sim:     z Exp: 22845 R2: 5 Sim:     z Exp: 22845 W: 3 data: 28840 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         450 R1: 4 Sim:     z Exp:  5821 R2: 6 Sim:     z Exp: 19400 W: 5 data: 41836 enable: 0
+# Cycle:         451 R1: 1 Sim:     z Exp: 42373 R2: 0 Sim:     z Exp: 33316 W: 2 data: 64007 enable: 0
+# Cycle:         452 R1: 5 Sim:     z Exp: 22845 R2: 6 Sim:     z Exp: 19400 W: 6 data: 54651 enable: 0
+# Cycle:         453 R1: 6 Sim:     z Exp: 19400 R2: 7 Sim:     z Exp: 44144 W: 5 data: 11503 enable: 0
+# Cycle:         454 R1: 1 Sim:     z Exp: 42373 R2: 0 Sim:     z Exp: 33316 W: 2 data: 16685 enable: 1
+# Cycle:         455 R1: 5 Sim:     z Exp: 22845 R2: 3 Sim:     z Exp: 53080 W: 7 data: 59142 enable: 0
+# Cycle:         456 R1: 6 Sim:     z Exp: 19400 R2: 1 Sim:     z Exp: 42373 W: 5 data: 10950 enable: 1
+# Cycle:         457 R1: 4 Sim:     z Exp:  5821 R2: 2 Sim:     z Exp: 16685 W: 0 data: 36054 enable: 1
+# Cycle:         458 R1: 3 Sim:     z Exp: 53080 R2: 0 Sim:     z Exp: 59279 W: 0 data: 59279 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         459 R1: 5 Sim:     z Exp: 10950 R2: 0 Sim:     z Exp: 59279 W: 2 data: 55196 enable: 0
+# Cycle:         460 R1: 2 Sim:     z Exp: 16685 R2: 7 Sim:     z Exp: 44144 W: 4 data: 12127 enable: 1
+# Cycle:         461 R1: 7 Sim:     z Exp: 44144 R2: 7 Sim:     z Exp: 44144 W: 4 data: 48160 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         462 R1: 5 Sim:     z Exp: 10950 R2: 4 Sim:     z Exp: 48160 W: 4 data: 36466 enable: 0
+# Cycle:         463 R1: 4 Sim:     z Exp: 48160 R2: 6 Sim:     z Exp: 19400 W: 4 data: 21843 enable: 0
+# Cycle:         464 R1: 2 Sim:     z Exp: 16685 R2: 7 Sim:     z Exp: 44144 W: 1 data: 47761 enable: 1
+# Cycle:         465 R1: 1 Sim:     z Exp: 47761 R2: 5 Sim:     z Exp: 10950 W: 7 data: 44469 enable: 1
+# Cycle:         466 R1: 3 Sim:     z Exp: 53080 R2: 1 Sim:     z Exp: 62482 W: 1 data: 62482 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         467 R1: 5 Sim:     z Exp: 10950 R2: 4 Sim:     z Exp: 48160 W: 4 data: 45382 enable: 0
+# Cycle:         468 R1: 4 Sim:     z Exp: 48160 R2: 0 Sim:     z Exp: 27346 W: 0 data: 27346 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         469 R1: 3 Sim:     z Exp:  1737 R2: 0 Sim:     z Exp: 27346 W: 3 data:  1737 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         470 R1: 6 Sim:     z Exp: 19400 R2: 5 Sim:     z Exp: 10950 W: 4 data: 38879 enable: 0
+# Cycle:         471 R1: 6 Sim:     z Exp: 19400 R2: 6 Sim:     z Exp: 19400 W: 5 data: 62233 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         472 R1: 2 Sim:     z Exp: 16685 R2: 0 Sim:     z Exp: 27346 W: 7 data: 40264 enable: 1
+# Cycle:         473 R1: 3 Sim:     z Exp:  1737 R2: 7 Sim:     z Exp: 40264 W: 4 data: 13444 enable: 0
+# Cycle:         474 R1: 2 Sim:     z Exp: 16685 R2: 2 Sim:     z Exp: 16685 W: 1 data: 44729 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         475 R1: 4 Sim:     z Exp: 48160 R2: 0 Sim:     z Exp: 27346 W: 1 data: 59625 enable: 0
+# Cycle:         476 R1: 0 Sim:     z Exp: 27346 R2: 1 Sim:     z Exp: 44729 W: 7 data: 27326 enable: 1
+# Cycle:         477 R1: 4 Sim:     z Exp: 48160 R2: 7 Sim:     z Exp: 27326 W: 0 data: 26122 enable: 1
+# Cycle:         478 R1: 6 Sim:     z Exp: 19400 R2: 6 Sim:     z Exp: 19400 W: 5 data: 14861 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         479 R1: 0 Sim:     z Exp: 26122 R2: 3 Sim:     z Exp:  1737 W: 1 data:  7899 enable: 0
+# Cycle:         480 R1: 5 Sim:     z Exp: 14861 R2: 6 Sim:     z Exp: 19400 W: 0 data: 45379 enable: 0
+# Cycle:         481 R1: 3 Sim:     z Exp:  1737 R2: 3 Sim:     z Exp:  1737 W: 5 data: 33838 enable: 1
+# Eventlog: Both read ports are same
+# Cycle:         482 R1: 5 Sim:     z Exp: 33838 R2: 0 Sim:     z Exp: 26122 W: 4 data: 62153 enable: 0
+# Cycle:         483 R1: 0 Sim:     z Exp: 26122 R2: 3 Sim:     z Exp:  1737 W: 5 data: 57432 enable: 1
+# Cycle:         484 R1: 1 Sim:     z Exp: 44729 R2: 1 Sim:     z Exp: 44729 W: 3 data:  3371 enable: 0
+# Eventlog: Both read ports are same
+# Cycle:         485 R1: 3 Sim:     z Exp:  1737 R2: 6 Sim:     z Exp: 19400 W: 4 data: 15803 enable: 1
+# Cycle:         486 R1: 7 Sim:     z Exp: 27326 R2: 4 Sim:     z Exp: 15803 W: 2 data: 22676 enable: 1
+# Cycle:         487 R1: 2 Sim:     z Exp: 22676 R2: 1 Sim:     z Exp: 44729 W: 3 data: 14987 enable: 1
+# Cycle:         488 R1: 0 Sim:     z Exp: 26122 R2: 7 Sim:     z Exp: 27326 W: 4 data: 56237 enable: 0
+# Cycle:         489 R1: 2 Sim:     z Exp: 22676 R2: 3 Sim:     z Exp: 14987 W: 1 data: 64155 enable: 1
+# Cycle:         490 R1: 2 Sim:     z Exp: 22676 R2: 1 Sim:     z Exp: 41819 W: 1 data: 41819 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         491 R1: 1 Sim:     z Exp: 63818 R2: 3 Sim:     z Exp: 14987 W: 1 data: 63818 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         492 R1: 1 Sim:     z Exp: 63818 R2: 2 Sim:     z Exp: 22676 W: 5 data: 13000 enable: 1
+# Cycle:         493 R1: 5 Sim:     z Exp: 13000 R2: 0 Sim:     z Exp: 26122 W: 1 data: 60343 enable: 1
+# Cycle:         494 R1: 2 Sim:     z Exp: 22676 R2: 6 Sim:     z Exp: 53386 W: 6 data: 53386 enable: 1
+# Eventlog: Read/write of same port
+# Cycle:         495 R1: 1 Sim:     z Exp: 60343 R2: 0 Sim:     z Exp: 26122 W: 0 data: 42730 enable: 0
+# Cycle:         496 R1: 6 Sim:     z Exp: 53386 R2: 1 Sim:     z Exp: 60343 W: 3 data: 62911 enable: 0
+# Cycle:         497 R1: 3 Sim:     z Exp: 14987 R2: 6 Sim:     z Exp: 53386 W: 0 data: 63729 enable: 1
+# Cycle:         498 R1: 2 Sim:     z Exp: 22676 R2: 7 Sim:     z Exp: 27326 W: 5 data: 40713 enable: 1
+# Cycle:         499 R1: 3 Sim:     z Exp: 14987 R2: 5 Sim:     z Exp: 40713 W: 2 data: 36653 enable: 1
+# Cycle:         500 R1: 6 Sim:     z Exp: 53386 R2: 5 Sim:     z Exp: 40713 W: 7 data: 48333 enable: 1
+# Total errors:           0
+# 
+# Break at /afs/cs.wisc.edu/u/k/a/katelyn/private/552-project/h4/hw4_1/rf_bypass_bench.v line 119
+quit -sim

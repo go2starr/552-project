@@ -1,0 +1,24 @@
+ 
+****************************************
+Report : area
+Design : fifo
+Version: B-2008.09-SP3
+Date   : Sun Mar 18 19:26:24 2012
+****************************************
+
+Library(s) Used:
+
+    gscl45nm (File: /u/k/a/karu/courses/cs552/cad/Synopsys_Libraries/libs/gscl45nm.db)
+
+Number of ports:              136
+Number of nets:              1777
+Number of cells:             1457
+Number of references:          18
+
+Combinational area:       4439.577905
+Noncombinational area:    2090.262154
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:          6529.840059
+Total area:                 undefined
+1
