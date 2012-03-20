@@ -18,7 +18,8 @@ module proc(
     *********************************************************************************/
    // Wires
    wire [15:0] pc_inc, pc_branch, next_pc; // Next pc logic
-
+   wire [15:0] instr; // Instruction read from instruction memory
+	
    // Next pc logic
    pc_mux i_pc_mux (
 		    // Inputs
@@ -28,6 +29,18 @@ module proc(
 		    .next_pc(next_pc)
 		    );
    
+   memory2c instr_mem (
+   		       // Inputs
+		       .data_in (16'b0),
+		       .addr (next_pc),
+		       .enable (1'b1),
+		       .wr(1'b0),
+		       .createdump(1'b0),	// TODO change to correct value
+		       .clk (clk),
+		       .rst(rst),
+		       // Outputs
+		       .data_out (instr)
+		       );
 
 
 endmodule // proc
