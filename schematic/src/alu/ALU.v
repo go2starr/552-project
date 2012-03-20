@@ -12,7 +12,7 @@ module ALU (
    // Inputs
    input [15:0] A, B;
    input        Cin;
-   input [2:0]  Op;
+   input [4:0]  Op;
    input        sign;
 
    // Outputs
