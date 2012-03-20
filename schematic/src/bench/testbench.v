@@ -23,8 +23,6 @@ if (ex !== got) begin      \
       $display("  --> Expected: %b  Got: %b", ex, got); \
       $write(`C_ENDC);     \
       no_errs = no_errs + 1; \
-end else begin \
-     `OK("."); \
 end
                
 // Info printing

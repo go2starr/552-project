@@ -3,8 +3,6 @@ module ALU (
             B,                  // Data-in B
             Cin,                // Carry-in for LSB of adder
             Op,                 // Op code
-            invA,               // Invert-A input (active-high)
-            invB,               // Invert-B input (active_high)
             sign,               // Signed or unsigned input
             Out,                // Result
             OFL,                // High if overflow
@@ -15,7 +13,7 @@ module ALU (
    input [15:0] A, B;
    input        Cin;
    input [2:0]  Op;
-   input        invA, invB, sign;
+   input        sign;
 
    // Outputs
    output reg [15:0] Out;
@@ -48,9 +46,9 @@ module ALU (
    shift16 shifter (opA, opB[3:0], Op[1:0], shifter_Out);
    add16   adder   (opA, opB, Cin, add_Sum, add_CO, add_G, add_P);
 
-   // Operand inversion
-   assign opA = invA ? ~A : A;  // Invert A
-   assign opB = invA ? ~B : B;  // Invert B
+   // Operands
+   assign opA = A;
+   assign opB = B;
 
    // Overflow detection
    assign OFL_signed = ( opA[15] &  opB[15] & ~add_Sum[15]) |  // two negatives add to positive
@@ -59,7 +57,8 @@ module ALU (
    assign OFL = sign ? OFL_signed : OFL_unsigned;
 
    // Zero detection
-   assign Zero = ~(|(Out)) && (Op == OP_ADD || ~Op[1]); // Not logical operations
+   assign Zero = (Out == 0) &&
+                 (Op == OP_ADD); // Not logical operations
 
    // Opcode decode
    always @(*) begin
