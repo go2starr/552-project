@@ -1,4 +1,4 @@
-module t_ALU_bench();
+module ALU_bench();
 
    // Inputs
    reg [15:0] a, b, expected;
@@ -223,19 +223,6 @@ module t_ALU_bench();
       a = 10;
       #1;
       compare (0, zero);
-      
-      
-      
-     
-      
-      
-      
-      
-
-      
-      
-      
-
       
       $display("Testing finished");
    end
