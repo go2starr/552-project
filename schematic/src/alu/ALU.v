@@ -107,27 +107,28 @@ module ALU (
 				  end
 		OR    : Out = opA | opB;
       AND   : Out = opA & opB;
-		LD	   : Out = 16'b0;
-		ST    : Out = 16'b0;
-		STU   : Out = 16'b0;
-		BTR   : Out = 16'b0;
-		SEQ   : Out = 16'b0;
-		SLT   : Out = 16'b0;
-		SLE   : Out = 16'b0; 
-		SCO   : Out = 16'b0;
-		BEQZ  : Out = 16'b0;
-		BNEZ  : Out = 16'b0;
-		BLTZ  : Out = 16'b0;
-		LBI   : Out = 16'b0;
-		SLBI  : Out = 16'b0;
-		JINST : Out = 16'b0;
-		JAL   : Out = 16'b0;
-		JALR  : Out = 16'b0;
-		RET   : Out = 16'b0;
-		SIIC  : Out = 16'b0; 
-      RTI   : Out = 16'b0;
-		NOP   : Out = 16'b0;
-		HALT  : Out = 16'b0;
+		LD	   : Out = add_Sum;
+		ST    : Out = add_Sum; 
+		STU   : Out = add_Sum;
+		BTR   : Out = 16'b0;			// TODO
+		SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h000i0;
+		SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
+		SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
+		SCO   : Out = 16'b0;			// TODO
+		BEQZ  : Out = OpB;	// Outputs immediate value to be added to 2 + PC if OpA == 0
+		BNEZ  : Out = OpB;	// Outputs immediate value to be added to 2 + PC if OpA != 0
+		BLTZ  : Out = OpB;	// Outputs immediate value to be added to 2 + PC if OpA < 0
+		LBI   : Out = OpB;
+		SLBI  : Out = 16'b0;		// TODO
+		JINST : Out = OpB;   // Outputs displacement value to be added to 2 + PC
+		JR		: Out = add_Sum;
+		JAL   : Out = 16'b0;		// Don't care
+		JALR  : Out = add_Sum;
+		RET   : Out = 16'b0;		// Don't care
+		SIIC  : Out = 16'b0; 	// Don't care
+      RTI   : Out = 16'b0;		// Don't care
+		NOP   : Out = 16'b0;		// Don't care
+		HALT  : Out = 16'b0;		// Don't care
       default:
           Out = 16'hbadadd;
       endcase
