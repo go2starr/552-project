@@ -31,13 +31,18 @@ module t_alu_op_decode_bench();
 	parameter JINST = 21;
 	parameter JAL   = 22;
 	parameter JR    = 23;
-	parameter JAL   = 24;
-	parameter JALR  = 25;
-	parameter RET   = 26;
-	parameter SIIC  = 27;
-	parameter RTI   = 28;
-	parameter NOP   = 29;
-	parameter HALT  = 30;
+	parameter JALR  = 24;
+	parameter RET   = 25;
+	parameter SIIC  = 26;
+	parameter RTI   = 27;
+	parameter NOP   = 28;
+	parameter HALT  = 29;
+
+	// clock reset module
+	wire clk;
+	wire rst;
+	reg err;
+	clkrst cr1 (.clk(clk), .rst(rst), .err(err));
 
    // Instantiate
    alu_op_decode aluop (.instr(instr), .alu_op (out));
@@ -54,6 +59,9 @@ module t_alu_op_decode_bench();
 
    initial begin
       $display("Starting tests...");
+		instr = 16'b0000000000000000;
+		#2;
+		
 	   ////////////////////////////////////////
       $display("Testing HALT...");
       ////////////////////////////////////////
@@ -248,7 +256,7 @@ module t_alu_op_decode_bench();
       ////////////////////////////////////////
 		instr = 16'b0010000000000001;
 		#2;
-		compare (J_INSTR, out);
+		compare (JINST, out);
 
 		////////////////////////////////////////
       $display("Testing JR...");
@@ -293,5 +301,6 @@ module t_alu_op_decode_bench();
 		compare (RTI, out);   
       
       $display("Testing finished");
-   end
+   	$finish;
+	end
 endmodule // ALU_t
