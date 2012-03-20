@@ -20,7 +20,7 @@ if (ex !== got) begin      \
       $display(`C_FAIL);   \
       $write("ERR:  ");    \
       $display(msg);       \
-      $display("  --> Expected: %h  Got: %h", ex, got); \
+      $display("  --> Expected: %b  Got: %b", ex, got); \
       $write(`C_ENDC);     \
       no_errs = no_errs + 1; \
 end else begin \

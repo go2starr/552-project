@@ -1,6 +1,5 @@
 `include "testbench.v"
 module t_ALU_bench();
-
    // Inputs
    reg [15:0] a, b, expected;
    reg        cin;
@@ -31,9 +30,6 @@ module t_ALU_bench();
 
    initial begin
       `info("Starting ALU testbench");
-
-      `test(1,1,"DUMMY TEST");
-      
       // Initialize variables
       a = 0;
       b = 0;
@@ -44,47 +40,50 @@ module t_ALU_bench();
       sign = 0;
 
       ////////////////////////////////////////
-      $display("Testing shifter...");
+      `info("Testing shifter...");
       ////////////////////////////////////////
       // Initialize some testing values
       vals[0] = 24;
       vals[1] = 234;
       vals[2] = 15893;
       vals[3] = 64123;      
-      $display("Testing rotate left...");
+      `info("Testing rotate left...");
       op = OP_ROL;
       for (i = 0; i < 2; i = i + 1) begin
          for (j = 0; j < 16; j = j + 4) begin
             a = vals[i];
             b = j;
-            #1;
-            `test((a << j) | (a >> (16-j)), out, "Rotate left");
+            #100;
+            `test(16'((a << j) | (a >> (16-j))), out, "Rotate left");
+            #100;
          end
       end      
 
-      $display("Testing shift left...");
+      `info("Testing shift left...");
       op = OP_SLL;
       for (i = 0; i < 2; i = i + 1) begin
          for (j = 0; j < 16; j = j + 4) begin
             a = vals[i];
             b = j;
-            #1;
+            #100;
             `test(a << j, out, "Shift left");
          end
       end
 
-      $display("Testing rotate right...");
+      `info("Testing rotate right...");
       op = OP_ROR;
       for (i = 0; i < 2; i = i + 1) begin
          for (j = 0; j < 16; j = j + 4) begin
             a = vals[i];
             b = j;
-            #1;
-            `test((a >> j) | (a << (16-j)), out, "Rotate right");
+            #100;
+            `test(16'((a >> j) | (a << (16-j))), out, "Rotate right");
+            #100;
+            
          end
       end
 
-      $display("Testing rotate right...");
+      `info("Testing rotate right...");
       op = OP_SRA;
       for (i = 0; i < 2; i = i + 1) begin
          for (j = 0; j < 16; j = j + 4) begin
@@ -100,15 +99,16 @@ module t_ALU_bench();
       end            
 
       ////////////////////////////////////////
-      $display("Testing adder...");
+      `info("Testing adder...");
       ////////////////////////////////////////
       op = OP_ADD;
       #100;
       for (k = 0; k < 2; k = k + 1) begin
-         if (k)
-           $display ("Testing with carryin...");
-         else
-           $display ("Testing without carryin...");
+         if (k) begin
+           `info("Testing with carryin...");
+         end else begin
+           `info("Testing without carryin...");
+         end
          for (i = 0; i < 16; i = i + 1) begin
             for (j = 0; j < 16; j = j + 4) begin
                a = (256 << i) | 99;
@@ -122,7 +122,7 @@ module t_ALU_bench();
       end
 
       ////////////////////////////////////////
-      $display("Testing logical operations...");
+      `info("Testing logical operations...");
       ////////////////////////////////////////
       a = 0x123;
       b = 0x234;
@@ -137,7 +137,7 @@ module t_ALU_bench();
       `test(a&b, out, "AND");
 
       ////////////////////////////////////////
-      $display("Testing operand inversion...");
+      `info("Testing operand inversion...");
       ////////////////////////////////////////
       op = OP_ADD;
       cin = 0;
@@ -166,13 +166,13 @@ module t_ALU_bench();
       #1;
 
       ////////////////////////////////////////
-      $display("Testing overflow...");
+      `info("Testing overflow...");
       ////////////////////////////////////////
       op = OP_ADD;
       invA = 0;
       invB = 0;
 
-      $display ("Testing signed overflow");
+      `info("Testing signed overflow");
       sign = 1;
       a = 16'd20000;
       b = 16'd20000;
@@ -194,7 +194,7 @@ module t_ALU_bench();
       #1;
       `test(0, ofl, "ofl");         // no overflow
 
-      $display ("Testing unsigned overflow");
+      `info("Testing unsigned overflow");
       sign = 0;
       a = 60000;
       b = 60000;
@@ -207,7 +207,7 @@ module t_ALU_bench();
       `test(0, ofl, "");
 
       ////////////////////////////////////////
-      $display("Testing zero bit...");
+      `info("Testing zero bit...");
       ////////////////////////////////////////
       sign = 0;
       a = 0;
