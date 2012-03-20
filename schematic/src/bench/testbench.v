@@ -12,14 +12,16 @@
 
 `define DEBUG 0
 
+//integer no_errs = 0;
+
 // Assertion with debug messages
 `define test(ex, got, msg) \
-if (ex !== got) begin    \
+if (ex !== got) begin      \
       $display(`C_FAIL);   \
-      $write("ERR:  ");  \
+      $write("ERR:  ");    \
       $display(msg);       \
-      $display("  --> Expected: %d  Got: %d", ex, got); \
-      $write(`C_ENDC);  \
+      $display("  --> Expected: %h  Got: %h", ex, got); \
+      $write(`C_ENDC);     \
       no_errs = no_errs + 1; \
 end else begin \
      `OK("."); \

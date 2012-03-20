@@ -1,3 +1,5 @@
+`include "testbench.v"
+
 module t_ALU_bench();
 
    // Inputs
@@ -11,7 +13,8 @@ module t_ALU_bench();
    wire        ofl, zero;
 
    // Other
-   integer     i,j,k;
+   integer     i,j,k, no_errs;
+   
    reg [15:0]  vals [3:0];      // Shifter test
 
    // Shifter operands
@@ -27,18 +30,11 @@ module t_ALU_bench();
    // Instantiate
    ALU alu (a, b, cin, op, invA, invB, sign, out, ofl, zero);
 
-   // Debug
-   task compare;
-      input [15:0] ex, got;
-      begin
-         #2;
-         if (ex !== got)
-           $display ("ERR: Expected: 0x%d Got: 0x%d", ex, got);
-      end
-   endtask // compare
-
    initial begin
-      $display("Starting tests...");
+      `info("Starting ALU testbench");
+
+      `test(1,1,"DUMMY TEST");
+      
       // Initialize variables
       a = 0;
       b = 0;
@@ -63,7 +59,7 @@ module t_ALU_bench();
             a = vals[i];
             b = j;
             #1;
-            compare((a << j) | (a >> (16-j)), out);
+            `test((a << j) | (a >> (16-j)), out, "Rotate left");
          end
       end      
 
@@ -74,7 +70,7 @@ module t_ALU_bench();
             a = vals[i];
             b = j;
             #1;
-            compare(a << j, out);
+            `test(a << j, out, "Shift left");
          end
       end
 
@@ -85,7 +81,7 @@ module t_ALU_bench();
             a = vals[i];
             b = j;
             #1;
-            compare((a >> j) | (a << (16-j)), out);
+            `test((a >> j) | (a << (16-j)), out, "Rotate right");
          end
       end
 
@@ -100,7 +96,7 @@ module t_ALU_bench();
             for (k = 0; k < j; k = k + 1) begin
                expected[15-k] = a[15];
             end
-            compare(expected, out);
+            `test(expected, out, "Shift right");
          end
       end            
 
@@ -121,7 +117,7 @@ module t_ALU_bench();
                cin = k;
                expected = a+b+cin;
                #1;
-               compare (expected, out);
+               `test(expected, out, "Adder");
             end
          end
       end
@@ -133,13 +129,13 @@ module t_ALU_bench();
       b = 0x234;
 
       op = OP_OR; #1;
-      compare (a|b, out);
+      `test(a|b, out, "OR");
 
       op = OP_XOR; #1;
-      compare (a^b, out);
+      `test(a^b, out, "XOR");
 
       op = OP_AND; #1;
-      compare (a&b, out);
+      `test(a&b, out, "AND");
 
       ////////////////////////////////////////
       $display("Testing operand inversion...");
@@ -154,17 +150,17 @@ module t_ALU_bench();
       invB = 0;
       expected = ~a + b;
       #1;
-      compare (expected, out);
+      `test(expected, out, "INV ADD");
       #1;
       invA = 1;
       invB = 1;
       expected = ~a + ~b;
       #1;
-      compare (expected, out);
+      `test(expected, out, "INV ADD");
       #1;
       invA = 0;
       invB = 1;
-      compare (a + (~b), out);
+      `test(a + (~b), out, "INV ADD");
       #1;
       invA = 0;
       invB = 0;
@@ -182,34 +178,34 @@ module t_ALU_bench();
       a = 16'd20000;
       b = 16'd20000;
       #1;
-      compare (1, ofl);         // overflow
+      `test(1, ofl, "ofl");         // overflow
       #1;
       a = -16'd20000;
       b = -16'd20000;
       #1;
-      compare (1, ofl);         // overflow
+      `test(1, ofl, "ofl");         // overflow
       #1;
       a = 10;
       b = 20;
       #1;
-      compare (0, ofl);         // no overflow
+      `test(0, ofl, "ofl");         // no overflow
       #1;
       a = -10;
       b = -20000;
       #1;
-      compare (0, ofl);         // no overflow
+      `test(0, ofl, "ofl");         // no overflow
 
       $display ("Testing unsigned overflow");
       sign = 0;
       a = 60000;
       b = 60000;
       #1;
-      compare (1, ofl);
+      `test(1, ofl, "");
       #1;
       a = 30000;
       b = 30000;
       #1;
-      compare (0, ofl);
+      `test(0, ofl, "");
 
       ////////////////////////////////////////
       $display("Testing zero bit...");
@@ -218,25 +214,12 @@ module t_ALU_bench();
       a = 0;
       b = 0;
       #1;
-      compare (1, zero);
+      `test(1, zero, "");
       #2;
       a = 10;
       #1;
-      compare (0, zero);
+      `test(0, zero, "");
       
-      
-      
-     
-      
-      
-      
-      
-
-      
-      
-      
-
-      
-      $display("Testing finished");
+      `info("ALU tests complete");
    end
 endmodule // ALU_t
