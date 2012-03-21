@@ -104,7 +104,8 @@ module proc(
                               // Inputs
                               .instr(instr),
                               // Outputs
-                              .rd(rf_ws)
+                              .rd(rf_ws),
+										.we_reg (rf_wr)
                               );
 
    // ALU
@@ -124,13 +125,17 @@ module proc(
 
    /********************************************************************************
     *  Write Stage
-    *********************************************************************************/         
-
-   // TODO : *actually* choose rf write data
-   assign rf_wd = alu_out;
-
-   // TODO : *actually* choose when write enable should be on
-   assign rf_wr = 1;
+    *********************************************************************************/  
+    wire [15:0] mem_out;
+    dest_data_decode ddd (.instr(instr), 
+								  .pc_inc(pc), 
+								  .alu_out(alu_out), 
+								  .mem_out(mem_out), 
+								  .rdata (rf_wd)
+                          );       
+ 
+   // TODO : *actually* get data from memory
+   assign mem_out = 16'h0fff; 
 
    /********************************************************************************
     *
