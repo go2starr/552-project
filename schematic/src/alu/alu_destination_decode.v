@@ -1,113 +1,167 @@
-module alu_destination_decode (instr, rd);
+module alu_destination_decode (instr, rd, ws_reg);
    // Inputs
    input [15:0] instr;
 
    // Outputsn
    output reg [2:0] rd;
+	output reg ws_reg;
 
    // Wires
-   wire [2:0]       rd_imm, rd_reg, rd_ld_imm;
+   wire [2:0] rd_imm, rd_reg, rd_ld_imm;
    assign rd_imm = instr[7:5];
    assign rd_reg = instr[4:2];
    assign rd_ld_imm = instr[10:8];
+	assign rd_r7 = 3'b111;
 
    // assigns
-   wire [6:0]       op;
+   wire [6:0] op;
    assign op = {instr[15:11], instr[1:0]};
    
    always @ (*) begin
       casex (op)
-        /* Reg op */
-	7'b1101100 : // ADD
+   /* Reg op */
+	7'b1101100 : begin // ADD
 	  rd = rd_reg;
-	7'b1101101 : // SUB
+	  ws_reg = 1'b1;
+	  end
+	7'b1101101 : begin // SUB
 	  rd = rd_reg;
-	7'b1101110 : // OR
+	  ws_reg = 1'b1;
+	  end
+	7'b1101110 : begin // OR
 	  rd = rd_reg;
-	7'b1101111 : // AND
+	  ws_reg = 1'b1;
+	  end
+	7'b1101111 : begin// AND
 	  rd = rd_reg;
-	7'b1101000 : // ROL
+	  ws_reg = 1'b1;
+	  end
+	7'b1101000 : begin // ROL
 	  rd = rd_reg;
-	7'b1101001 : // SLL
+	  ws_reg = 1'b1;
+	  end
+	7'b1101001 : begin // SLL
 	  rd = rd_reg;
-	7'b1101010 : // ROR
+	  ws_reg = 1'b1;
+     end
+	7'b1101010 : begin // ROR
 	  rd = rd_reg;
-	7'b1101011 : // SRA
+	  ws_reg = 1'b1;
+	  end
+	7'b1101011 : begin// SRA
 	  rd = rd_reg;
-	7'b11100xx : // SEQ
+	  ws_reg = 1'b1;
+     end
+	7'b11100xx : begin // SEQ
 	  rd = rd_reg;
-	7'b11101xx : // SLT
+	  ws_reg = 1'b1;
+     end
+	7'b11101xx : begin// SLT
 	  rd = rd_reg;
-	7'b11110xx : // SLE
+	  ws_reg = 1'b1;
+     end
+	7'b11110xx : begin// SLE
 	  rd = rd_reg;
-	7'b11111xx : // SCO
+     ws_reg = 1'b1;
+	  end
+	7'b11111xx : begin // SCO
 	  rd = rd_reg;
-	7'b11001xx : // BTR
+	  ws_reg = 1'b1;
+     end
+	7'b11001xx : begin // BTR
 	  rd = rd_reg;
+     ws_reg = 1'b1;
+	  end
 
-        /* Imm */
-	7'b01000xx : // ADDI
+   /* Imm */
+	7'b01000xx : begin // ADDI
 	  rd = rd_imm;
-	7'b01001xx : // SUBI
+	  ws_reg = 1'b1;
+     end
+	7'b01001xx : begin// SUBI
 	  rd = rd_imm;
-	7'b01010xx : // ORI
+     ws_reg = 1'b1;
+     end
+	7'b01010xx : begin// ORI
 	  rd = rd_imm;
-	7'b01011xx : // ANDI
+	  ws_reg = 1'b1;
+     end
+	7'b01011xx : begin // ANDI
 	  rd = rd_imm;
-	7'b10100xx : // ROLI
+     ws_reg = 1'b1;
+     end
+	7'b10100xx : begin // ROLI
 	  rd = rd_imm;
-	7'b10101xx : // SLLI
+     ws_reg = 1'b1;
+     end
+	7'b10101xx : begin // SLLI
 	  rd = rd_imm;
-	7'b10110xx : // RORI
+     ws_reg = 1'b1;
+     end
+	7'b10110xx : begin // RORI
 	  rd = rd_imm;
-	7'b10111xx : // SRAI
+     ws_reg = 1'b1;
+	  end
+	7'b10111xx : begin // SRAI
 	  rd = rd_imm;
-	7'b10000xx : // ST
+ 	  ws_reg = 1'b1;
+     end
+	7'b10000xx : begin // ST
 	  rd = rd_imm;
-	7'b10001xx : // LD
+     ws_reg = 1'b1;
+     end
+	7'b10001xx : begin // LD
 	  rd = rd_imm;
-	7'b10011xx : // STU
+	  ws_reg = 1'b1;
+     end
+	7'b10011xx : begin // STU
 	  rd = rd_imm;
+	  ws_reg = 1'b1;
+     end
 
-        /* Load immediates (Rd is Rs here) */
-	7'b11000xx : // LBI
+   /* Load immediates (Rd is Rs here) */
+	7'b11000xx : begin // LBI
 	  rd = rd_ld_imm;
-	7'b10010xx : // SLBI
+	  ws_reg = 1'b1;
+	  end
+	7'b10010xx : begin// SLBI
 	  rd = rd_ld_imm;
+	  ws_reg = 1'b1;
+	  end
 
-        /* No write */
-        /*
+	/* Write PC to R7 */
+	7'b00110xx : begin // JAL
+	  rd = rd_r7;
+	  ws_reg = 1'b1;
+	  end
+	7'b00111xx : begin // JALR
+	  rd = rd_r7;
+	  ws_reg = 1'b1;
+	  end
+
+   /* No write */     
 	7'b01100xx : // BEQZ
-	  rd = 
+	  ws_reg = 1'b0;
 	7'b01101xx : // BNEZ
-	  rd = 
+	  ws_reg = 1'b0; 
 	7'b01111xx : // BLTZ
-	  rd = 
+	  ws_reg = 1'b0; 
 	7'b00100xx : // JINST
-	  rd = 
+	  ws_reg = 1'b0;
 	7'b00101xx : // JR
-	  rd = 
-	7'b00110xx : // JAL
-	  rd = 
-	7'b00111xx : // JALR
-	  rd = 
+	  ws_reg = 1'b0;
 	7'b01110xx : // RET
-	  rd = 
+	  ws_reg = 1'b0;
 	7'b00010xx : // SIIC
-	  rd = 
+	  ws_reg = 1'b0;
 	7'b00011xx : // RTI
-	  rd =
-
+	  ws_reg = 1'b0;
 	7'b00000xx : // HALT
-	  rd = rd_reg;
+	  ws_reg = 1'b0;
 	7'b00001xx : // NOP;
-	  rd = 
-         
+	  ws_reg = 1'b0;        
                
-	default	  : rd = 
-         */
-        default :
-          rd = 3'b010;
+	default	  : ws_reg = 1'b0; 
       endcase
    end
 endmodule

@@ -104,7 +104,8 @@ module proc(
                               // Inputs
                               .instr(instr),
                               // Outputs
-                              .rd(rf_ws)
+                              .rd(rf_ws),
+										.ws_reg (rf_wr)
                               );
 
    // ALU
@@ -128,10 +129,7 @@ module proc(
     *********************************************************************************/         
 
    // TODO : *actually* choose rf write data
-   assign rf_wd = alu_out;
-
-   // TODO : *actually* choose when write enable should be on
-   assign rf_wr = 1;
+   assign rf_wd = alu_out;  
 
    /********************************************************************************
     *
