@@ -1,5 +1,7 @@
 `include "testbench.v"
 
+`define DEBUG 1
+
 // t_proc_bench.v
 module t_proc_bench();
    // DUT Outputs
@@ -35,11 +37,39 @@ module t_proc_bench();
 
 
       /****************************************
+       *  Test first instruction
        ****************************************/
-      for (i = 0; i < 100; i = i + 1) begin
-         $display("PC: %h", dut.pc);
-         `tic;
-      end
+      `info("lbi r0, 0x10");
+
+      $display("PC: %h \t Instr: %h", dut.pc, dut.instr);
+      // dut
+      `test(16'h c010, dut.instr, "Instruction does not match: lbi r0, 0x10");
+      `test(16'h 0, dut.pc, "PC should be 0 on start");
+      `test(16'h 10, dut.alu.Out, "ALU output should be zero");
+
+      // aopd
+      `test(7'b 11000xx, dut.aopd.op, "Op should be LBI");      
+      `test(16'h 10, dut.aopd.opB, "ALU op decode output should be 0x10");
+      `test(16'h c010, dut.aopd.instr, "Input to alu_op_decode should be instruction");
+      `test(7'b 1100000, dut.aopd.op, "Op should be correct");
+
+      // alu
+      `test(16'h 10, dut.alu.opB, "ALU opB should be 0x10");
+      `test(16'h 10, dut.alu.B, "ALU input should be 0x10 (immediate value)");
+      `test(5'd  19, dut.alu.Op, "ALU op should be LBI");
+      `test(16'h 10, dut.alu.Out, "ALU output should be 0x10");
+
+      // add (destination decode)
+      `test(16'h c010, dut.add.instr, "add instruction should be correct");
+      `test(3'h  0,    dut.add.rd, "add register select should be zero");
+      `test(7'b 11000xx, dut.add.op, "add op select should be LBI");
+      
+      // write to rf
+      `test(16'h 0, dut.rf_ws, "RF write select should be zero");
+      `test(16'h 10, dut.rf_wd, "RF write data should be 0x10");
+      
+      `tic;
+      `test(16'h10, dut.rf.rf0.my_regs0.q, "R0 does not contain 0x10 after a lbi 0x10");
 
       `info("Tests complete");
       $finish;

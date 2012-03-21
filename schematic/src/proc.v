@@ -48,17 +48,20 @@ module proc(
     *  Decode Stage
     *********************************************************************************/
    wire [4:0]  alu_op;
-   alu_op_decode aod (.instr(instr),
-                      .alu_op(alu_op));
-   
-   /********************************************************************************
-    *  Fetch Stage
-    *********************************************************************************/
    wire [2:0]  rf_rs1, rf_rs2, rf_ws; // Read/Write select
    wire [15:0] rf_rd1, rf_rd2, rf_wd; // Read/Write data
    wire        rf_wr;
-   rf_bypass rf(.read1data(rf_rd1),
-                .read2data(rf_rd2),
+
+   // Assign Rs, Rt
+   assign rf_rs1 = instr[10:8]; // Rs
+   assign rf_rs2 = instr[7:5];  // Rt
+
+   /********************************************************************************
+    *  Fetch Stage
+    *********************************************************************************/
+   // RF fetching
+   rf_bypass rf(
+                // Inputs
                 .err(err),
                 .clk(clk),
                 .rst(rst),
@@ -66,17 +69,45 @@ module proc(
                 .read2regsel(rf_rs2),
                 .writeregsel(rf_ws),
                 .writedata(rf_wd),
-                .write(rf_wr)
+                .write(rf_wr),
+                // Outputs
+                .read1data(rf_rd1),
+                .read2data(rf_rd2)
                 );
-   
+
    /********************************************************************************
     *  Execute Stage
     *********************************************************************************/
    wire [15:0] alu_op1, alu_op2, alu_out;
    wire        cin, alu_ofl, alu_zero, alu_signed;
-	
-	alu_operand_decode aopd(.instr(instr), .rsVal (rf_rd1), .rtVal (rf_rd2), .opA (alu_op1), .opB(alu_op2));   
 
+   // Decode instruction operands (post-fetch)	
+   alu_operand_decode aopd(
+                           // Inputs
+                           .instr(instr),
+                           .rsVal(rf_rd1),
+                           .rtVal(rf_rd2),
+                           // Outputs
+                           .opA(alu_op1),
+                           .opB(alu_op2)
+                           );   
+
+   // Decode instruction opcode
+   alu_op_decode aod (
+                      // Inputs
+                      .instr(instr),
+                      // Outputs
+                      .alu_op(alu_op));
+
+   // Decode instruction destination
+   alu_destination_decode add(
+                              // Inputs
+                              .instr(instr),
+                              // Outputs
+                              .rd(rf_ws)
+                              );
+
+   // ALU
    ALU alu(.A(alu_op1),
            .B(alu_op2),
            .Cin(cin),
@@ -96,7 +127,11 @@ module proc(
     *  Write Stage
     *********************************************************************************/         
 
+   // TODO : *actually* choose rf write data
+   assign rf_wd = alu_out;
 
+   // TODO : *actually* choose when write enable should be on
+   assign rf_wr = 1;
 
    /********************************************************************************
     *
