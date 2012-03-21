@@ -88,6 +88,40 @@ module t_proc_bench();
       /****************************************/
       `test(16'h01, dut.rf.rf0.my_regs1.q, "R1 does not contain 0x01 after lbi r1, 0x01");
 
+      `info("add r2, r0, r1");
+
+      // dut
+      `test(16'h 4, dut.pc, "PC should be 4 after second instruction");
+      `test(16'h d828, dut.instr, "Instruction does not match: add r2, r0, r1");
+
+      // rf
+      `test(3'h 0, dut.rf.read1regsel, "RF internal read1 select is not 0");
+      `test(3'h 1, dut.rf.read2regsel, "RF internal read2 select is not 1");      
+      `test(16'h 10, dut.rf.read1data, "RF read1 data is not 0x10");
+      `test(16'h 01, dut.rf.read2data, "RF read2 data is not 0x10");      
+      
+      `test(16'h 10, dut.rf.rf0.my_regs0.q, "RF did not hold value(0x10) for r0");
+      `test(16'h 01, dut.rf.rf0.my_regs1.q, "RF did not hold value(0x01) for r1");      
+      
+      
+      `test(3'h 0, dut.rf_rs1, "RF select 1 is not r0");
+      `test(3'h 1, dut.rf_rs2, "RF select 2 is not r1");
+      `test(3'h 10, dut.rf_rd1, "RF data 1 is not 0x10");
+      `test(3'h 1, dut.rf_rd2, "RF data 2 is not 0x1");      
+      
+      
+
+      // alu
+      `test(16'h 10, dut.alu.A, "ALU primary op is not 0x10");
+      `test(16'h 01, dut.alu.B, "ALU primary op is not 0x01");      
+      
+      `test(16'h 11, dut.alu.Out, "ALU output is not 0x11");
+
+      // result
+      `test(16'h 11, dut.rf.rf0.my_regs2.q, "R0(0x10) + R1(0x01) not put into R2");
+
+      
+
       `info("Tests complete");
       $finish;
    end   
