@@ -17,7 +17,7 @@ module mem_decode_logic (instr, e_mem, wr_mem, cd);
       casex (op)
 	/* Read from mem */
 	7'b10001xx : begin // LD
-	  wr_mem = 1'b1;
+	  wr_mem = 1'b0;
 	  e_mem = 1'b1;
 	  cd = 1'b0;
      end
