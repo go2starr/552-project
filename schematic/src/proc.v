@@ -99,6 +99,14 @@ module proc(
                       // Outputs
                       .alu_op(alu_op));
 
+   // Decode instruction destination
+   alu_destination_decode add(
+                              // Inputs
+                              .instr(instr),
+                              // Outputs
+                              .rd(rf_ws)
+                              );
+
    // ALU
    ALU alu(.A(alu_op1),
            .B(alu_op2),
@@ -119,8 +127,11 @@ module proc(
     *  Write Stage
     *********************************************************************************/         
 
-   // TODO : Rd select from instruction
+   // TODO : *actually* choose rf write data
+   assign rf_wd = alu_out;
 
+   // TODO : *actually* choose when write enable should be on
+   assign rf_wr = 1;
 
    /********************************************************************************
     *
