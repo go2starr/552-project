@@ -67,7 +67,13 @@ module ALU (
    
    // Module instantiation
    shift16 shifter (opA, opB[3:0], shifter_op, shifter_Out); 
-   add16   adder   (opA, opB, Cin, add_Sum, add_CO, add_G, add_P);
+   add16   adder   (.A(opA),
+                    .B(opB),
+                    .CI(Cin),
+                    .Sum(add_Sum), 
+                    .CO(add_CO), 
+                    .Ggroup(add_G),
+                    .Pgroup(add_P));
 
    // Operands
    assign opA = A;

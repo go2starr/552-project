@@ -4,7 +4,7 @@ module t_ALU_bench();
    // Inputs
    reg [15:0] a, b, expected;
    reg        cin;
-   reg [2:0]  op;
+   reg [4:0]  op;
    reg        sign;
    
    // Outputs
@@ -17,17 +17,47 @@ module t_ALU_bench();
    reg [15:0]  vals [3:0];      // Shifter test
 
    // Shifter operands
-   parameter OP_ROL = 0;
-   parameter OP_SLL = 1;
-   parameter OP_ROR = 2;
-   parameter OP_SRA = 3;
-   parameter OP_ADD = 4;
-   parameter OP_OR  = 5;
-   parameter OP_XOR = 6;
-   parameter OP_AND = 7;   
+   parameter ADD   = 0;
+   parameter SUB   = 1;
+   parameter OR    = 2;
+   parameter AND   = 3;
+   parameter ROL   = 4;
+   parameter SLL   = 5;
+   parameter ROR   = 6;
+   parameter SRA   = 7;
+   parameter ST    = 8;
+   parameter LD    = 9;
+   parameter STU   = 10;
+   parameter BTR   = 11;
+   parameter SEQ   = 12;
+   parameter SLT   = 13;
+   parameter SLE   = 14;
+   parameter SCO   = 15;
+   parameter BEQZ  = 16;
+   parameter BNEZ  = 17;
+   parameter BLTZ  = 18;
+   parameter LBI   = 19;
+   parameter SLBI  = 20;
+   parameter JINST = 21;
+   parameter JAL   = 22;
+   parameter JR    = 23;
+   parameter JALR  = 24;
+   parameter RET   = 25;
+   parameter SIIC  = 26;
+   parameter RTI   = 27;
+   parameter NOP   = 28;
+   parameter HALT  = 29;
 
    // Instantiate
-   ALU alu (a, b, cin, op, sign, out, ofl, zero);
+   ALU alu (.A(a),
+            .B(b),
+            .Cin(cin),
+            .Op(op),
+            .sign(sign),
+            .Out(out),
+            .OFL(ofl),
+            .Zero(zero)
+            );
 
    initial begin
       `info("Starting ALU testbench");
@@ -43,7 +73,7 @@ module t_ALU_bench();
       ////////////////////////////////////////
       // Initialize some testing values
       `info("Testing rotate left...");
-      op = OP_ROL;
+      op = ROL;
       for (i = 0; i < 50; i = i + 1) begin
          for (j = 0; j < 16; j = j + 1) begin
             a = $random;
@@ -55,7 +85,7 @@ module t_ALU_bench();
       end      
 
       `info("Testing shift left...");
-      op = OP_SLL;
+      op = SLL;
       for (i = 0; i < 50; i = i + 1) begin
          for (j = 0; j < 16; j = j + 1) begin
             a = $random;
@@ -66,7 +96,7 @@ module t_ALU_bench();
       end
 
       `info("Testing rotate right...");
-      op = OP_ROR;
+      op = ROR;
       for (i = 0; i < 50; i = i + 1) begin
          for (j = 0; j < 16; j = j + 1) begin
             a = $random;
@@ -77,7 +107,7 @@ module t_ALU_bench();
       end
 
       `info("Testing rotate right...");
-      op = OP_SRA;
+      op = SRA;
       for (i = 0; i < 50; i = i + 1) begin
          for (j = 0; j < 16; j = j + 1) begin
             a = $random;
@@ -94,7 +124,7 @@ module t_ALU_bench();
       ////////////////////////////////////////
       `info("Testing adder...");
       ////////////////////////////////////////
-      op = OP_ADD;
+      op = ADD;
       #100;
       for (k = 0; k < 2; k = k + 1) begin
          if (k) begin
@@ -118,19 +148,16 @@ module t_ALU_bench();
       a = 0x123;
       b = 0x234;
 
-      op = OP_OR; #1;
+      op = OR; #1;
       `test(a|b, out, "OR");
 
-      op = OP_XOR; #1;
-      `test(a^b, out, "XOR");
-
-      op = OP_AND; #1;
+      op = AND; #1;
       `test(a&b, out, "AND");
 
       ////////////////////////////////////////
       `info("Testing overflow...");
       ////////////////////////////////////////
-      op = OP_ADD;
+      op = ADD;
 
       `info("Testing signed overflow");
       sign = 1;
@@ -169,7 +196,7 @@ module t_ALU_bench();
       ////////////////////////////////////////
       `info("Testing zero bit...");
       ////////////////////////////////////////
-      op = OP_ADD;
+      op = ADD;
       sign = 0;
       a = 0;
       b = 0;

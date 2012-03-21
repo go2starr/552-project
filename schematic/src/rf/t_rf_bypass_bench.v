@@ -2,7 +2,7 @@
 /* $LastChangedDate: 2009-03-06 00:27:19 -0600 (Fri, 06 Mar 2009) $ */
 /* $Rev: 50 $ */
 
-module rf_bypass_bench(/*AUTOARG*/);
+module t_rf_bypass_bench(/*AUTOARG*/);
    /*AUTOWIRE*/
    // Beginning of automatic wires (for undeclared instantiated-module outputs)
    wire [15:0]          read1data;              // From top of rf_hier.v
