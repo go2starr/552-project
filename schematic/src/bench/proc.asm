@@ -20,5 +20,10 @@
         seq     r2, r0, r1   // SEQ
         slt     r2, r0, r1   // SLT
         sle     r2, r0, r1   // SLE
-
         
+        
+//   TEST ALU IMMEDIATES @ 29b81b
+        addi    r2, r0, 0x09
+        subi    r2, r0, 0x01
+        ori     r2, r0, 0x10
+

@@ -216,10 +216,26 @@ module t_proc_bench();
 
       /****************************************/
       `tic;
-      `info("slt r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h1, dut.rf.rf0.my_regs2.q, "sle r2, r1, r0");                  
+      `test(16'h1, dut.rf.rf0.my_regs2.q, "sle r2, r1, r0");
+
+
+      /************************************************************
+       *  IMMEDIATE OPS
+       ************************************************************/
+      `tic;
+      `info("addi r2, r0, 0x09");
+      `test(16'h 0a, dut.rf.rf0.my_regs2.q, "addi r2, r0, 0x09");
+
+      `tic;
+      `info("subi r2, r0, 0x01");
+      `test(16'h 00, dut.rf.rf0.my_regs2.q, "subi r2, r0, 0x01");
+
+      `tic;
+      `info("ori r2, r0, 0x10");
+      `test(16'h 11, dut.rf.rf0.my_regs2.q, "ori r2, r0, 0x10");      
+      
       
 
       `info("Tests complete");
