@@ -36,10 +36,9 @@ module t_proc_bench();
       `tic;
 
 
-      /****************************************
-       *  Test first instruction
-       ****************************************/
+      /****************************************/
       `info("lbi r0, 0x10");
+      /****************************************/      
 
       $display("PC: %h \t Instr: %h", dut.pc, dut.instr);
       // dut
@@ -68,6 +67,7 @@ module t_proc_bench();
       
       /****************************************/
       `tic;
+      `info("lbi r1, 0x01");      
       /****************************************/
       `test(16'h10, dut.rf.rf0.my_regs0.q, "R0 does not contain 0x10 after a lbi 0x10");
 
@@ -85,10 +85,11 @@ module t_proc_bench();
 
       /****************************************/
       `tic;
+      `info("add r2, r0, r1");      
       /****************************************/
       `test(16'h01, dut.rf.rf0.my_regs1.q, "R1 does not contain 0x01 after lbi r1, 0x01");
 
-      `info("add r2, r0, r1");
+
 
       // dut
       `test(16'h 4, dut.pc, "PC should be 4 after second instruction");
@@ -122,19 +123,39 @@ module t_proc_bench();
       `test(16'h 01, dut.alu.adder.B, "ALU internal adder input B is not 0x01");
       `test(16'h 00, dut.alu.Cin, "ALU carrying should be zero");
       
-
-      $display("%h + %h = ", dut.alu.adder.opA, dut.alu.adder.opB);
-      $display("%b", dut.alu.add_Sum);
-      
       `test(5'd 0, dut.alu.Op, "ALU opcode is not ADD (0)");
       `test(16'h 11, dut.alu.Out, "ALU output is not 0x11");
 
       /****************************************/
       `tic;
+      `info("lbi r0, 0x01");      
       /****************************************/      
-      
       // result
       `test(16'h 11, dut.rf.rf0.my_regs2.q, "R0(0x10) + R1(0x01) not put into R2");
+
+
+
+      /****************************************/
+      `tic;
+      `info("lbi r1, 0x02");      
+      /****************************************/
+      
+      /****************************************/
+      `tic;
+      `info("sub r2, r0, r1");      
+      /****************************************/
+      // result
+      `test(16'h 01, dut.rf.rf0.my_regs0.q, "lbi r0, 0x01 did not load");
+      `test(16'h 02, dut.rf.rf0.my_regs1.q, "lbi r1, 0x02 did not load");
+
+      // alu
+      `test(5'd 1, dut.alu.Op, "ALU opcode is not SUB (1)");
+
+      /****************************************/
+      `tic;
+      /****************************************/
+      // result
+      `test(16'hFFFF, dut.rf.rf0.my_regs2.q, "sub r2, r0, r1");
 
       
 

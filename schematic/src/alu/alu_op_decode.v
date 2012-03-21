@@ -43,7 +43,7 @@ assign instr_op = {instr[15:11], instr[1:0]};
 assign alu_op = op;
 
 // case statement/decode logic
-always @ (instr_op) begin
+always @ (*) begin
 	casex (instr_op)
 	7'b1101100 : op = ADD;
 	7'b1101101 : op = SUB;
