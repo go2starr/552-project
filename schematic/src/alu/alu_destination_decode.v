@@ -9,6 +9,7 @@ module alu_destination_decode (instr, rd);
    wire [2:0]       rd_imm, rd_reg, rd_ld_imm;
    assign rd_imm = instr[7:5];
    assign rd_reg = instr[4:2];
+   assign rd_ld_imm = instr[10:8];
 
    // assigns
    wire [6:0]       op;
@@ -70,9 +71,9 @@ module alu_destination_decode (instr, rd);
 
         /* Load immediates (Rd is Rs here) */
 	7'b11000xx : // LBI
-	  rd = rd_imm;
+	  rd = rd_ld_imm;
 	7'b10010xx : // SLBI
-	  rd = rd_imm;
+	  rd = rd_ld_imm;
 
         /* No write */
         /*
@@ -110,3 +111,4 @@ module alu_destination_decode (instr, rd);
       endcase
    end
 endmodule
+
