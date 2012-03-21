@@ -110,7 +110,6 @@ module proc(
    // ALU
    ALU alu(.A(alu_op1),
            .B(alu_op2),
-           .Cin(cin),
            .Op(alu_op),
            .sign(alu_signed),
            .Out(alu_out),

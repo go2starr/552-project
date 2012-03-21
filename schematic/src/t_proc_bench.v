@@ -98,7 +98,7 @@ module t_proc_bench();
       `test(3'h 0, dut.rf.read1regsel, "RF internal read1 select is not 0");
       `test(3'h 1, dut.rf.read2regsel, "RF internal read2 select is not 1");      
       `test(16'h 10, dut.rf.read1data, "RF read1 data is not 0x10");
-      `test(16'h 01, dut.rf.read2data, "RF read2 data is not 0x10");      
+      `test(16'h 01, dut.rf.read2data, "RF read2 data is not 0x01");      
       
       `test(16'h 10, dut.rf.rf0.my_regs0.q, "RF did not hold value(0x10) for r0");
       `test(16'h 01, dut.rf.rf0.my_regs1.q, "RF did not hold value(0x01) for r1");      
@@ -106,17 +106,33 @@ module t_proc_bench();
       
       `test(3'h 0, dut.rf_rs1, "RF select 1 is not r0");
       `test(3'h 1, dut.rf_rs2, "RF select 2 is not r1");
-      `test(3'h 10, dut.rf_rd1, "RF data 1 is not 0x10");
-      `test(3'h 1, dut.rf_rd2, "RF data 2 is not 0x1");      
+      `test(16'h 10, dut.rf_rd1, "RF data 1 is not 0x10");
+      `test(16'h 1, dut.rf_rd2, "RF data 2 is not 0x1");      
       
       
 
       // alu
       `test(16'h 10, dut.alu.A, "ALU primary op is not 0x10");
-      `test(16'h 01, dut.alu.B, "ALU primary op is not 0x01");      
+      `test(16'h 01, dut.alu.B, "ALU primary op is not 0x01");
+      `test(16'h 11, dut.alu.add_Sum, "ALU internal sum is not 0x11");
+      `test(16'h 10, dut.alu.opA, "ALU internal op A is not 0x10");
+      `test(16'h 01, dut.alu.opB, "ALU internal op B is not 0x01");
+      `test(16'h 11, dut.alu.adder.Sum, "ALU internal adder output is not 0x11");
+      `test(16'h 10, dut.alu.adder.A, "ALU internal adder input A is not 0x10");
+      `test(16'h 01, dut.alu.adder.B, "ALU internal adder input B is not 0x01");
+      `test(16'h 00, dut.alu.Cin, "ALU carrying should be zero");
       
+
+      $display("%h + %h = ", dut.alu.adder.opA, dut.alu.adder.opB);
+      $display("%b", dut.alu.add_Sum);
+      
+      `test(5'd 0, dut.alu.Op, "ALU opcode is not ADD (0)");
       `test(16'h 11, dut.alu.Out, "ALU output is not 0x11");
 
+      /****************************************/
+      `tic;
+      /****************************************/      
+      
       // result
       `test(16'h 11, dut.rf.rf0.my_regs2.q, "R0(0x10) + R1(0x01) not put into R2");
 

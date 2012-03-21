@@ -1,7 +1,6 @@
 module ALU (
             A,                  // Data-in A
             B,                  // Data-in B
-            Cin,                // Carry-in for LSB of adder
             Op,                 // Op code
             sign,               // Signed or unsigned input
             Out,                // Result
@@ -11,7 +10,6 @@ module ALU (
 
    // Inputs
    input [15:0] A, B;
-   input        Cin;
    input [4:0]  Op;
    input        sign;
 
@@ -78,6 +76,7 @@ module ALU (
    // Operands
    assign opA = A;
    assign opB = ((Op == SUB) ? ~B : B);
+   assign Cin = ((Op == SUB) ? 1'b1  : 1'b0);
 
    // Overflow detection
    assign OFL_signed = ( opA[15] &  opB[15] & ~add_Sum[15]) |  // two negatives add to positive
