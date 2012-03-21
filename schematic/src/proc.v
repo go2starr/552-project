@@ -124,6 +124,27 @@ module proc(
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
+	 wire we_mem, wr_mem, cd;
+
+	 mem_decode_logic mdl (.instr(instr), 
+						    .e_mem(e_mem),
+							 .wr_mem(wr_mem),
+							 .cd(cd)
+				          );
+ 
+	 memory2c data_mem (
+   		       // Inputs
+		       .data_in (rf_rd2),
+		       .addr (alu_out),
+		       .enable (e_mem),
+		       .wr(wr_mem),
+		       .createdump(cd),	
+		       .clk (clk),
+		       .rst(rst),
+		       // Outputs
+		       .data_out (mem_out)
+		       );
+
 
    /********************************************************************************
     *  Write Stage
@@ -134,10 +155,7 @@ module proc(
 			  .alu_out(alu_out), 
 			  .mem_out(mem_out), 
 			  .rdata (rf_wd)
-                          );       
- 
-   // TODO : *actually* get data from memory
-   assign mem_out = 16'h0fff; 
+            );       
    
    /********************************************************************************
     *
