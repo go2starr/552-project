@@ -68,6 +68,7 @@ module t_proc_bench();
       `test(16'h 0, dut.rf_ws, "RF write select should be zero");
       `test(16'h 10, dut.rf_wd, "RF write data should be 0x10");
       
+      
       `tic;
       `test(16'h10, dut.rf.rf0.my_regs0.q, "R0 does not contain 0x10 after a lbi 0x10");
 
