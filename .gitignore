@@ -3,6 +3,10 @@
 .#*
 \#*
 
+# Assembled files
+*.img
+*.lst
+
 # Vim 
 *.swp
 
