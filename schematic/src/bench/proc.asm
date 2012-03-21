@@ -10,4 +10,15 @@
         lbi     r1, 0x02
 
         sub     r2, r0, r1   // SUB
+        ror     r2, r1, r0   // ROR
+
+        or      r2, r0, r1   // OR
+        and     r2, r0, r1,  // AND
+        rol     r2, r0, r1   // ROL
+        sll     r2, r0, r1   // SLL
+        sra     r2, r0, r1   // SRA
+        seq     r2, r0, r1   // SEQ
+        slt     r2, r0, r1   // SLT
+        sle     r2, r0, r1   // SLE
+
         
