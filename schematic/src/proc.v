@@ -105,7 +105,7 @@ module proc(
                               .instr(instr),
                               // Outputs
                               .rd(rf_ws),
-										.ws_reg (rf_wr)
+										.we_reg (rf_wr)
                               );
 
    // ALU
