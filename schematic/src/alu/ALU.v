@@ -124,7 +124,7 @@ module ALU (
 	BNEZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA != 0
 	BLTZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA < 0
 	LBI   : Out = opB;
-	SLBI  : Out = 16'b0;		// TODO
+	SLBI  : Out = {opA[7:0], 8'b0} | opB;
 	JINST : Out = opB;   // Outputs displacement value to be added to 2 + PC
 	JR		: Out = add_Sum;
 	JAL   : Out = 16'b0;		// Don't care

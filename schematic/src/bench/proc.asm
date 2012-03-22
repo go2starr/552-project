@@ -27,3 +27,5 @@
         subi    r2, r0, 0x01
         ori     r2, r0, 0x10
 
+//   TEST SLBI
+        slbi    r0, 0xb
