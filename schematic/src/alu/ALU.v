@@ -76,7 +76,7 @@ module ALU (
    btr_calc btr(.Rs(opA), .Rd(btr_rd));
 
    // Operands
-   wire              sub = (Op == SUB) | (Op == SLT);
+   wire              sub = (Op == SUB) | (Op == SLT) | (Op == SLE);
    assign opA = sub ? B     : A;
    assign opB = sub ? ~A    : B;
    assign Cin = sub ? 1'b1  : 1'b0;
@@ -128,15 +128,15 @@ module ALU (
                       ~(~opA[15] && opB[15]) && 
                       ((~add_Sum[15] && ~OFL_signed) ||
                        (opA[15] && ~opB[15]));
-	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;	// TODO change logic
+	BLTZ  : Out = (opA[15]) ? 16'hFFFF : 16'h0000;	// opA less than zero
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;		
 	LBI   : Out = opB;
 	SLBI  : Out = {opA[7:0], 8'b0} | opB;
-	JR		: Out = add_Sum;
+	JR    : Out = add_Sum;
 	JALR  : Out = add_Sum;
 	RET   : Out = opB;		// Output R7 (opB)
 	SIIC  : Out = 16'b0; 	// Don't care
-   RTI   : Out = 16'b0;		// TODO - once we figure out EPC
+        RTI   : Out = 16'b0;		// TODO - once we figure out EPC
 	NOP   : Out = 16'b0;		// Don't care	- 00001 flavor
 	HALT  : Out = 16'b0;		// Don't care
         default:

@@ -88,7 +88,7 @@ module alu_operand_decode (instr, rsVal, rtVal, opA, opB);
 	7'b00111xx : // JALR
 	  opBVal = {{8{instr[7]}}, instr[7:0]};		// sign extended immediate
 	7'b01110xx : // RET
-	  opBVal = 16'b0;	// Don't care
+	  opBVal = rtVal;
 	7'b00010xx : // SIIC
 	  opBVal = 16'b0;  // Don't care
 	7'b00011xx : // RTI
