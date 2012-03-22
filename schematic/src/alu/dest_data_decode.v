@@ -75,7 +75,11 @@ module dest_data_decode (instr, pc_inc, alu_out, mem_out, rdata);
 	7'b00110xx : // JAL
 	  rdata = pc_inc;
 	7'b00111xx : // JALR
-	  rdata = pc_inc;   
+	  rdata = pc_inc;
+
+	/* Write back to Rs */
+	7'b10011xx : // STU
+	  rdata = alu_out;   
 
 	default	  : rdata = 16'b0;
       endcase
