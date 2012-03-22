@@ -51,7 +51,6 @@ module t_ALU_bench();
    // Instantiate
    ALU alu (.A(a),
             .B(b),
-            .Cin(cin),
             .Op(op),
             .sign(sign),
             .Out(out),
