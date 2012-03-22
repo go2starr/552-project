@@ -156,7 +156,7 @@ module t_proc_bench();
       `info("ror r2, r1, r0");
       /****************************************/
       // result
-      `test(16'hFFFF, dut.rf.rf0.my_regs2.q, "sub r2, r0, r1");
+      `test(16'h1, dut.rf.rf0.my_regs2.q, "sub r2, r0, r1");
 
       /****************************************/
       `tic;
