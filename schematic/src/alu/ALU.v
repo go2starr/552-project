@@ -85,7 +85,7 @@ module ALU (
    assign OFL = sign ? OFL_signed : OFL_unsigned;
 
    // Zero detection
-  assign Zero = (opA == 0) ? 1'b1 : 1'b0;		// Zero gets 1'b1 if opA == 0
+  assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 if opA == 0
 
    
    // Opcode decode   // TODO finish filling in operations
@@ -120,6 +120,7 @@ module ALU (
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
 	SCO   : Out = 16'b0;			// TODO
 	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;
+	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;
 	LBI   : Out = opB;
 	SLBI  : Out = 16'b0;		// TODO
 	JR		: Out = add_Sum;
