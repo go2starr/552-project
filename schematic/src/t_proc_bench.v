@@ -277,9 +277,47 @@ module t_proc_bench();
 
       `info("slbi r0, 0xb");
       `test(16'h020b, dut.rf.my_regs1.q, "slbi");
-      
-      
 
+      /************************************************************
+       *  STU
+       * ************************************************************/
+      `tic;                     // lbi
+      
+      `test(3'h01, dut.rf.writeregsel, "RF write reg sel should be 1 on stu");
+      `test(16'h04, dut.rf.writedata, "RF write data should be 0x04 on stu");
+      `test(16'h04, dut.alu.Out, "ALU output on alu");
+      `test(16'h02, dut.alu.A, "ALU input A");
+      `test(16'h02, dut.alu.B, "ALU input B");
+
+      /************************************************************
+       *   JAL
+       * ************************************************************/
+      `tic;                     // stu
+
+      $display("Instr: %h", dut.add.instr);
+      $display("Op: %h", dut.add.op);
+      $display("WE: %b", dut.add.we_reg);
+      $display("RD: %h", dut.add.rd);
+
+      `test(16'h3002, dut.instr, "Instruction should be JAL");
+      `test(16'h3002, dut.add.instr, "ADD internal instr");
+      `test(5'd22, dut.alu.Op, "ALU op should be JAL");
+      `test(3'd7, dut.add.rd, "ADD dest should be 7");
+
+      `test(dut.pc+2+2, dut.next_pc, "Next pc should be +4");
+      `test(dut.pc+2, dut.rf_wd, "Should write pc+2 to r7");
+      
+      $display("%h", dut.rf.writedata);
+      $display("%h", dut.rf.writeregsel);      
+      
+      $display("%h", dut.pc);
+      
+      `tic;                     // jal
+
+      `test(16'h2e, dut.pc, "PC should increment by 4");
+      
+      
+      
       `info("Tests complete");
       $finish;
    end   

@@ -29,3 +29,12 @@
 
 //   TEST SLBI
         slbi    r1, 0xb
+
+//   TEST STU
+        lbi     r1, 2
+        stu     r2, r1, 2
+
+//   TEST JAL
+        jal     2
+        nop
+        addi    r2, r0, 0
