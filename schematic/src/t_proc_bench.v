@@ -234,7 +234,30 @@ module t_proc_bench();
 
       `tic;
       `info("ori r2, r0, 0x10");
-      `test(16'h 11, dut.rf.rf0.my_regs2.q, "ori r2, r0, 0x10");      
+      `test(16'h 11, dut.rf.rf0.my_regs2.q, "ori r2, r0, 0x10");
+      /************************************************************
+      *   SLBI
+      ************************************************************/
+      `test(16'h900b, dut.instr, "Instruction should be slbi");
+      `test(20, dut.alu.Op, "ALU op should be slbi(20)");
+      `test(16'h01, dut.alu.opA, "ALU opA should be r0(0x01)");
+
+      `test(3'h00, dut.rf_rs1, "rf_rs1 should be 0x01");
+      `test(3'h00, dut.rf.rf_rs1, "rf regsel1 should be 0x01");
+      `test(16'h01, dut.rf.rf_rd1, "rf readdata1 should be 0x01");
+
+      $display("%h : %h", dut.rf.read1regsel, dut.rf.read1data);
+      
+
+      `test(16'h01, dut.aopd.opA, "alu op decode opA should be r0(0x01)");
+      `test(16'h0b, dut.aopd.opB, "alu op decode opB should be 0x0b");
+      `test(16'h01, dut.aopd.rsVal, "alu op decode input rsVal should be 0x01");
+
+
+      
+      `tic;
+      `info("slbi r0, 0xb");
+      `test(16'h010b, dut.rf.rf0.my_regs2.q, "slbi");
       
       
 

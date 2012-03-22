@@ -122,7 +122,7 @@ module ALU (
 	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;
 	LBI   : Out = opB;
-	SLBI  : Out = 16'b0;		// TODO
+	SLBI  : Out = {opA[7:0], 8'b0} | opB;
 	JR		: Out = add_Sum;
 	JALR  : Out = add_Sum;
 	RET   : Out = opB;		// Output R7 (opB)

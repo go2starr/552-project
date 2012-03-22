@@ -16,8 +16,6 @@ module rf (
    output [(WIDTH-1):0] read1data;
    output [(WIDTH-1):0] read2data;
    output        err;
-   
-   // TODO parameter WIDTH = 16;
   
    wire [(WIDTH-1):0] readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7;
    wire [(WIDTH-1):0] writeData0, writeData1, writeData2, writeData3, writeData4, writeData5, writeData6, writeData7;
@@ -37,17 +35,17 @@ module rf (
    register my_regs7 (.d(writeData7), .q(readData7), .clk(clk), .rst(rst), .we(1'b1));
 
    
-   assign writeData0 = (write & (writeregsel == 3'b000)) ? writedata : writeData0;
-   assign writeData1 = (write & (writeregsel == 3'b001)) ? writedata : writeData1;
-   assign writeData2 = (write & (writeregsel == 3'b010)) ? writedata : writeData2;
-   assign writeData3 = (write & (writeregsel == 3'b011)) ? writedata : writeData3;
-   assign writeData4 = (write & (writeregsel == 3'b100)) ? writedata : writeData4;
-   assign writeData5 = (write & (writeregsel == 3'b101)) ? writedata : writeData5;
-   assign writeData6 = (write & (writeregsel == 3'b110)) ? writedata : writeData6;
-   assign writeData7 = (write & (writeregsel == 3'b111)) ? writedata : writeData7; 
+   assign writeData0 = (write & (writeregsel == 3'b000)) ? writedata : readData0;
+   assign writeData1 = (write & (writeregsel == 3'b001)) ? writedata : readData1;
+   assign writeData2 = (write & (writeregsel == 3'b010)) ? writedata : readData2;
+   assign writeData3 = (write & (writeregsel == 3'b011)) ? writedata : readData3;
+   assign writeData4 = (write & (writeregsel == 3'b100)) ? writedata : readData4;
+   assign writeData5 = (write & (writeregsel == 3'b101)) ? writedata : readData5;
+   assign writeData6 = (write & (writeregsel == 3'b110)) ? writedata : readData6;
+   assign writeData7 = (write & (writeregsel == 3'b111)) ? writedata : readData7; 
 
 
-   always@(read1regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7) begin
+   always@(*) begin
      case (read1regsel)
        3'b000: outData1 = readData0;
        3'b001: outData1 = readData1; 
