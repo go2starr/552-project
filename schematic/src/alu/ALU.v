@@ -59,6 +59,7 @@ module ALU (
    // Wires - adder
    wire [15:0]       add_Sum;
    wire              add_CO, add_P, add_G;
+   wire [15:0]       btr_rd;              
 
    // Wires - sign detection
    wire              OFL_signed, OFL_unsigned;
@@ -72,6 +73,7 @@ module ALU (
                     .CO(add_CO), 
                     .Ggroup(add_G),
                     .Pgroup(add_P));
+   btr_calc btr(.Rs(opA), .Rd(btr_rd));
 
    // Operands
    assign opA = ((Op == SUB) ? B : A);
@@ -85,10 +87,10 @@ module ALU (
    assign OFL = sign ? OFL_signed : OFL_unsigned;
 
    // Zero detection
-  assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 if opA == 0
+  assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 if opA (ie Rs) == 0
 
    
-   // Opcode decode   // TODO finish filling in operations
+   // Opcode decode 
    always @(*) begin
       case (Op)
         ADD   : Out = add_Sum;
@@ -110,26 +112,24 @@ module ALU (
 	   Out = shifter_Out;
 	end
 	OR    : Out = opA | opB;
-        AND   : Out = opA & opB;
+   AND   : Out = opA & opB;
 	LD	   : Out = add_Sum;
 	ST    : Out = add_Sum; 
 	STU   : Out = add_Sum;
-	BTR   : Out = 16'b0;			// TODO
+	BTR   : Out = btr_rd;
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
 	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
-	SCO   : Out = 16'b0;			// TODO
 	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;
 	LBI   : Out = opB;
 	SLBI  : Out = {opA[7:0], 8'b0} | opB;
 	JR		: Out = add_Sum;
-	JAL   : Out = 16'b0;		// Don't care
 	JALR  : Out = add_Sum;
 	RET   : Out = opB;		// Output R7 (opB)
 	SIIC  : Out = 16'b0; 	// Don't care
-        RTI   : Out = 16'b0;		// Don't care
-	NOP   : Out = 16'b0;		// Don't care
+   RTI   : Out = 16'b0;		// TODO - once we figure out EPC
+	NOP   : Out = 16'b0;		// Don't care	- 00001 flavor
 	HALT  : Out = 16'b0;		// Don't care
         default:
           Out = 16'hbadadd;

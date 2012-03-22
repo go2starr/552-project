@@ -65,25 +65,11 @@ module t_brj_addr_calc_bench ();
 		compare (16'b0000111 + pc, dest_addr);
 
 		////////////////////////////////////////
-      $display("Testing JR...");
-      ////////////////////////////////////////
-		instr = 16'b0010100000000001;
-		#2;
-		compare (16'b0001 + pc, dest_addr);
-
-		////////////////////////////////////////
       $display("Testing JAL...");
       ////////////////////////////////////////
 		instr = 16'b0011000000000011;
 		#2;
 		compare (16'b00011 + pc, dest_addr);
-
-		////////////////////////////////////////
-      $display("Testing JALR...");
-      ////////////////////////////////////////
-		instr = 16'b0011100000000001;
-		#2;
-		compare (16'b0001 + pc, dest_addr);
       
       $display("Testing finished:   Num Errors = %d", numErrors);
    	$finish;
