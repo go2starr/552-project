@@ -93,7 +93,7 @@ module proc(
     *  Execute Stage
     *********************************************************************************/
    wire [15:0] alu_op1, alu_op2, alu_out, brj_dest_addr;
-   wire        cin, alu_ofl, alu_zero, alu_signed;
+   wire        cin, alu_ofl, alu_zero, alu_signed, bt, alu_ltz;
 
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
@@ -132,8 +132,16 @@ module proc(
            .Zero(alu_zero)
            );
 
+	branch_logic bl (.op(instr[15:11]), 
+						  .zero(alu_zero), 
+						  .ltz(alu_ltz), 
+						  .bt(bt));
+
+
    // Calculate branch/jump destination address
-   brj_addr_calc bac (.instr(instr), .pc_inc(pc), .dest_addr(brj_dest_addr)); 
+   brj_addr_calc bac (.instr(instr), 
+							 .pc_inc(pc), 
+							 .dest_addr(brj_dest_addr)); 
    
 
    /********************************************************************************
@@ -178,6 +186,6 @@ module proc(
     *
     *********************************************************************************/
    assign err = 0;
-	assign bt = 1'b1;
+	assign alu_ltz = 1'b1;
 
 endmodule // proc
