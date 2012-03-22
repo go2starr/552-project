@@ -85,8 +85,7 @@ module ALU (
    assign OFL = sign ? OFL_signed : OFL_unsigned;
 
    // Zero detection
-   assign Zero = (Out == 0) &&
-                 (Op == ADD); // Not logical operations
+  assign Zero = (opA == 0) ? 1'b1 : 1'b0;		// Zero gets 1'b1 if opA == 0
 
    
    // Opcode decode   // TODO finish filling in operations
@@ -120,16 +119,13 @@ module ALU (
 	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
 	SCO   : Out = 16'b0;			// TODO
-	BEQZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA == 0
-	BNEZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA != 0
-	BLTZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA < 0
+	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;
 	LBI   : Out = opB;
 	SLBI  : Out = 16'b0;		// TODO
-	JINST : Out = opB;   // Outputs displacement value to be added to 2 + PC
 	JR		: Out = add_Sum;
 	JAL   : Out = 16'b0;		// Don't care
 	JALR  : Out = add_Sum;
-	RET   : Out = 16'b0;		// Don't care
+	RET   : Out = opB;		// Output R7 (opB)
 	SIIC  : Out = 16'b0; 	// Don't care
         RTI   : Out = 16'b0;		// Don't care
 	NOP   : Out = 16'b0;		// Don't care

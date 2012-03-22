@@ -68,7 +68,7 @@ module proc(
 
    // Assign Rs, Rt
    assign rf_rs1 = instr[10:8]; // Rs
-   assign rf_rs2 = instr[7:5];  // Rt
+   assign rf_rs2 = (alu_op != 5'b01110) ? instr[7:5] : 3'b111;  // Rt, R7 upon RET instr
 
    /********************************************************************************
     *  Fetch Stage ???
