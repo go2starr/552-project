@@ -132,7 +132,7 @@ module ALU (
 	NOP   : Out = 16'b0;		// Don't care	- 00001 flavor
 	HALT  : Out = 16'b0;		// Don't care
         default:
-          Out = 16'hbadadd;
+         Out = 16'hbada;
       endcase
    end
    
