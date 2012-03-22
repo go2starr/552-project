@@ -38,3 +38,8 @@
         jal     2
         nop
         addi    r2, r0, 0
+
+//   TEST SLT
+        lbi     r0, 1
+        lbi     r1, 10
+        slt     r2, r0, r1
