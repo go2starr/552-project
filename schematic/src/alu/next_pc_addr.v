@@ -32,13 +32,13 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, next_pc);
 							next_pc = brj_dest;	
 						  end
 			5'b00101 : begin  // JR
-							next_pc = brj_dest;
+							next_pc = alu_out;
 						  end
 			5'b00110 : begin  // JAL
 							next_pc = brj_dest;
 						  end
 			5'b00111 : begin  // JALR
-							next_pc = brj_dest;
+							next_pc = alu_out;
 						  end
 			5'b01110 : begin  // RET
 							next_pc = alu_out;

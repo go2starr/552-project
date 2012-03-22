@@ -78,9 +78,9 @@ task compare;
       $display("Testing JR...");
       ////////////////////////////////////////
 		instr = 16'b0010100000000001;
-		brj_dest = 16'h0a0a;
+		alu_out = 16'h0a0a;
 		#2;
-		compare (brj_dest, npc);
+		compare (alu_out, npc);
 
 		////////////////////////////////////////
       $display("Testing JAL...");
@@ -95,9 +95,9 @@ task compare;
       $display("Testing JALR...");
       ////////////////////////////////////////
 		instr = 16'b0011100000000001;
-		brj_dest = 16'h8989;
+		alu_out = 16'h8989;
 		#2;
-		compare (brj_dest, npc);
+		compare (alu_out, npc);
 
 		///////////////////////////////////////
 		$display("Testing RET");

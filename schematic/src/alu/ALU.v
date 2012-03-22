@@ -110,7 +110,7 @@ module ALU (
 	   Out = shifter_Out;
 	end
 	OR    : Out = opA | opB;
-        AND   : Out = opA & opB;
+   AND   : Out = opA & opB;
 	LD	   : Out = add_Sum;
 	ST    : Out = add_Sum; 
 	STU   : Out = add_Sum;
@@ -124,11 +124,10 @@ module ALU (
 	LBI   : Out = opB;
 	SLBI  : Out = 16'b0;		// TODO
 	JR		: Out = add_Sum;
-	JAL   : Out = 16'b0;		// Don't care
 	JALR  : Out = add_Sum;
 	RET   : Out = opB;		// Output R7 (opB)
 	SIIC  : Out = 16'b0; 	// Don't care
-        RTI   : Out = 16'b0;		// Don't care
+   RTI   : Out = 16'b0;		// Don't care
 	NOP   : Out = 16'b0;		// Don't care
 	HALT  : Out = 16'b0;		// Don't care
         default:
