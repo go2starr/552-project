@@ -131,11 +131,12 @@ module alu_destination_decode (instr, rd, we_reg);
 	  we_reg = 1'b1;
 	  end
 
-   /* No write */ 
-	7'b10011xx : begin // STU
-	  we_reg = 1'b1;
+  	7'b10011xx : begin // STU
 	  rd = rd_ld_imm;
+	  we_reg = 1'b1;
 	  end
+
+   /* No write */ 
 	7'b10000xx : // ST
      we_reg = 1'b0;   
 	7'b01100xx : // BEQZ
