@@ -214,11 +214,30 @@ module t_proc_bench();
       // result
       `test(16'h1, dut.rf.rf0.my_regs2.q, "slt r2, r1, r0");
 
+      $display("%h", dut.alu_op);
+      
+      `test(3'h00, dut.rf_rs1, "rf rdselect1 should be 00");      
+      `test(3'h01, dut.rf_rs2, "rf rdselect2 should be 01");
+
+      `test(3'h00, dut.rf.read1regsel, "rf internal select1 should be 0");
+      `test(3'h01, dut.rf.read2regsel, "rf internal select2 should be 1");      
+      
+      `test(16'h01, dut.rf.rf0.my_regs0.q, "reg0 should hold 01");
+      `test(16'h01, dut.rf_rd1, "regData1 should be 01");
+      `test(16'h02, dut.rf.rf0.my_regs1.q, "reg1 should hold 02");
+      `test(16'h02, dut.rf_rd2, "regData2 should be 02");      
+
+      
+      `test(16'h01, dut.alu.opA, "slt opA should be 0x01");
+      `test(16'h02, dut.alu.opB, "slt opA should be 0x02");      
+      
+      
       /****************************************/
       `tic;
+      // addi
       /****************************************/
       // result
-      `test(16'h1, dut.rf.rf0.my_regs2.q, "sle r2, r1, r0");
+      `test(16'h1, dut.rf.rf0.my_regs2.q, "sle r2, r0, r1");
 
 
       /************************************************************
