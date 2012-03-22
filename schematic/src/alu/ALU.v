@@ -118,7 +118,6 @@ module ALU (
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
 	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
-	SCO   : Out = 16'b0;			// TODO
 	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;
 	LBI   : Out = opB;
