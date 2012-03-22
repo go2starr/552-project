@@ -1,9 +1,9 @@
-module branch_logic (op, zero, ltz, bt);
+module branch_logic (op, zero, top_alu, bt);
 	
 	// inputs
 	input [4:0] op;
 	input zero;
-	input ltz;
+	input top_alu;
 	
 	// outputs
 	output reg bt;
@@ -17,7 +17,7 @@ module branch_logic (op, zero, ltz, bt);
 		case (op)
 			BEQZ : bt = (zero == 1'b1) ? 1'b1 : 1'b0;
 			BNEZ : bt = (zero == 1'b1) ? 1'b0 : 1'b1;
-			BLTZ : bt = (zero == 1'b0 && ltz == 1'b1) ? 1'b1 : 1'b0;		
+			BLTZ : bt = (zero == 1'b0 && top_alu == 1'b1) ? 1'b1 : 1'b0;		
 		endcase
 	end
 endmodule

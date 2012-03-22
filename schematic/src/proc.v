@@ -93,7 +93,7 @@ module proc(
     *  Execute Stage
     *********************************************************************************/
    wire [15:0] alu_op1, alu_op2, alu_out, brj_dest_addr;
-   wire        cin, alu_ofl, alu_zero, alu_signed, bt, alu_ltz;
+   wire        cin, alu_ofl, alu_zero, alu_signed, bt;
 
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
@@ -134,7 +134,7 @@ module proc(
 
 	branch_logic bl (.op(instr[15:11]), 
 						  .zero(alu_zero), 
-						  .ltz(alu_ltz), 
+						  .top_alu(alu_out[15]), 
 						  .bt(bt));
 
 
@@ -186,6 +186,5 @@ module proc(
     *
     *********************************************************************************/
    assign err = 0;
-	assign alu_ltz = 1'b1;
 
 endmodule // proc
