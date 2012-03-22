@@ -13,15 +13,18 @@ fi
 
 
 # Run processor simulation
-wsrun.pl -prog $1 proc_hier_bench `find ../../ | grep ".*\.v$"`
+#wsrun.pl -prog $1 proc_hier_bench `find ../../ | grep ".*\.v$"`
+
+wsrun_mumble.pl -prog $1 proc_hier_bench `find ../../ | grep ".*\.v$"`
+
 
 # Run emulator
-wiscalculator_mumble loadfile_all.img > wiscalculator.out
-cat wiscalculator.out | grep INUM > wiscalculator.inum.out
+#wiscalculator_mumble loadfile_all.img > wiscalculator.out
+#cat wiscalculator.out | grep INUM > wiscalculator.inum.out
 
 # Diff output
-echo
-echo
-echo
-echo ================== DIFF ======================
-diff verilogsim.trace wiscalculator.inum.out
+#echo
+#echo
+#echo
+#echo ================== DIFF ======================
+#diff verilogsim.trace wiscalculator.inum.out
