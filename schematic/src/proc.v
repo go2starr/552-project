@@ -26,8 +26,23 @@ module proc(
                    .rst(rst),
                    .we(1'b1));
 
+	add16 incpc (.A(16'h0002), 
+					 .B(pc),
+					 .CI (1'b0), 
+					 .Sum(pc_inc), 
+					 .CO(), 
+					 .Ggroup(), 
+					 .Pgroup()
+					 );
+
    // Next-pc logic
-   assign next_pc = pc + 2;
+  	next_pc_addr npca (.instr(instr), 
+							 .pc_inc(pc_inc), 
+							 .alu_out(alu_out), 
+							 .brj_dest(brj_dest_addr), 
+							 .bt(bt), 
+							 .next_pc(next_pc)
+							 );
 
    // Instruction memory
    memory2c instr_mem (
@@ -36,7 +51,7 @@ module proc(
 		       .addr (pc),
 		       .enable (1'b1),
 		       .wr(1'b0),
-		       .createdump(1'b0),	// TODO change to correct value
+		       .createdump(1'b0),
 		       .clk (clk),
 		       .rst(rst),
 		       // Outputs
@@ -53,10 +68,10 @@ module proc(
 
    // Assign Rs, Rt
    assign rf_rs1 = instr[10:8]; // Rs
-   assign rf_rs2 = instr[7:5];  // Rt
+   assign rf_rs2 = (alu_op != 5'b01110) ? instr[7:5] : 3'b111;  // Rt, R7 upon RET instr
 
    /********************************************************************************
-    *  Fetch Stage
+    *  Fetch Stage ???
     *********************************************************************************/
    // RF fetching
    rf_bypass rf(
@@ -77,8 +92,8 @@ module proc(
    /********************************************************************************
     *  Execute Stage
     *********************************************************************************/
-   wire [15:0] alu_op1, alu_op2, alu_out;
-   wire        cin, alu_ofl, alu_zero, alu_signed;
+   wire [15:0] alu_op1, alu_op2, alu_out, brj_dest_addr;
+   wire        cin, alu_ofl, alu_zero, alu_signed, bt;
 
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
@@ -104,7 +119,7 @@ module proc(
                               .instr(instr),
                               // Outputs
                               .rd(rf_ws),
-			      .we_reg (rf_wr)
+			     					   .we_reg (rf_wr)
                               );
 
    // ALU
@@ -117,7 +132,16 @@ module proc(
            .Zero(alu_zero)
            );
 
-   
+	branch_logic bl (.op(instr[15:11]), 
+						  .zero(alu_zero), 
+						  .top_alu(alu_out[15]), 
+						  .bt(bt));
+
+
+   // Calculate branch/jump destination address
+   brj_addr_calc bac (.instr(instr), 
+							 .pc_inc(pc), 
+							 .dest_addr(brj_dest_addr)); 
    
 
    /********************************************************************************
@@ -149,6 +173,8 @@ module proc(
     *  Write Stage
     *********************************************************************************/  
     wire [15:0] mem_out;
+
+	 // determine which data to write back into the register file
     dest_data_decode ddd (.instr(instr), 
 			  .pc_inc(pc), 
 			  .alu_out(alu_out), 
@@ -160,4 +186,5 @@ module proc(
     *
     *********************************************************************************/
    assign err = 0;
+
 endmodule // proc
