@@ -59,6 +59,7 @@ module ALU (
    // Wires - adder
    wire [15:0]       add_Sum;
    wire              add_CO, add_P, add_G;
+   wire [15:0]       btr_rd;              
 
    // Wires - sign detection
    wire              OFL_signed, OFL_unsigned;
@@ -72,6 +73,7 @@ module ALU (
                     .CO(add_CO), 
                     .Ggroup(add_G),
                     .Pgroup(add_P));
+   btr_calc btr(.Rs(opA), .Rd(btr_rd));
 
    // Operands
    assign opA = ((Op == SUB) ? B : A);
@@ -114,7 +116,7 @@ module ALU (
 	LD	   : Out = add_Sum;
 	ST    : Out = add_Sum; 
 	STU   : Out = add_Sum;
-	BTR   : Out = 16'b0;			// TODO
+	BTR   : Out = btr_rd;
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
 	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
