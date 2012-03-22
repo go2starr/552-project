@@ -11,6 +11,11 @@
 *.out
 *.log
 dumpfile
+*.ptrace
+*.trace
+*.dmem
+*.reg
+
 
 # Vim 
 *.swp
