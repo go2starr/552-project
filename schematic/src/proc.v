@@ -176,7 +176,7 @@ module proc(
 
    // determine which data to write back into the register file
    dest_data_decode ddd (.instr(instr), 
-			 .pc_inc(pc), 
+			 .pc_inc(pc_inc), 
 			 .alu_out(alu_out), 
 			 .mem_out(mem_out), 
 			 .rdata (rf_wd)
