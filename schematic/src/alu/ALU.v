@@ -119,7 +119,7 @@ module ALU (
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
 	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 
-	SCO   : Out = 16'b0;			// TODO
+	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;
 	BEQZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA == 0
 	BNEZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA != 0
 	BLTZ  : Out = opB;	// Outputs immediate value to be added to 2 + PC if OpA < 0
