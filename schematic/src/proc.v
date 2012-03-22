@@ -140,7 +140,7 @@ module proc(
 
    // Calculate branch/jump destination address
    brj_addr_calc bac (.instr(instr), 
-		      .pc_inc(pc), 
+		      .pc_inc(pc_inc), 
 		      .dest_addr(brj_dest_addr)); 
    
 

@@ -20,7 +20,6 @@ module brj_addr_calc (instr, pc_inc, dest_addr);
 	// Instantiations
 	add16 add (.A(sextVal), .B(pc_inc), .CI(1'b0), .Sum(dest_addr), .CO(co), .Ggroup(G), .Pgroup (P));
 
-
 	always @ (*) begin
 		case (op)
 			5'b01100 : begin  // BEQZ
