@@ -76,9 +76,10 @@ module ALU (
    btr_calc btr(.Rs(opA), .Rd(btr_rd));
 
    // Operands
-   assign opA = ((Op == SUB) ? B : A);
-   assign opB = ((Op == SUB) ? ~A : B);
-   assign Cin = ((Op == SUB) ? 1'b1  : 1'b0);
+   wire              sub = (Op == SUB) | (Op == SLT);
+   assign opA = sub ? B     : A;
+   assign opB = sub ? ~A    : B;
+   assign Cin = sub ? 1'b1  : 1'b0;
 
    // Overflow detection
    assign OFL_signed = ( opA[15] &  opB[15] & ~add_Sum[15]) |  // two negatives add to positive
@@ -112,14 +113,21 @@ module ALU (
 	   Out = shifter_Out;
 	end
 	OR    : Out = opA | opB;
-   AND   : Out = opA & opB;
-	LD	   : Out = add_Sum;
+        AND   : Out = opA & opB;
+	LD    : Out = add_Sum;
 	ST    : Out = add_Sum; 
 	STU   : Out = add_Sum;
 	BTR   : Out = btr_rd;
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
-	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;		// TODO change logic (ie not < ...)
-	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 		// TODO change logic
+	SLT   : Out = ~(opA ^ opB) &&
+                      ~(~opA[15] && opB[15]) && 
+                      ((~add_Sum[15] && ~OFL_signed) ||
+                      (opA[15] && ~opB[15]));
+
+	SLE   : Out = (opA == opB) || 
+                      ~(~opA[15] && opB[15]) && 
+                      ((~add_Sum[15] && ~OFL_signed) ||
+                       (opA[15] && ~opB[15]));
 	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;	// TODO change logic
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;		
 	LBI   : Out = opB;

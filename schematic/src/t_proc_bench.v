@@ -324,7 +324,7 @@ module t_proc_bench();
       `tic;                     // lbi
 
       `test(16'he828, dut.instr, "instruction is slt");
-      `test(1, dut.rf.my_regs0.q, "RF 0 should be 1");
+      `test(16'h7FFF, dut.rf.my_regs0.q, "RF 0 should be 1");
       `test(10, dut.rf.my_regs1.q, "RF 1 should be 10");
       `test(1, dut.rf_wd, "1 < 10?");
       
