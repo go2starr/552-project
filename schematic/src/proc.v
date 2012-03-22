@@ -12,11 +12,6 @@ module proc(
    // Outputs
    output err;
 
-   // Global signals
-   wire   halted;               // True if the processor is halted
-   
-
-   
    /********************************************************************************
     *  Fetch Stage
     *********************************************************************************/
@@ -128,13 +123,13 @@ module proc(
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
-	 wire we_mem, wr_mem, cd;
-
-	 mem_decode_logic mdl (.instr(instr), 
-			       .e_mem(e_mem),
-			       .wr_mem(wr_mem),
-			       .cd(cd)
-			       );
+   wire        we_mem, wr_mem, halt;
+   
+   mem_decode_logic mdl (.instr(instr), 
+			 .e_mem(e_mem),
+			 .wr_mem(wr_mem),
+			 .halt(halt)
+			 );
    
    memory2c data_mem (
    		      // Inputs
@@ -149,7 +144,7 @@ module proc(
 		      .data_out (mem_out)
 		      );
    
-
+   
    /********************************************************************************
     *  Write Stage
     *********************************************************************************/  
