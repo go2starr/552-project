@@ -9,6 +9,7 @@
 
 # Vim 
 *.swp
+*.swo
 
 # ignore project files
 *.mpf
@@ -64,3 +65,6 @@ simulation/
 *.sof!
 *.qpf!
 *.qsf
+
+# ignore dumpfile from halt
+bench/dumpfile*
