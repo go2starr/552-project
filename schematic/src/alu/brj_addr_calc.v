@@ -35,14 +35,8 @@ module brj_addr_calc (instr, pc_inc, dest_addr);
 			5'b00100 : begin	// J
 							sextVal = {{5{instr[10]}}, instr[10:0]};
 						  end
-			5'b00101 : begin	// JR
-							sextVal = {{8{instr[7]}}, instr[7:0]};
-						  end
 			5'b00110 : begin  // JAL
 							sextVal = {{5{instr[10]}}, instr[10:0]};
-						  end
-			5'b00111 : begin  // JALR
-							sextVal = {{8{instr[7]}}, instr[7:0]};
 						  end
 			default :  begin
 							sextVal = 16'b0;

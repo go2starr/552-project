@@ -126,8 +126,8 @@ module ALU (
 	JALR  : Out = add_Sum;
 	RET   : Out = opB;		// Output R7 (opB)
 	SIIC  : Out = 16'b0; 	// Don't care
-   RTI   : Out = 16'b0;		// Don't care
-	NOP   : Out = 16'b0;		// Don't care
+   RTI   : Out = 16'b0;		// TODO - once we figure out EPC
+	NOP   : Out = 16'b0;		// Don't care	- 00001 flavor
 	HALT  : Out = 16'b0;		// Don't care
         default:
           Out = 16'hbadadd;
