@@ -11,7 +11,7 @@ module alu_destination_decode (instr, rd, we_reg);
    assign rd_imm = instr[7:5];
    assign rd_reg = instr[4:2];
    assign rd_ld_imm = instr[10:8];
-	assign rd_r7 = 3'b111;
+   assign rd_r7 = 3'b111;
 
    // assigns
    wire [6:0] op;

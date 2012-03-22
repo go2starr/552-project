@@ -28,4 +28,4 @@
         ori     r2, r0, 0x10
 
 //   TEST SLBI
-        slbi    r0, 0xb
+        slbi    r1, 0xb

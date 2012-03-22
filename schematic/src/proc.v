@@ -74,7 +74,7 @@ module proc(
     *  Fetch Stage ???
     *********************************************************************************/
    // RF fetching
-   rf_bypass rf(
+   rf rf(
                 // Inputs
                 .err(err),
                 .clk(clk),

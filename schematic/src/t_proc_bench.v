@@ -69,7 +69,7 @@ module t_proc_bench();
       `tic;
       `info("lbi r1, 0x01");      
       /****************************************/
-      `test(16'h10, dut.rf.rf0.my_regs0.q, "R0 does not contain 0x10 after a lbi 0x10");
+      `test(16'h10, dut.rf.my_regs0.q, "R0 does not contain 0x10 after a lbi 0x10");
 
       // dut
       `test(16'h c101, dut.instr, "Instruction does not match: lbi r1, 0x01");
@@ -87,7 +87,7 @@ module t_proc_bench();
       `tic;
       `info("add r2, r0, r1");      
       /****************************************/
-      `test(16'h01, dut.rf.rf0.my_regs1.q, "R1 does not contain 0x01 after lbi r1, 0x01");
+      `test(16'h01, dut.rf.my_regs1.q, "R1 does not contain 0x01 after lbi r1, 0x01");
 
 
 
@@ -101,8 +101,8 @@ module t_proc_bench();
       `test(16'h 10, dut.rf.read1data, "RF read1 data is not 0x10");
       `test(16'h 01, dut.rf.read2data, "RF read2 data is not 0x01");      
       
-      `test(16'h 10, dut.rf.rf0.my_regs0.q, "RF did not hold value(0x10) for r0");
-      `test(16'h 01, dut.rf.rf0.my_regs1.q, "RF did not hold value(0x01) for r1");      
+      `test(16'h 10, dut.rf.my_regs0.q, "RF did not hold value(0x10) for r0");
+      `test(16'h 01, dut.rf.my_regs1.q, "RF did not hold value(0x01) for r1");      
       
       
       `test(3'h 0, dut.rf_rs1, "RF select 1 is not r0");
@@ -131,7 +131,7 @@ module t_proc_bench();
       `info("lbi r0, 0x01");      
       /****************************************/      
       // result
-      `test(16'h 11, dut.rf.rf0.my_regs2.q, "R0(0x10) + R1(0x01) not put into R2");
+      `test(16'h 11, dut.rf.my_regs2.q, "R0(0x10) + R1(0x01) not put into R2");
 
 
 
@@ -145,8 +145,8 @@ module t_proc_bench();
       `info("sub r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h 01, dut.rf.rf0.my_regs0.q, "lbi r0, 0x01 did not load");
-      `test(16'h 02, dut.rf.rf0.my_regs1.q, "lbi r1, 0x02 did not load");
+      `test(16'h 01, dut.rf.my_regs0.q, "lbi r0, 0x01 did not load");
+      `test(16'h 02, dut.rf.my_regs1.q, "lbi r1, 0x02 did not load");
 
       // alu
       `test(5'd 1, dut.alu.Op, "ALU opcode is not SUB (1)");
@@ -156,63 +156,63 @@ module t_proc_bench();
       `info("ror r2, r1, r0");
       /****************************************/
       // result
-      `test(16'h1, dut.rf.rf0.my_regs2.q, "sub r2, r0, r1");
+      `test(16'h1, dut.rf.my_regs2.q, "sub r2, r0, r1");
 
       /****************************************/
       `tic;
       `info("or r2, r0, r1");
       /****************************************/
       // result
-      `test(16'h1, dut.rf.rf0.my_regs2.q, "ror r2, r1, r0");
+      `test(16'h1, dut.rf.my_regs2.q, "ror r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("and r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h3, dut.rf.rf0.my_regs2.q, "or r2, r1, r0");
+      `test(16'h3, dut.rf.my_regs2.q, "or r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("rol r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h0, dut.rf.rf0.my_regs2.q, "and r2, r1, r0");
+      `test(16'h0, dut.rf.my_regs2.q, "and r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("sll r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h4, dut.rf.rf0.my_regs2.q, "rol r2, r1, r0");
+      `test(16'h4, dut.rf.my_regs2.q, "rol r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("sra r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h4, dut.rf.rf0.my_regs2.q, "sll r2, r1, r0");
+      `test(16'h4, dut.rf.my_regs2.q, "sll r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("seq r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h0, dut.rf.rf0.my_regs2.q, "sra r2, r1, r0");
+      `test(16'h0, dut.rf.my_regs2.q, "sra r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("slt r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h0, dut.rf.rf0.my_regs2.q, "seq r2, r1, r0");
+      `test(16'h0, dut.rf.my_regs2.q, "seq r2, r1, r0");
 
       /****************************************/
       `tic;
       `info("sle r2, r0, r1");      
       /****************************************/
       // result
-      `test(16'h1, dut.rf.rf0.my_regs2.q, "slt r2, r1, r0");
+      `test(16'h1, dut.rf.my_regs2.q, "slt r2, r1, r0");
 
       $display("%h", dut.alu_op);
       
@@ -222,9 +222,9 @@ module t_proc_bench();
       `test(3'h00, dut.rf.read1regsel, "rf internal select1 should be 0");
       `test(3'h01, dut.rf.read2regsel, "rf internal select2 should be 1");      
       
-      `test(16'h01, dut.rf.rf0.my_regs0.q, "reg0 should hold 01");
+      `test(16'h01, dut.rf.my_regs0.q, "reg0 should hold 01");
       `test(16'h01, dut.rf_rd1, "regData1 should be 01");
-      `test(16'h02, dut.rf.rf0.my_regs1.q, "reg1 should hold 02");
+      `test(16'h02, dut.rf.my_regs1.q, "reg1 should hold 02");
       `test(16'h02, dut.rf_rd2, "regData2 should be 02");      
 
       
@@ -237,7 +237,7 @@ module t_proc_bench();
       // addi
       /****************************************/
       // result
-      `test(16'h1, dut.rf.rf0.my_regs2.q, "sle r2, r0, r1");
+      `test(16'h1, dut.rf.my_regs2.q, "sle r2, r0, r1");
 
 
       /************************************************************
@@ -245,38 +245,38 @@ module t_proc_bench();
        ************************************************************/
       `tic;
       `info("addi r2, r0, 0x09");
-      `test(16'h 0a, dut.rf.rf0.my_regs2.q, "addi r2, r0, 0x09");
+      `test(16'h 0a, dut.rf.my_regs2.q, "addi r2, r0, 0x09");
 
       `tic;
       `info("subi r2, r0, 0x01");
-      `test(16'h 00, dut.rf.rf0.my_regs2.q, "subi r2, r0, 0x01");
+      `test(16'h 00, dut.rf.my_regs2.q, "subi r2, r0, 0x01");
 
       `tic;
       `info("ori r2, r0, 0x10");
-      `test(16'h 11, dut.rf.rf0.my_regs2.q, "ori r2, r0, 0x10");
+      `test(16'h 11, dut.rf.my_regs2.q, "ori r2, r0, 0x10");
       /************************************************************
       *   SLBI
       ************************************************************/
-      `test(16'h900b, dut.instr, "Instruction should be slbi");
+      `test(16'h910b, dut.instr, "Instruction should be slbi");
       `test(20, dut.alu.Op, "ALU op should be slbi(20)");
-      `test(16'h01, dut.alu.opA, "ALU opA should be r0(0x01)");
+      `test(16'h02, dut.alu.opA, "ALU opA should be r1(0x02)");
 
-      `test(3'h00, dut.rf_rs1, "rf_rs1 should be 0x01");
-      `test(3'h00, dut.rf.rf_rs1, "rf regsel1 should be 0x01");
-      `test(16'h01, dut.rf.rf_rd1, "rf readdata1 should be 0x01");
-
-      $display("%h : %h", dut.rf.read1regsel, dut.rf.read1data);
+      `test(3'h01, dut.rf_rs1, "rf_rs1 should be 0x01");
+      `test(16'h02, dut.rf.rf_rd1, "rf readdata1 should be 0x01");
       
-
-      `test(16'h01, dut.aopd.opA, "alu op decode opA should be r0(0x01)");
+      `test(16'h02, dut.aopd.opA, "alu op decode opA should be r0(0x01)");
       `test(16'h0b, dut.aopd.opB, "alu op decode opB should be 0x0b");
-      `test(16'h01, dut.aopd.rsVal, "alu op decode input rsVal should be 0x01");
+      `test(16'h02, dut.aopd.rsVal, "alu op decode input rsVal should be 0x01");
+      `test(16'h20b, dut.alu.Out, "alu output should be 0x10b");
 
-
+      `test(16'h20b, dut.rf.writedata, "RF write data should be correct");
+      `test(3'h01, dut.rf.writeregsel, "RF write select should be correct");
+      `test(1'b1, dut.rf.write, "RF write should be enabled");
       
       `tic;
+
       `info("slbi r0, 0xb");
-      `test(16'h010b, dut.rf.rf0.my_regs2.q, "slbi");
+      `test(16'h020b, dut.rf.my_regs1.q, "slbi");
       
       
 

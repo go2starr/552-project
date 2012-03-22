@@ -59,7 +59,7 @@ module rf (
    end
 
    
-   always@(read2regsel, readData0, readData1, readData2, readData3, readData4, readData5, readData6, readData7) begin
+   always@(*) begin
      case (read2regsel)
        3'b000: outData2 = readData0;
        3'b001: outData2 = readData1; 
