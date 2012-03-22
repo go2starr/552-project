@@ -12,7 +12,6 @@ module proc(
    // Outputs
    output err;
 
-   
    /********************************************************************************
     *  Fetch Stage
     *********************************************************************************/
@@ -140,28 +139,28 @@ module proc(
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
-	 wire we_mem, wr_mem, cd;
-
-	 mem_decode_logic mdl (.instr(instr), 
-						    .e_mem(e_mem),
-							 .wr_mem(wr_mem),
-							 .cd(cd)
-				          );
- 
-	 memory2c data_mem (
-   		       // Inputs
-		       .data_in (rf_rd2),
-		       .addr (alu_out),
-		       .enable (e_mem),
-		       .wr(wr_mem),
-		       .createdump(cd),	
-		       .clk (clk),
-		       .rst(rst),
-		       // Outputs
-		       .data_out (mem_out)
-		       );
-
-
+   wire        we_mem, wr_mem, halt;
+   
+   mem_decode_logic mdl (.instr(instr), 
+			 .e_mem(e_mem),
+			 .wr_mem(wr_mem),
+			 .halt(halt)
+			 );
+   
+   memory2c data_mem (
+   		      // Inputs
+		      .data_in (rf_rd2),
+		      .addr (alu_out),
+		      .enable (e_mem),
+		      .wr(wr_mem),
+		      .createdump(cd),	
+		      .clk (clk),
+		      .rst(rst),
+		      // Outputs
+		      .data_out (mem_out)
+		      );
+   
+   
    /********************************************************************************
     *  Write Stage
     *********************************************************************************/  

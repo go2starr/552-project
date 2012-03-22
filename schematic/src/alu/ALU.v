@@ -74,8 +74,8 @@ module ALU (
                     .Pgroup(add_P));
 
    // Operands
-   assign opA = A;
-   assign opB = ((Op == SUB) ? ~B : B);
+   assign opA = ((Op == SUB) ? B : A);
+   assign opB = ((Op == SUB) ? ~A : B);
    assign Cin = ((Op == SUB) ? 1'b1  : 1'b0);
 
    // Overflow detection
