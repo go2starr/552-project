@@ -120,7 +120,7 @@ module ALU (
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
 	SLT   : Out = (opA < opB)  ? 16'h0001 : 16'h0000;		// TODO change logic (ie not < ...)
 	SLE   : Out = (opA <= opB) ? 16'h0001 : 16'h0000; 		// TODO change logic
-	BLTZ  : Out = (opA < 16'h0000) ? 16'hFFFF : 16'h0000;	// TODO change logic
+	BLTZ  : Out = (opA[15] == 1'b1) ? 16'hFFFF : 16'h0000;	// opA less than zero
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;		
 	LBI   : Out = opB;
 	SLBI  : Out = {opA[7:0], 8'b0} | opB;
