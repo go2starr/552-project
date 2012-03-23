@@ -88,11 +88,11 @@ module ALU (
    assign OFL = sign ? OFL_signed : OFL_unsigned;
 
    // Zero detection
-  assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 if opA (ie Rs) == 0
+  assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 opA (ie Rs) == 0
 
    
    // Opcode decode 
-   always @(*) begin
+   always @ (Op, add_Sum, shifter_Out, opA, opB, btr_rd) begin
       case (Op)
         ADD   : Out = add_Sum;
         SUB   : Out = add_Sum;
