@@ -45,7 +45,8 @@ module rf (
    assign writeData7 = (write & (writeregsel == 3'b111)) ? writedata : readData7; 
 
 
-   always@(*) begin
+   always @ (read1regsel, readData0, readData1, readData2, readData3, readData4, readData5,
+             readData6, readData7) begin
      case (read1regsel)
        3'b000: outData1 = readData0;
        3'b001: outData1 = readData1; 
@@ -57,9 +58,9 @@ module rf (
        3'b111: outData1 = readData7;
      endcase // case (read1regsel)
    end
-
    
-   always@(*) begin
+   always @ (read2regsel, readData0, readData1, readData2, readData3, readData4, readData5,
+             readData6, readData7) begin
      case (read2regsel)
        3'b000: outData2 = readData0;
        3'b001: outData2 = readData1; 
