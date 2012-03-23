@@ -6,6 +6,7 @@
 # Assembled files
 *.img
 *.lst
+*.list
 
 # Outputs
 *.out
