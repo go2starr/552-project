@@ -8,6 +8,9 @@
 *.lst
 *.list
 
+*.svf
+synth
+
 # Outputs
 *.out
 *.log

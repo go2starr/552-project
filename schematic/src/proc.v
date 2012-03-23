@@ -13,12 +13,43 @@ module proc(
    output err;
 
    /********************************************************************************
-    *  Fetch Stage
+    *   Wires
     *********************************************************************************/
+   /****************************************
+    *   Fetch
+    ****************************************/   
    // Wires
    wire [15:0] pc, pc_inc, pc_branch, next_pc; // Next pc logic
-   wire [15:0] instr; // Instruction read from instruction memory
+   wire [15:0] instr; // Instruction read from instruction memory   
+          
+   /****************************************
+    *   Execute
+    ****************************************/
+   wire [15:0] alu_op1, alu_op2, alu_out, brj_dest_addr;
+   wire        cin, alu_ofl, alu_zero, alu_signed, bt;
 
+   /****************************************
+    *   Decode
+    ****************************************/   
+   wire [4:0]  alu_op;
+   wire [2:0]  rf_rs1, rf_rs2, rf_ws; // Read/Write select
+   wire [15:0] rf_rd1, rf_rd2, rf_wd; // Read/Write data
+   wire        rf_wr;
+
+   /****************************************
+    *   Memory
+    ****************************************/      
+   wire        we_mem, wr_mem, halt, cd;   
+
+   /****************************************
+    *   Write
+    ****************************************/         
+   wire [15:0] mem_out;
+   
+
+   /********************************************************************************
+    *  Fetch Stage
+    *********************************************************************************/
    // PC
    register pc_reg(.q(pc), 
                    .d(next_pc), 
@@ -61,11 +92,6 @@ module proc(
    /********************************************************************************
     *  Decode Stage
     *********************************************************************************/
-   wire [4:0]  alu_op;
-   wire [2:0]  rf_rs1, rf_rs2, rf_ws; // Read/Write select
-   wire [15:0] rf_rd1, rf_rd2, rf_wd; // Read/Write data
-   wire        rf_wr;
-
    // Assign Rs, Rt
    assign rf_rs1 = instr[10:8]; // Rs
    assign rf_rs2 = (instr[15:11] != 5'b01110) ? instr[7:5] : 3'b111;  // Rt, R7 upon RET instr
@@ -92,9 +118,6 @@ module proc(
    /********************************************************************************
     *  Execute Stage
     *********************************************************************************/
-   wire [15:0] alu_op1, alu_op2, alu_out, brj_dest_addr;
-   wire        cin, alu_ofl, alu_zero, alu_signed, bt;
-
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
                            // Inputs
@@ -147,10 +170,8 @@ module proc(
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
-   wire        we_mem, wr_mem, halt;
-   
    mem_decode_logic mdl (.instr(instr), 
-			 .e_mem(e_mem),
+			 .e_mem(we_mem),
 			 .wr_mem(wr_mem),
 			 .halt(halt)
 			 );
@@ -159,7 +180,7 @@ module proc(
    		      // Inputs
 		      .data_in (rf_rd2),
 		      .addr (alu_out),
-		      .enable (e_mem),
+		      .enable (we_mem),
 		      .wr(wr_mem),
 		      .createdump(cd),	
 		      .clk (clk),
@@ -172,8 +193,6 @@ module proc(
    /********************************************************************************
     *  Write Stage
     *********************************************************************************/  
-   wire [15:0] mem_out;
-
    // determine which data to write back into the register file
    dest_data_decode ddd (.instr(instr), 
 			 .pc_inc(pc_inc), 
