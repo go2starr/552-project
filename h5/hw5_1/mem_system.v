@@ -37,26 +37,26 @@ module mem_system(/*AUTOARG*/
    // and createdump inputs to the 
    // cache modules
    cache #(0 + memtype) c0(
-									// Inputs
-									.enable(enable),
-						   .clk(clk), 
-						   .rst(rst), 
-						   .createdump(createdump),
-						   .tag_in(tag_in), 
-						   .index(index), 
-									.offset(offset), 
-						   .data_in(DataIn), 
-						   .comp(comp), 
-						  	.write(write), 
-									.valid_in(valid_in), 
-									// Outputs
-									.tag_out(tag_out), 
-									.data_out(DataOut), 
-									.hit(CacheHit), 
-									.dirty(dirty), 
-									.valid(valid), 
-									.err(err)
-									);
+	// Inputs
+      .enable(enable),
+	   .clk(clk), 
+	   .rst(rst), 
+	   .createdump(createdump),
+	   .tag_in(tag_in), 
+	   .index(index), 
+	   .offset(offset), 
+	   .data_in(DataIn), 
+	   .comp(comp), 
+	   .write(write), 
+	   .valid_in(valid_in), 
+	   // Outputs
+	   .tag_out(tag_out), 
+	   .data_out(DataOut), 
+	   .hit(CacheHit), 
+	   .dirty(dirty), 
+	   .valid(valid), 
+	   .err(err)
+	   );
    
 endmodule // mem_system
 
