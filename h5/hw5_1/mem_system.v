@@ -23,8 +23,8 @@ module mem_system(/*AUTOARG*/
 
    // Outputs
    output reg [15:0] DataOut;
-   output            Done;
-   output            Stall;
+   output reg        Done;
+   output reg        Stall;
    output            CacheHit;
    output reg        err;
 
@@ -89,6 +89,7 @@ module mem_system(/*AUTOARG*/
    assign cache_index  = Addr [15:11];
    assign cache_tag_in = Addr [10:3];
    assign cache_offset = (state != INSTALL_CACHE) ? Addr [2:0] : count;
+   assign CacheHit     = cache_hit && (state == COMPRD || state == COMPWR);
 
    /****************************************
     *  Memory
@@ -246,6 +247,7 @@ module mem_system(/*AUTOARG*/
       mem_wr = 0;
       mem_rd = 0;
       Stall = 0;
+      Done = 0;
       next_count = count;
       err = 0;
       
@@ -280,7 +282,8 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 0;     // Read
-	   Stall = 1;           // Stall processor
+	        Stall = 1;           // Stall processor
+           Done = cache_hit;
         end
 
         /*
@@ -295,14 +298,14 @@ module mem_system(/*AUTOARG*/
         MEMRD: begin
            mem_addr = { cache_index, cache_tag_in } + (count * 2); // Block base + word offset
            mem_rd = 1;
-	   Stall = 1;   
+	        Stall = 1;   
         end
 
         /*
          *  WAITSTATE - State entered while reading from mem
          */
         WAITSTATE: begin
-	   Stall = 1;
+	        Stall = 1;
            // Defaults
         end
 
@@ -327,6 +330,7 @@ module mem_system(/*AUTOARG*/
          *  send it out.
          */
         DONE: begin
+           Done = ~cache_hit;
            DataOut = cache_data_out;
         end
 
@@ -342,7 +346,8 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 1;     // Write
-	   Stall = 1;
+	        Stall = 1;
+           Done = cache_hit;  
         end
 
         /*
@@ -354,7 +359,7 @@ module mem_system(/*AUTOARG*/
            mem_addr = { cache_index, cache_tag_out } + (count * 2); // Block base + word offset
            mem_wr = 1;                                             // Write
            next_count = count + 1;                                 // Increment
-	   Stall = 1;
+	        Stall = 1;
         end
 
         /*
@@ -369,6 +374,7 @@ module mem_system(/*AUTOARG*/
          *  WRMISSDONE - "Write miss done."  
          */
         WRMISSDONE: begin
+           Done = 1;
            // Defaults
         end
       endcase

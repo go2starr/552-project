@@ -41,6 +41,11 @@ module t_mem_system_fsm_bench();
                    .rst(rst)
                    );
 
+/* output reg [15:0] DataOut;
+   output            Done;
+   output reg        Stall;
+   output            CacheHit;
+   output reg        err;*/
 
    
    initial clk = 0;
@@ -84,6 +89,10 @@ module t_mem_system_fsm_bench();
       
       `tic;
       `test(COMPRD, DUT.state, "FSM should transition to COMPRD on read");
+      // transition to COMPRD Outputs
+      `test(0, err, "No error occured");
+      `test(1, stall, "stall should occur");
+
 
       // COMPWR
       force DUT.state = IDLE;
@@ -94,10 +103,28 @@ module t_mem_system_fsm_bench();
       wr = 1;
       #1;
       `test(COMPWR, DUT.next_state, "DUT next state should be COMPWR");
+      // transition to COMPWR Outputs
+      `test(0, err, "No error occured");
+      `test(0, stall, "stall should not occur");
+
       
       `tic;
       `test(COMPWR, DUT.state, "FSM should transition to COMPWR on read in IDLE");
       
+      // ERR
+      force DUT.state = IDLE;
+      release DUT.state;
+      rd = 1;
+      wr = 1;
+      `tic;
+      `test(ERR, DUT.state, "FSM should transition to ERR");
+      // transition to ERR Outputs
+      `test(1, err, "Error occured so err output should be high.");
+      `test(0, done, "Is not done");
+      `test(0, stall, "stall should not occur");
+
+
+
       /****************************************
        * COMPRD transitions
        ******************************************/
@@ -114,6 +141,11 @@ module t_mem_system_fsm_bench();
       rd = 0; 
       `tic;
       `test(MEMRD, DUT.state, "FSM should transition to MEMRD");
+      // transition to MEMRD Outputs
+      `test(0, cache_hit, "Should have missed in the cache");
+      `test(0, done, "Is not done");
+      `test(0, err, "No error occured");
+      `test(1, stall, "stall should occur");
 
       // PREWBMEM
       force DUT.state = COMPRD;
@@ -123,6 +155,12 @@ module t_mem_system_fsm_bench();
       force DUT.cache_valid = 1;
       `tic;
       `test(PREWBMEM, DUT.state, "FSM should transition to PREWBMEM");
+      // transition to PREWBMEM Outputs
+      `test(0, cache_hit, "Should have missed in the cache");
+      `test(0, done, "Is not done");
+      `test(0, err, "No error occured");
+      `test(0, stall, "stall should not occur");
+
 
       // DONE
       force DUT.state = COMPRD;
@@ -130,7 +168,11 @@ module t_mem_system_fsm_bench();
       force DUT.cache_hit = 1;
       force DUT.cache_valid = 1;
       `tic;
-      `test(DONE, DUT.state, "FSM should transition to DONE");      
+      `test(DONE, DUT.state, "FSM should transition to DONE"); 
+      // transition to DONE Outputs
+      `test(0, err, "No error occured");
+      `test(0, stall, "stall should not occur");
+     
       
       /*************************************************
        * MEMRD transitions
@@ -142,13 +184,18 @@ module t_mem_system_fsm_bench();
       `tic;
       `tic;
       `test(MEMRD, DUT.state, "FSM should remain in MEMRD"); 
-     
+       
       // WAITSTATE
       force DUT.state = MEMRD;
       release DUT.state;
       force DUT.mem_stall = 0;
       `tic;
       `test(WAITSTATE, DUT.state, "FSM should transition to WAITSTATE");
+      // transition to WAITSTATE Outputs
+      `test(0, done, "Is not done");
+      `test(0, err, "No error occured");
+      `test(1, stall, "stall should occur");
+
 
       /************************************************
        * WAITSTATE transitions
@@ -182,6 +229,10 @@ module t_mem_system_fsm_bench();
       wr = 0;
       `tic;
       `test(DONE, DUT.state, "FSM should transition to DONE");
+      // transition to DONE Outputs
+      `test(0, err, "No error occured");
+      `test(0, stall, "stall should not occur");
+
 
       // WRMISSDONE
       force DUT.count = 2'b11;
@@ -191,6 +242,11 @@ module t_mem_system_fsm_bench();
       wr = 1;
       `tic;
       `test(WRMISSDONE, DUT.state, "FSM should transition to WRMISSDONE");
+      // transition to MEMRD Outputs
+      `test(0, cache_hit, "Cache missed, so cache_hit should be 0");
+      `test(0, err, "No error occured");
+      `test(0, stall, "stall should not occur");
+
     
       /*************************************
        * DONE transitions
@@ -199,7 +255,11 @@ module t_mem_system_fsm_bench();
       force DUT.state = DONE;
       release DUT.state;
       `tic;
-      `test(IDLE, DUT.state, "FSM should transition to IDLE"); 
+      `test(IDLE, DUT.state, "FSM should transition to IDLE");
+      // transition to IDLE Outputs
+      `test(0, err, "No error occured");
+      `test(0, stall, "stall should not occur");
+ 
 
       /******************************************
        * COMPWR transitions
