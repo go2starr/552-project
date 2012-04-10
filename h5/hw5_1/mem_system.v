@@ -69,7 +69,7 @@ module mem_system(/*AUTOARG*/
    // Assigns
    assign cache_index  = Addr [15:11];
    assign cache_tag_in = Addr [10:3];
-   assign cache_offset = Addr [2:0];
+   assign cache_offset = (state != INSTALL_CACHE) ? Addr [2:0] : count;
 
    /****************************************
     *  Memory
@@ -89,8 +89,15 @@ module mem_system(/*AUTOARG*/
     *  Internal
     * ****************************************/
    wire [3:0]    state;
-   reg [3:0]     next_state;   
+   reg [3:0]     next_state;
 
+   wire [1:0]    count;
+   reg [1:0]     next_count;
+
+   
+   /********************************************************************************
+    *  Modules
+    * ********************************************************************************/
    // You must pass the mem_type parameter 
    // and createdump inputs to the 
    // cache modules
@@ -157,21 +164,152 @@ end
    // Outputs:
    //   Cache:
    //     - enable
-   //     - 
+   //     - data_in
+   //     - comp
+   //     - write
+   //     - valid_in
+   //   Mem:
+   //     - addr
+   //     - data_in
+   //     - wr
+   //     - rd
+   //   Mem_System:
+   //     - err
    
    always @(*) begin
+      // Defaults
+      cache_enable = 0;
+      cache_data_in = 16'bx;
+      cache_comp = 1'bx;
+      cache_write = 0;
+      cache_valid_in = 0;
+
+      mem_addr = 16'bx;
+      mem_data_in = 16'bx;
+      mem_wr = 0;
+      mem_rd = 0;
+
+      err = 0;
+      
       case (state)
+        /*
+         *  ERR - Error state, unrecoverable.  err = 1
+         */
         ERR: begin
            err = 1;
         end
-        
+
+        /*
+         *  IDLE - No actions yet
+         */
         IDLE: begin
+           // Defaults
+        end
+
+        /*
+         *  COMPRD - This state occurs when proc. executes a load instruction.
+         *  The cache checks the tag_in at the specified index, and compares 
+         *  with the stored value (because comp = 1).
+         * 
+         *  If a hit occurs, 'data_out' contains the data, and 'valid' incidates
+         *  if the data is valid.
+         * 
+         *  If a miss occurs, 'valid' output will indicate whether the block
+         *  of that line is valid.  The 'dirty' bit indicates if the cache
+         *  has been modified.
+         */
+        COMPRD: begin
+           cache_enable = 1;    // Enable
+           cache_comp = 1;      // Compare tags
+           cache_write = 0;     // Read
+        end
+
+        /*
+         *  MEMRD - This state occurs on a miss while reading and after the
+         *  data line we are reading from is safe to write to (i.e. any dirty
+         *  data words have been written to memory).
+         * 
+         *  While in this state, a counter is used to count the number of words
+         *  read from memory into the cache.  This counter is incremented in 
+         *  INSTALL_CACHE on reads, and WBMEM on writes.
+         */
+        MEMRD: begin
+           mem_addr = { cache_index, cache_tag_in } + (count * 2); // Block base + word offset
+           mem_rd = 1;
+        end
+
+        /*
+         *  WAITSTATE - State entered while reading from mem
+         */
+        WAITSTATE: begin
+           // Defaults
+        end
+
+        /*
+         *  INSTALL_CACHE - The 'data_out' from memory is valid from the last read
+         *  request and needs to be written into the cache @count.
+         */
+        INSTALL_CACHE: begin
+           // Data from memory 
+           cache_enable = 1;
+           cache_data_in = mem_data_out;
+           cache_comp = 0;
+           cache_write = 1;
+           cache_valid_in = 1;
            
+           next_count = count + 1; // finished a read
+           
+        end
+
+        /*
+         *  DONE - At this point, any data being read will be valid from the cache;
+         *  send it out.
+         */
+        DONE: begin
+           DataOut = cache_data_out;
+        end
+
+        /*
+         *  COMPWR - This state occurs on first write attempt to the cache.  If there
+         *  is a hit, the data is written.
+         * 
+         *  If there is a miss, and the cache is not dirty, the block will be read.
+         *  If there is a miss, and the cache is dirty, the block will first be written
+         *  back to memory.
+         */
+        COMPWR: begin
+           cache_enable = 1;    // Enable
+           cache_comp = 1;      // Compare tags
+           cache_write = 1;     // Write
+        end
+
+        /*
+         *  WBMEM - "Write back to memory."  In this state we are writing a block of
+         *  data back to memory. These writes are back-to-back, and so count is 
+         *  incremented at each cycle
+         */
+        WBMEM: begin
+           mem_addr = { cache_index, cache_tag_out } + (count * 2); // Block base + word offset
+           mem_wr = 1;                                             // Write
+           next_count = count + 1;                                 // Increment
+        end
+
+        /*
+         *  PREWBMEM - "Pre- write back to memory."  In this state, we are preparing to
+         *  write data that is currently in the cache back to memory.
+         */
+        PREWBMEM: begin
+           // Defaults
+        end
+
+        /*
+         *  WRMISSDONE - "Write miss done."  
+         */
+        WRMISSDONE: begin
+           // Defaults
         end
       endcase
    end   
-   
-   
 endmodule // mem_system
 
 
