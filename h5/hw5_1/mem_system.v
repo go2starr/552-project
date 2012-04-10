@@ -101,27 +101,27 @@ module mem_system(/*AUTOARG*/
    // You must pass the mem_type parameter 
    // and createdump inputs to the 
    // cache modules
-   cache #(0 + memtype) c0(
-	                   // Inputs
-                           .enable(cache_enable),
-	                   .clk(clk), 
-	                   .rst(rst), 
-	                   .createdump(createdump),
-	                   .tag_in(cache_tag_in), 
-	                   .index(cache_index), 
-	                   .offset(cache_offset), 
-	                   .data_in(cache_data_in), 
-	                   .comp(cache_comp), 
-	                   .write(cache_write), 
-	                   .valid_in(cache_valid_in), 
-	                   // Outputs
-	                   .tag_out(cache_tag_out), 
-	                   .data_out(cache_data_out), 
-	                   .hit(cache_hit), 
-	                   .dirty(cache_dirty), 
-	                   .valid(cache_valid), 
-	                   .err(cache_err)
-	                   );
+   cache #(0 + mem_type) c0(
+	                    // Inputs
+                            .enable(cache_enable),
+	                    .clk(clk), 
+	                    .rst(rst), 
+	                    .createdump(createdump),
+	                    .tag_in(cache_tag_in), 
+	                    .index(cache_index), 
+	                    .offset(cache_offset), 
+	                    .data_in(cache_data_in), 
+	                    .comp(cache_comp), 
+	                    .write(cache_write), 
+	                    .valid_in(cache_valid_in), 
+	                    // Outputs
+	                    .tag_out(cache_tag_out), 
+	                    .data_out(cache_data_out), 
+	                    .hit(cache_hit), 
+	                    .dirty(cache_dirty), 
+	                    .valid(cache_valid), 
+	                    .err(cache_err)
+	                    );
 
    four_bank_mem mem (
                       // Inputs
@@ -138,26 +138,53 @@ module mem_system(/*AUTOARG*/
                       .busy(mem_busy),
                       .err(mem_err)
                       );
-//next state logic
-//
-always@(*)begin
-   case(state)
-   IDLE   : begin
-            next_state = (Rd == 1 && Wr == 1) ? ERR : (Rd == 1 && Wr ==0) ? COMPRD : IDLE;
-	    end
-   COMPRD : begin
-            next_state = (Rd == 1 && Wr == 0) ? COMPRD : (cache_hit == 0 && dirty == 0) ? MEMRD : (cache_hit == 1 && valid == 1) ? DONE : 
-	                 (cache_hit == 0 && dirty == 1 && valid == 1) ? PREWBMEM : ERR;
-	    end
-   MEMRD  : begin
-            next_state = (mem_stall == 0) ? WAITSTATE : MEMRD;
-            end
-   WAITSTATE : begin
-            next_state = WAITSTATE;
-	    end
+   //next state logic
+   //
+   always@(*)begin
+      case(state)
+        IDLE   : begin
+           next_state = (Rd == 1 && Wr == 1) ? ERR : (Rd == 1 && Wr ==0) ? COMPRD : (Rd == 0 && Wr == 0) ? IDLE : ERR;
+	end
+        COMPRD : begin
+           next_state = (Rd == 1 && Wr == 0) ? COMPRD : (cache_hit == 0 && cache_dirty == 0) ? MEMRD : (cache_hit == 1 && cache_valid == 1) ? DONE : 
+	                (cache_hit == 0 && cache_dirty == 1 && cache_valid == 1) ? PREWBMEM : ERR;
+	end
+        MEMRD  : begin
+           next_state = (mem_stall == 0) ? WAITSTATE : MEMRD;
+        end
+        WAITSTATE : 
+          begin
+             next_state = INSTALL_CACHE;
+	  end
+        INSTALL_CACHE : 
+          begin
+             next_state = (Rd == 1 && count == 2'b11) ? DONE : (Wr == 1 && count == 2'b11) ? WRMISSDONE : ERR;
+	  end
+        DONE   : begin
+           next_state = IDLE;
+	end
+        COMPWR : begin
+           next_state = (cache_hit == 1) ? DONE : (cache_hit == 0 && cache_dirty == 1) ? WBMEM : (cache_hit == 0 && cache_dirty == 0) ? MEMRD : ERR;
+	end
+        WBMEM  : begin
+           next_state = (count == 2'b11) ? MEMRD : (mem_stall == 1 | count != 2'b11) ? WBMEM : ERR;
+	end
+        PREWBMEM :
+          begin
+	     next_state = (count == 2'b00) ? WBMEM : ERR;
+	  end
+        WRMISSDONE :
+          begin
+	     next_state = IDLE;
+	  end
+        ERR :    begin
+           next_state = ERR;
+	end
+	
+        default: next_state = ERR;
 
-   endcase
-end
+      endcase
+   end
 
    // Output control
    //
