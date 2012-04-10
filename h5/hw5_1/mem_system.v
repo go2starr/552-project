@@ -94,7 +94,45 @@ module mem_system(/*AUTOARG*/
                       .busy(1'b1),
                       .err(1'b0)
                       );
+//next state logic
+//
+always@(*)begin
+   case(state)
+   IDLE   : begin
+            next_state = (Rd == 1 && Wr == 1) ? ERR : (Rd == 1 && Wr ==0) ? COMPRD : IDLE;
+	    end
+   COMPRD : begin
+            next_state = (Rd == 1 && Wr == 0) ? COMPRD : (cache_hit == 0 && dirty == 0) ? MEMRD : (cache_hit == 1 && valid == 1) ? DONE : 
+	                 (cache_hit == 0 && dirty == 1 && valid == 1) ? PREWBMEM : ERR;
+	    end
+   MEMRD  : begin
+            next_state = (mem_stall == 0) ? WAITSTATE : MEMRD;
+            end
+   WAITSTATE : begin
+            next_state = WAITSTATE;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+end
+endcase
    case (
    
    
