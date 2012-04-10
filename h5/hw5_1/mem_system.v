@@ -22,11 +22,11 @@ module mem_system(/*AUTOARG*/
    input        rst;
 
    // Outputs
-   output [15:0] DataOut;
-   output        Done;
-   output        Stall;
-   output        CacheHit;
-   output reg    err;
+   output reg [15:0] DataOut;
+   output            Done;
+   output            Stall;
+   output            CacheHit;
+   output reg        err;
 
    /* data_mem = 1, inst_mem = 0 *
     * needed for cache parameter */
@@ -49,6 +49,16 @@ module mem_system(/*AUTOARG*/
    /********************************************************************************
     *   Wires
     * ********************************************************************************/
+
+   /****************************************
+    *  Internal
+    * ****************************************/
+   wire [3:0]    state;
+   reg [3:0]     next_state;
+
+   wire [1:0]    count;
+   reg [1:0]     next_count;
+
    
    /****************************************
     *   Cache
@@ -84,16 +94,6 @@ module mem_system(/*AUTOARG*/
    wire          mem_stall;
    wire [3:0]    mem_busy;
    wire          mem_err;
-
-   /****************************************
-    *  Internal
-    * ****************************************/
-   wire [3:0]    state;
-   reg [3:0]     next_state;
-
-   wire [1:0]    count;
-   reg [1:0]     next_count;
-
    
    /********************************************************************************
     *  Modules
