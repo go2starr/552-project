@@ -53,14 +53,21 @@ module mem_system(/*AUTOARG*/
    /****************************************
     *  Internal
     * ****************************************/
-   wire [3:0]    state;
-   reg [3:0]     next_state;
+   reg [3:0]         state;
+   reg [3:0]         next_state;
+   
+   reg [1:0]         count;
+   reg [1:0]         next_count;
 
-   wire [1:0]    count;
-   reg [1:0]     next_count;
-
-   assign state = rst ? IDLE : next_state;
-   assign count = rst ? 0 : next_count;
+   always @(posedge clk) begin
+      if (rst) begin
+         state <= IDLE;
+         count <= 0;
+      end else begin
+         state <= next_state;
+         count <= next_count;
+      end
+   end
    
    /****************************************
     *   Cache
@@ -145,7 +152,10 @@ module mem_system(/*AUTOARG*/
    always@(*)begin
       case(state)
         IDLE   : begin
-           next_state = (Rd == 1 && Wr == 1) ? ERR : (Rd == 1 && Wr ==0) ? COMPRD : (Rd == 0 && Wr == 0) ? IDLE : ERR;
+           next_state = (Rd == 1 && Wr == 1) ? ERR : 
+                        (Rd == 1 && Wr == 0) ? COMPRD :
+                        (Rd == 0 && Wr == 1) ? COMPWR :
+                        (Rd == 0 && Wr == 0) ? IDLE : ERR;
 	end
         COMPRD : begin
            next_state = (Rd == 1 && Wr == 0) ? COMPRD : (cache_hit == 0 && cache_dirty == 0) ? MEMRD : (cache_hit == 1 && cache_valid == 1) ? DONE : 
