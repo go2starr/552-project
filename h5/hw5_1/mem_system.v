@@ -89,7 +89,8 @@ module mem_system(/*AUTOARG*/
    assign cache_index  = Addr [15:11];
    assign cache_tag_in = Addr [10:3];
    assign cache_offset = (state != INSTALL_CACHE) ? Addr [2:0] : count;
-   assign CacheHit     = cache_hit && (state == COMPRD || state == COMPWR);
+   assign CacheHit     = cache_hit && cache_valid // Cache ok
+                         && (state == COMPRD || state == COMPWR); // Valid state
 
    /****************************************
     *  Memory
@@ -157,38 +158,40 @@ module mem_system(/*AUTOARG*/
                         (Rd == 1 && Wr == 0) ? COMPRD :
                         (Rd == 0 && Wr == 1) ? COMPWR :
                         (Rd == 0 && Wr == 0) ? IDLE : ERR;
-	     end
+	end
 
         COMPRD : begin
            next_state = (Rd == 1 && Wr == 0) ? COMPRD : 
                         (cache_hit == 0 && cache_dirty == 0) ? MEMRD : 
-                        (cache_hit == 1 && cache_valid == 1) ? DONE : 
-	                     (cache_hit == 0 && cache_dirty == 1 && cache_valid == 1) ? PREWBMEM :
+                        (cache_hit == 1 && cache_valid == 0) ? MEMRD :
+                        (cache_hit == 1 && cache_valid == 1) ? DONE :
+                        (cache_hit == 0 && cache_dirty == 1 && cache_valid == 0) ? MEMRD :
+	                (cache_hit == 0 && cache_dirty == 1 && cache_valid == 1) ? PREWBMEM :
                         ERR;
-	     end
+	end
 
         MEMRD  : begin
            next_state = (mem_stall == 0) ? WAITSTATE : MEMRD;
         end
 
         WAITSTATE : begin
-             next_state = INSTALL_CACHE;
-	     end
+           next_state = INSTALL_CACHE;
+	end
 
         INSTALL_CACHE : begin
-             next_state = (Rd == 1 && count == 2'b11) ? DONE :
-                          (Wr == 1 && count == 2'b11) ? WRMISSDONE :
-                          (count != 2'b11) ? MEMRD :
-                          ERR;
-	     end
+           next_state = (Rd == 1 && count == 2'b11) ? DONE :
+                        (Wr == 1 && count == 2'b11) ? WRMISSDONE :
+                        (count != 2'b11) ? MEMRD :
+                        ERR;
+	end
 
         DONE   : begin
            next_state = IDLE;
-	     end
+	end
 
         COMPWR : begin
-           next_state = (cache_hit == 1) ? DONE : 
-                        (cache_hit == 0 && cache_dirty == 1) ? WBMEM : 
+           next_state = (cache_hit == 1 && cache_valid == 1) ? DONE :
+                        (cache_hit == 1 && cache_valid == 0) ? MEMRD :                                          (cache_hit == 0 && cache_dirty == 1) ? WBMEM : 
                         (cache_hit == 0 && cache_dirty == 0) ? MEMRD : 
                         ERR;
         end
@@ -197,19 +200,19 @@ module mem_system(/*AUTOARG*/
            next_state = (count != 2'b11 | mem_stall == 1) ? WBMEM :
                         (count == 2'b11) ? MEMRD :
                         ERR;
-	     end
+	end
 
         PREWBMEM : begin
-	        next_state = (count == 2'b00) ? WBMEM : ERR;
-	     end
+	   next_state = (count == 2'b00) ? WBMEM : ERR;
+	end
 
         WRMISSDONE : begin
-	     next_state = IDLE;
-	     end
+	   next_state = IDLE;
+	end
 
         ERR : begin
            next_state = ERR;
-	     end
+	end
 	
         default: next_state = ERR;
 
@@ -282,8 +285,8 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 0;     // Read
-	        Stall = 1;           // Stall processor
-           Done = cache_hit;
+	   Stall = !(cache_hit && cache_valid);  // Stall processor
+           Done = cache_hit && cache_valid;
         end
 
         /*
@@ -298,14 +301,14 @@ module mem_system(/*AUTOARG*/
         MEMRD: begin
            mem_addr = { cache_index, cache_tag_in } + (count * 2); // Block base + word offset
            mem_rd = 1;
-	        Stall = 1;   
+	   Stall = 1;   
         end
 
         /*
          *  WAITSTATE - State entered while reading from mem
          */
         WAITSTATE: begin
-	        Stall = 1;
+	   Stall = 1;
            // Defaults
         end
 
@@ -322,7 +325,6 @@ module mem_system(/*AUTOARG*/
            cache_valid_in = 1;
            Stall = 1;
            next_count = count + 1; // finished a read
-           
         end
 
         /*
@@ -332,6 +334,7 @@ module mem_system(/*AUTOARG*/
         DONE: begin
            Done = ~cache_hit;
            DataOut = cache_data_out;
+           Stall = cache_hit;
         end
 
         /*
@@ -346,8 +349,8 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 1;     // Write
-	        Stall = 1;
-           Done = cache_hit;  
+	   Stall = ~(cache_hit && cache_valid);
+           Done = cache_hit && cache_valid;  
         end
 
         /*
@@ -359,7 +362,7 @@ module mem_system(/*AUTOARG*/
            mem_addr = { cache_index, cache_tag_out } + (count * 2); // Block base + word offset
            mem_wr = 1;                                             // Write
            next_count = count + 1;                                 // Increment
-	        Stall = 1;
+	   Stall = 1;
         end
 
         /*
@@ -368,13 +371,15 @@ module mem_system(/*AUTOARG*/
          */
         PREWBMEM: begin
            // Defaults
+           Stall = 1;
+           
         end
 
         /*
          *  WRMISSDONE - "Write miss done."  
          */
         WRMISSDONE: begin
-           Done = 1;
+           Stall = 1;
            // Defaults
         end
       endcase
