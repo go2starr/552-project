@@ -245,7 +245,7 @@ module mem_system(/*AUTOARG*/
       mem_data_in = 16'bx;
       mem_wr = 0;
       mem_rd = 0;
-
+      Stall = 0;
       next_count = count;
       err = 0;
       
@@ -280,6 +280,7 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 0;     // Read
+	   Stall = 1;           // Stall processor
         end
 
         /*
@@ -294,12 +295,14 @@ module mem_system(/*AUTOARG*/
         MEMRD: begin
            mem_addr = { cache_index, cache_tag_in } + (count * 2); // Block base + word offset
            mem_rd = 1;
+	   Stall = 1;   
         end
 
         /*
          *  WAITSTATE - State entered while reading from mem
          */
         WAITSTATE: begin
+	   Stall = 1;
            // Defaults
         end
 
@@ -314,7 +317,7 @@ module mem_system(/*AUTOARG*/
            cache_comp = 0;
            cache_write = 1;
            cache_valid_in = 1;
-           
+           Stall = 1;
            next_count = count + 1; // finished a read
            
         end
@@ -339,6 +342,7 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 1;     // Write
+	   Stall = 1;
         end
 
         /*
@@ -350,6 +354,7 @@ module mem_system(/*AUTOARG*/
            mem_addr = { cache_index, cache_tag_out } + (count * 2); // Block base + word offset
            mem_wr = 1;                                             // Write
            next_count = count + 1;                                 // Increment
+	   Stall = 1;
         end
 
         /*
