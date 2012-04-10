@@ -46,6 +46,9 @@ module mem_system(/*AUTOARG*/
    wire [7:0]    index;
    wire [2:0]    offset;
 
+   wire [3:0]    state;
+   reg [3:0]     next_state;   
+
    // assigns
    assign index = Addr [15:11];
    assign tag_in = Addr [10:3];
@@ -91,6 +94,9 @@ module mem_system(/*AUTOARG*/
                       .busy(1'b1),
                       .err(1'b0)
                       );
+
+   case (
+   
    
 endmodule // mem_system
 
