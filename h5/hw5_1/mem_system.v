@@ -8,7 +8,11 @@ module mem_system(/*AUTOARG*/
                   // Inputs
                   Addr, DataIn, Rd, Wr, createdump, clk, rst
                   );
-   
+
+   /********************************************************************************
+    *  Module Definition
+    * ********************************************************************************/
+   // Inputs
    input [15:0] Addr;
    input [15:0] DataIn;
    input        Rd;
@@ -16,12 +20,13 @@ module mem_system(/*AUTOARG*/
    input        createdump;
    input        clk;
    input        rst;
-   
+
+   // Outputs
    output [15:0] DataOut;
    output        Done;
    output        Stall;
    output        CacheHit;
-   output        err;
+   output reg    err;
 
    /* data_mem = 1, inst_mem = 0 *
     * needed for cache parameter */
@@ -39,44 +44,76 @@ module mem_system(/*AUTOARG*/
    parameter WRMISSDONE = 8;
    parameter PREWBMEM = 9;
    parameter WBMEM = 10;
-   
-   // wires
-   wire          dirty, valid, comp, write, valid_in, enable;
-   wire [4:0]    tag_out, tag_in;
-   wire [7:0]    index;
-   wire [2:0]    offset;
 
+
+   /********************************************************************************
+    *   Wires
+    * ********************************************************************************/
+   
+   /****************************************
+    *   Cache
+    * ****************************************/
+   // Inputs
+   reg           cache_enable;
+   wire [4:0]    cache_tag_in;
+   wire [7:0]    cache_index;
+   wire [2:0]    cache_offset;
+   reg [15:0]    cache_data_in;
+   reg           cache_comp, cache_write, cache_valid_in;   
+
+   // Outputs
+   wire [4:0]    cache_tag_out;
+   wire [15:0]   cache_data_out;   
+   wire          cache_hit, cache_dirty, cache_valid, cache_err;
+
+   // Assigns
+   assign cache_index  = Addr [15:11];
+   assign cache_tag_in = Addr [10:3];
+   assign cache_offset = Addr [2:0];
+
+   /****************************************
+    *  Memory
+    *****************************************/
+   // Inputs
+   reg [15:0]    mem_addr;
+   reg [15:0]    mem_data_in;
+   reg           mem_wr, mem_rd;
+
+   // Outputs
+   wire [15:0]   mem_data_out;
+   wire          mem_stall;
+   wire [3:0]    mem_busy;
+   wire          mem_err;
+
+   /****************************************
+    *  Internal
+    * ****************************************/
    wire [3:0]    state;
    reg [3:0]     next_state;   
-
-   // assigns
-   assign index = Addr [15:11];
-   assign tag_in = Addr [10:3];
-   assign offset = Addr [2:0];
 
    // You must pass the mem_type parameter 
    // and createdump inputs to the 
    // cache modules
    cache #(0 + memtype) c0(
 	                   // Inputs
-                           .enable(enable),
+                           .enable(cache_enable),
 	                   .clk(clk), 
 	                   .rst(rst), 
 	                   .createdump(createdump),
-	                   .tag_in(tag_in), 
-	                   .index(index), 
-	                   .offset(offset), 
-	                   .data_in(DataIn), 
-	                   .comp(comp), 
-	                   .write(write), 
-	                   .valid_in(valid_in), 
+	                   .tag_in(cache_tag_in), 
+	                   .index(cache_index), 
+	                   .offset(cache_offset), 
+	                   .data_in(cache_data_in), 
+	                   .comp(cache_comp), 
+	                   .write(cache_write), 
+	                   .valid_in(cache_valid_in), 
 	                   // Outputs
-	                   .tag_out(tag_out), 
-	                   .data_out(DataOut), 
-	                   .hit(CacheHit), 
-	                   .dirty(dirty), 
-	                   .valid(valid), 
-	                   .err(err)
+	                   .tag_out(cache_tag_out), 
+	                   .data_out(cache_data_out), 
+	                   .hit(cache_hit), 
+	                   .dirty(cache_dirty), 
+	                   .valid(cache_valid), 
+	                   .err(cache_err)
 	                   );
 
    four_bank_mem mem (
@@ -84,18 +121,36 @@ module mem_system(/*AUTOARG*/
                       .clk(clk),
                       .rst(rst),
                       .createdump(createdump),
-                      .addr(Addr),
-                      .data_in(DataIn),
-                      .wr(Wr),
-                      .rd(Rd),
+                      .addr(mem_addr),
+                      .data_in(mem_data_in),
+                      .wr(mem_wr),
+                      .rd(mem_rd),
                       // Outputs
-                      .data_out(DataOut),
-                      .stall(Stall),
-                      .busy(1'b1),
-                      .err(1'b0)
+                      .data_out(mem_data_out),
+                      .stall(mem_stall),
+                      .busy(mem_busy),
+                      .err(mem_err)
                       );
 
-   case (
+
+   // Output control
+   //
+   // Outputs:
+   //   Cache:
+   //     - enable
+   //     - 
+   
+   always @(*) begin
+      case (state)
+        ERR: begin
+           err = 1;
+        end
+        
+        IDLE: begin
+           
+        end
+      endcase
+   end   
    
    
 endmodule // mem_system
