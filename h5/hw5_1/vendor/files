@@ -1,0 +1,9 @@
+nand2.v
+nand3.v
+nor2.v
+nor3.v
+not1.v
+xor2.v
+xor3.v
+dff.v
+clkrst.v
