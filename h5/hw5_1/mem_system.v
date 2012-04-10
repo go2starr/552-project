@@ -285,6 +285,7 @@ module mem_system(/*AUTOARG*/
          *  WAITSTATE - State entered while reading from mem
          */
         WAITSTATE: begin
+	   Stall = 1;
            // Defaults
         end
 
