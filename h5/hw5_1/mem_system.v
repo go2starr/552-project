@@ -59,6 +59,8 @@ module mem_system(/*AUTOARG*/
    wire [1:0]    count;
    reg [1:0]     next_count;
 
+   assign state = rst ? IDLE : next_state;
+   assign count = rst ? 0 : next_count;
    
    /****************************************
     *   Cache
@@ -201,6 +203,7 @@ module mem_system(/*AUTOARG*/
    //     - wr
    //     - rd
    //   Mem_System:
+   //     - next_count
    //     - err
    
    always @(*) begin
@@ -216,6 +219,7 @@ module mem_system(/*AUTOARG*/
       mem_wr = 0;
       mem_rd = 0;
 
+      next_count = count;
       err = 0;
       
       case (state)

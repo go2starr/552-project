@@ -10,7 +10,7 @@
 `define FAIL(msg) `PRINT_C(msg, `C_FAIL);
 `define OK(msg)   `PRINT_C(msg, `C_OKGREEN);
 
-`define DEBUG 0
+`define DEBUG 1
 
 //integer no_errs = 0;
 
