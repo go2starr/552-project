@@ -28,10 +28,17 @@ module mem_system(/*AUTOARG*/
    parameter mem_type = 0;
    
    // your code here
+   
+   // wires
 	wire dirty, valid, comp, write, valid_in, enable;
 	wire [4:0] tag_out, tag_in;
 	wire [7:0] index;
 	wire [2:0] offset;
+
+   // assigns
+   assign index = Addr [15:11];
+   assign tag_in = Addr [10:3];
+   assign offset = Addr [2:0];
 
    // You must pass the mem_type parameter 
    // and createdump inputs to the 
