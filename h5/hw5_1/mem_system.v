@@ -44,7 +44,7 @@ module mem_system(/*AUTOARG*/
    // and createdump inputs to the 
    // cache modules
    cache #(0 + memtype) c0(
-	// Inputs
+   	// Inputs
       .enable(enable),
 	   .clk(clk), 
 	   .rst(rst), 
