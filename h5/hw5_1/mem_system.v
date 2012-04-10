@@ -156,42 +156,59 @@ module mem_system(/*AUTOARG*/
                         (Rd == 1 && Wr == 0) ? COMPRD :
                         (Rd == 0 && Wr == 1) ? COMPWR :
                         (Rd == 0 && Wr == 0) ? IDLE : ERR;
-	end
+	     end
+
         COMPRD : begin
-           next_state = (Rd == 1 && Wr == 0) ? COMPRD : (cache_hit == 0 && cache_dirty == 0) ? MEMRD : (cache_hit == 1 && cache_valid == 1) ? DONE : 
-	                (cache_hit == 0 && cache_dirty == 1 && cache_valid == 1) ? PREWBMEM : ERR;
-	end
+           next_state = (Rd == 1 && Wr == 0) ? COMPRD : 
+                        (cache_hit == 0 && cache_dirty == 0) ? MEMRD : 
+                        (cache_hit == 1 && cache_valid == 1) ? DONE : 
+	                     (cache_hit == 0 && cache_dirty == 1 && cache_valid == 1) ? PREWBMEM :
+                        ERR;
+	     end
+
         MEMRD  : begin
            next_state = (mem_stall == 0) ? WAITSTATE : MEMRD;
         end
-        WAITSTATE : 
-          begin
+
+        WAITSTATE : begin
              next_state = INSTALL_CACHE;
-	  end
-        INSTALL_CACHE : 
-          begin
-             next_state = (Rd == 1 && count == 2'b11) ? DONE : (Wr == 1 && count == 2'b11) ? WRMISSDONE : ERR;
-	  end
+	     end
+
+        INSTALL_CACHE : begin
+             next_state = (Rd == 1 && count == 2'b11) ? DONE :
+                          (Wr == 1 && count == 2'b11) ? WRMISSDONE :
+                          (count != 2'b11) ? MEMRD :
+                          ERR;
+	     end
+
         DONE   : begin
            next_state = IDLE;
-	end
+	     end
+
         COMPWR : begin
-           next_state = (cache_hit == 1) ? DONE : (cache_hit == 0 && cache_dirty == 1) ? WBMEM : (cache_hit == 0 && cache_dirty == 0) ? MEMRD : ERR;
-	end
+           next_state = (cache_hit == 1) ? DONE : 
+                        (cache_hit == 0 && cache_dirty == 1) ? WBMEM : 
+                        (cache_hit == 0 && cache_dirty == 0) ? MEMRD : 
+                        ERR;
+        end
+
         WBMEM  : begin
-           next_state = (count == 2'b11) ? MEMRD : (mem_stall == 1 | count != 2'b11) ? WBMEM : ERR;
-	end
-        PREWBMEM :
-          begin
-	     next_state = (count == 2'b00) ? WBMEM : ERR;
-	  end
-        WRMISSDONE :
-          begin
+           next_state = (count != 2'b11 | mem_stall == 1) ? WBMEM :
+                        (count == 2'b11) ? MEMRD :
+                        ERR;
+	     end
+
+        PREWBMEM : begin
+	        next_state = (count == 2'b00) ? WBMEM : ERR;
+	     end
+
+        WRMISSDONE : begin
 	     next_state = IDLE;
-	  end
-        ERR :    begin
+	     end
+
+        ERR : begin
            next_state = ERR;
-	end
+	     end
 	
         default: next_state = ERR;
 

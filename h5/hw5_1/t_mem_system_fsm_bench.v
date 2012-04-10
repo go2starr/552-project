@@ -98,8 +98,172 @@ module t_mem_system_fsm_bench();
       `tic;
       `test(COMPWR, DUT.state, "FSM should transition to COMPWR on read in IDLE");
       
+      /****************************************
+       * COMPRD transitions
+       ******************************************/
+      force DUT.state = COMPRD;
+      release DUT.state;
+      rd = 1;
+      wr = 0; 
+      `tic;
+      `test(COMPRD, DUT.state, "FSM should remain in COMPRD");
       
+      // MEMRD
+      force DUT.cache_hit = 0;
+      force DUT.cache_dirty = 0;
+      rd = 0; 
+      `tic;
+      `test(MEMRD, DUT.state, "FSM should transition to MEMRD");
+
+      // PREWBMEM
+      force DUT.state = COMPRD;
+      release DUT.state;
+      force DUT.cache_hit = 0;
+      force DUT.cache_dirty = 1;
+      force DUT.cache_valid = 1;
+      `tic;
+      `test(PREWBMEM, DUT.state, "FSM should transition to PREWBMEM");
+
+      // DONE
+      force DUT.state = COMPRD;
+      release DUT.state;
+      force DUT.cache_hit = 1;
+      force DUT.cache_valid = 1;
+      `tic;
+      `test(DONE, DUT.state, "FSM should transition to DONE");      
       
+      /*************************************************
+       * MEMRD transitions
+       *************************************************/
+      force DUT.state = MEMRD;
+      release DUT.state;
+      force DUT.mem_stall = 1;
+      `tic;
+      `tic;
+      `tic;
+      `test(MEMRD, DUT.state, "FSM should remain in MEMRD"); 
+     
+      // WAITSTATE
+      force DUT.state = MEMRD;
+      release DUT.state;
+      force DUT.mem_stall = 0;
+      `tic;
+      `test(WAITSTATE, DUT.state, "FSM should transition to WAITSTATE");
+
+      /************************************************
+       * WAITSTATE transitions
+       ************************************************/
+      force DUT.state = WAITSTATE;
+      release DUT.state;
+      `tic;
+      `test(INSTALL_CACHE, DUT.state, "FSM should transition to INSTALL_CACHE");
+  
+      /****************************************************
+       * INSTALL_CACHE transitions
+       ********************************************************/       
+      // MEMRD
+      force DUT.state = INSTALL_CACHE;
+      release DUT.state;
+      force DUT.count = 0;
+      `tic;
+      `test(MEMRD, DUT.state, "FSM should transition to MEMRD");
+      `tic;
+      `tic;
+      `test(INSTALL_CACHE, DUT.state, "FSM should now be in INSTALL_CACHE again");
+      force DUT.count = 1;
+      `tic;
+      `test(MEMRD, DUT.state, "FSM should transition to MEMRD");
+
+      // DONE
+      force DUT.count = 2'b11;
+      force DUT.state = INSTALL_CACHE;
+      release DUT.state;
+      rd = 1;
+      wr = 0;
+      `tic;
+      `test(DONE, DUT.state, "FSM should transition to DONE");
+
+      // WRMISSDONE
+      force DUT.count = 2'b11;
+      force DUT.state = INSTALL_CACHE;
+      release DUT.state;
+      rd = 0;
+      wr = 1;
+      `tic;
+      `test(WRMISSDONE, DUT.state, "FSM should transition to WRMISSDONE");
+    
+      /*************************************
+       * DONE transitions
+       ***************************************/
+      // IDLE
+      force DUT.state = DONE;
+      release DUT.state;
+      `tic;
+      `test(IDLE, DUT.state, "FSM should transition to IDLE"); 
+
+      /******************************************
+       * COMPWR transitions
+       *********************************************/
+      // DONE
+      force DUT.state = COMPWR;
+      release DUT.state;
+      force DUT.cache_hit = 1;
+      `tic;
+      `test(DONE, DUT.state, "FSM should transition to DONE");
+
+      // MEMRD
+      force DUT.state = COMPWR;
+      release DUT.state;
+      force DUT.cache_hit = 0;
+      force DUT.cache_dirty = 0;
+      `tic;
+      `test(MEMRD, DUT.state, "FSM should transition to MEMRD");
+
+      // WBMEM 
+      force DUT.state = COMPWR;
+      release DUT.state;
+      force DUT.cache_hit = 0;
+      force DUT.cache_dirty = 1;
+      `tic;
+      `test(WBMEM, DUT.state, "FSM should transition to WBMEM");      
+
+      /***************************************
+       * WRMISSDONE transitions
+       *******************************************/
+      // IDLE
+      force DUT.state = WRMISSDONE;
+      release DUT.state;
+      `tic;
+      `test(IDLE, DUT.state, "FSM should transition to IDLE");  
+
+      /*****************************************
+       * PREWBMEM transitions
+       *********************************************/
+      // WBMEM
+      force DUT.state = PREWBMEM;
+      release DUT.state;
+      force DUT.count = 2'b00;
+      `tic;
+      `test(WBMEM, DUT.state, "FSM should transition to WBMEM"); 
+
+      /*******************************************
+       * WBMEM transitions
+       **********************************************/  
+      force DUT.state = WBMEM;
+      release DUT.state;
+      force DUT.count = 2'b00;
+      `tic;
+      `test(WBMEM, DUT.state, "FSM should remain in WBMEM");
+      force DUT.mem_stall = 1;
+      force DUT.count = 2'b11;
+      `tic;
+      `test(WBMEM, DUT.state, "FSM should remain in WBMEM");
+
+      // MEMRD
+      force DUT.mem_stall = 0;
+      `tic;
+      `test(MEMRD, DUT.state, "FSM should transition to MEMRD");
+
       `info("Tests complete");
 
       $stop;
