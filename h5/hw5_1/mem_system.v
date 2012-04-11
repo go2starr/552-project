@@ -240,7 +240,7 @@ module mem_system(/*AUTOARG*/
       // Defaults
       cache_enable = 0;
       cache_data_in = 16'bx;
-      cache_comp = 1'bx;
+      cache_comp = 1'b0;
       cache_write = 0;
       cache_valid_in = 0;
 
@@ -308,7 +308,7 @@ module mem_system(/*AUTOARG*/
          */
         WAITSTATE: begin
 	   Stall = 1;
-           // Defaults
+           mem_rd = 1;
         end
 
         /*
@@ -322,6 +322,7 @@ module mem_system(/*AUTOARG*/
            cache_comp = 0;
            cache_write = 1;
            cache_valid_in = 1;
+           mem_rd = 1;
            Stall = 1;
            next_count = count + 1; // finished a read
         end
@@ -331,7 +332,8 @@ module mem_system(/*AUTOARG*/
          *  send it out.
          */
         DONE: begin
-           Done = ~cache_hit;
+           cache_enable = 1;
+           Done = 1;
            DataOut = cache_data_out;
            Stall = cache_hit;
         end
@@ -348,6 +350,8 @@ module mem_system(/*AUTOARG*/
            cache_enable = 1;    // Enable
            cache_comp = 1;      // Compare tags
            cache_write = 1;     // Write
+           cache_data_in = DataIn; // Write data
+           cache_valid_in = 1; // Data is valid
 	   Stall = ~(cache_hit && cache_valid);
            Done = cache_hit && cache_valid;  
         end
