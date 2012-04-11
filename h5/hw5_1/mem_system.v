@@ -59,10 +59,13 @@ module mem_system(/*AUTOARG*/
    reg [1:0]         count;
    reg [1:0]         next_count;
 
+   reg               wrmiss;
+
    always @(posedge clk) begin
       if (rst) begin
          state <= IDLE;
          count <= 0;
+         wrmiss <= 0;
       end else begin
          state <= next_state;
          count <= next_count;
@@ -76,7 +79,7 @@ module mem_system(/*AUTOARG*/
    reg           cache_enable;
    wire [4:0]    cache_tag_in;
    wire [7:0]    cache_index;
-   wire [2:0]    cache_offset;
+   reg [2:0]     cache_offset;
    reg [15:0]    cache_data_in;
    reg           cache_comp, cache_write, cache_valid_in;   
 
@@ -88,7 +91,7 @@ module mem_system(/*AUTOARG*/
    // Assigns
    assign cache_index  = Addr [15:8];
    assign cache_tag_in = Addr [7:3];
-   assign cache_offset = (state == INSTALL_CACHE) ? count : Addr[2:1] >> 1;
+//   assign cache_offset = (state == INSTALL_CACHE) ? count : {1'b0, Addr[2:1]};
 //   assign CacheHit     = cache_hit && cache_valid // Cache ok
 //                         && (state == DONE); // Valid state
 
@@ -206,7 +209,7 @@ module mem_system(/*AUTOARG*/
 	end
 
         WRMISSDONE : begin
-	   next_state = IDLE;
+	   next_state = COMPWR;
 	end
 
         ERR : begin
@@ -248,7 +251,7 @@ module mem_system(/*AUTOARG*/
       mem_data_in = 16'b0;
       mem_wr = 0;
       mem_rd = 0;
-      Stall = 0;
+      Stall = 1;
       Done = 0;
       next_count = count;
       err = 0;
@@ -265,6 +268,10 @@ module mem_system(/*AUTOARG*/
          *  IDLE - No actions yet
          */
         IDLE: begin
+           wrmiss = 0;
+
+           Stall = 0;
+           
            if (Rd) begin
               cache_enable = 1;    // Enable
               cache_comp = 1;      // Compare tags
@@ -279,6 +286,7 @@ module mem_system(/*AUTOARG*/
               cache_data_in = DataIn;
            end
 
+           cache_offset = Addr[2:0];
            CacheHit = 0;
         end
 
@@ -295,7 +303,6 @@ module mem_system(/*AUTOARG*/
          *  has been modified.
          */
         COMPRD: begin
-           Stall = 1;
            cache_enable = cache_hit && cache_valid;
 
            if (cache_hit && cache_valid) begin
@@ -316,14 +323,12 @@ module mem_system(/*AUTOARG*/
         MEMRD: begin
            mem_addr = { cache_index, cache_tag_in, 3'b0 } + (count * 2); // Block base + word offset
            mem_rd = ~mem_stall;
-	   Stall = 1;   
         end
 
         /*
          *  WAITSTATE - State entered while reading from mem
          */
         WAITSTATE: begin
-	   Stall = 1;
         end
 
         /*
@@ -337,7 +342,8 @@ module mem_system(/*AUTOARG*/
            cache_comp = 0;
            cache_write = 1;
            cache_valid_in = 1;
-           Stall = 1;
+           cache_offset = { count, 1'b0 };
+           
            next_count = count + 1; // finished a read
 
            if (count == Addr[2:1])
@@ -351,7 +357,6 @@ module mem_system(/*AUTOARG*/
         DONE: begin
 	   Done = 1;  //~cache_hit;
            cache_enable = 1;
-           Stall = 1; //cache_hit;
         end
 
         /*
@@ -364,10 +369,8 @@ module mem_system(/*AUTOARG*/
          */
         COMPWR: begin
            cache_enable = cache_hit && cache_valid;    // Enable
-	   Stall = ~(cache_hit && cache_valid);
-           Done = cache_hit && cache_valid;
 
-           if (cache_hit && cache_valid)
+           if (cache_hit && cache_valid && !wrmiss)
              CacheHit = 1;
         end
 
@@ -380,7 +383,6 @@ module mem_system(/*AUTOARG*/
            mem_addr = { cache_index, cache_tag_out, 3'b0 } + (count * 2); // Block base + word offset
            mem_wr = 1;                                             // Write
            next_count = count + 1;                                 // Increment
-	   Stall = 1;
         end
 
         /*
@@ -389,16 +391,19 @@ module mem_system(/*AUTOARG*/
          */
         PREWBMEM: begin
            // Defaults
-           Stall = 1;
-           
         end
 
         /*
          *  WRMISSDONE - "Write miss done."  
          */
         WRMISSDONE: begin
-           Stall = 1;
-           // Defaults
+           cache_enable = 1;    // Enable
+           cache_comp = 1;      // Compare tags
+           cache_write = 1;     // Read
+           cache_valid_in = 1;  // Valid data
+           cache_data_in = DataIn;
+
+           wrmiss = 1;
         end
       endcase
    end   

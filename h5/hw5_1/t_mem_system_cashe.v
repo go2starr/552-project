@@ -249,8 +249,8 @@ module t_mem_system_cashe();
 	   rd = 0;
 	   wr = 1;
 	   #1
-           addr = 16'h0010;
-	   force DUT.DataIn = 16'h0010;
+           addr = 16'h0000;
+	   force DUT.DataIn = 16'h0000;
 	   `tic;
 	   `tic;
 	   `tic;
@@ -270,9 +270,9 @@ module t_mem_system_cashe();
 	   `tic;
 	   `tic;
 	   
-	   addr = 16'h0100;
+	   addr = 16'h0002;
 	   #1
-	   force DUT.DataIn = 16'h0100;
+	   force DUT.DataIn = 16'h0002;
 	   `tic;
 	   `tic;
 	   `tic;
@@ -300,13 +300,13 @@ module t_mem_system_cashe();
 	   `tic;
 	   `tic;
 	   `tic;
-	   `test(16'h0100, DUT.DataOut, "Should be 16'h0100");
+	   `test(16'h0002, DUT.DataOut, "Should be 16'h0100");
 
-	   addr = 16'h0010;
+	   addr = 16'h0000;
 	   `tic;
 	   `tic;
 	   `tic;
-	   `test(16'h0010, DUT.DataOut, "Should be 16'h0010");
+	   `test(16'h0000, DUT.DataOut, "Should be 16'h0010");
 
            $display("Tests Complete");
 
