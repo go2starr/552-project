@@ -68,6 +68,7 @@ module t_mem_system_cashe();
 
 	addr = 16'h1010;
 	force DUT.DataIn = 16'h1111;
+        force DUT.mem_data_out = 16'h dead;
 	#1
 	rd = 0;
 	wr = 1;
@@ -75,44 +76,35 @@ module t_mem_system_cashe();
 	`test(COMPWR, DUT.state, "Should be in COMPWR");
 	`tic;  
 	`test(MEMRD, DUT.state, "Should be in MEMRD");
+        `test(16'h1010, DUT.mem_addr, "Should be the right address on first mem access");
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
         `test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
 	`test(0, DUT.count, "Count on first word");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);
-	$display("Cache_valid_in: %b", DUT.cache_valid_in);
-	$display("Cache_write: %b", DUT.cache_write);
-	$display("Cache_comp: %b", DUT.cache_comp);
-	$display("Cache_enable: %b", DUT.cache_enable);
-	
-	
 	`test(1, DUT.cache_write, "Should be writing on first word in INSTALL_CACHE");
 	`tic; 
 	`test(MEMRD, DUT.state, "Should be in MEMRD");
+        `test(16'h1012, DUT.mem_addr, "Should be the right address on second mem access");        
 	`tic; 
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
         `tic; 
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);	
+        `test(16'hdead, DUT.cache_data_in, "Should be installing correct data");
 	`tic;  
         `test(MEMRD, DUT.state, "Should be in MEMRD");
+        `test(16'h1014, DUT.mem_addr, "Should be the right address on third mem access");                
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);	
 	`tic;  
         `test(MEMRD, DUT.state, "Should be in MEMRD");
+        `test(16'h1016, DUT.mem_addr, "Should be the right address on fourth mem access");                        
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);	
 	`tic
 	`test(WRMISSDONE, DUT.state, "Should be Done");
         `tic

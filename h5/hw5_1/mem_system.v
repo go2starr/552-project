@@ -307,7 +307,7 @@ module mem_system(/*AUTOARG*/
          *  INSTALL_CACHE on reads, and WBMEM on writes.
          */
         MEMRD: begin
-           mem_addr = { cache_index, cache_tag_in } + (count * 2); // Block base + word offset
+           mem_addr = { cache_index, cache_tag_in, 3'b0 } + (count * 2); // Block base + word offset
            mem_rd = ~mem_stall;
 	   Stall = 1;   
         end
@@ -365,7 +365,7 @@ module mem_system(/*AUTOARG*/
          *  incremented at each cycle
          */
         WBMEM: begin
-           mem_addr = { cache_index, cache_tag_out } + (count * 2); // Block base + word offset
+           mem_addr = { cache_index, cache_tag_out, 3'b0 } + (count * 2); // Block base + word offset
            mem_wr = 1;                                             // Write
            next_count = count + 1;                                 // Increment
 	   Stall = 1;
