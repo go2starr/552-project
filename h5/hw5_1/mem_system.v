@@ -86,8 +86,8 @@ module mem_system(/*AUTOARG*/
    wire          cache_hit, cache_dirty, cache_valid, cache_err;
 
    // Assigns
-   assign cache_index  = Addr [15:11];
-   assign cache_tag_in = Addr [10:3];
+   assign cache_index  = Addr [15:8];
+   assign cache_tag_in = Addr [7:3];
    assign cache_offset = (state != INSTALL_CACHE) ? Addr [2:0] : count;
    assign CacheHit     = cache_hit && cache_valid // Cache ok
                          && (state == COMPRD || state == COMPWR); // Valid state

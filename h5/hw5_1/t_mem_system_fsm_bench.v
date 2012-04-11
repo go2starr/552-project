@@ -116,10 +116,6 @@ module t_mem_system_fsm_bench();
        ******************************************/
       force DUT.state = COMPRD;
       release DUT.state;
-      rd = 1;
-      wr = 0; 
-      `tic;
-      `test(COMPRD, DUT.state, "FSM should remain in COMPRD");
       
       // MEMRD
       force DUT.cache_hit = 0;
