@@ -237,6 +237,74 @@ module t_mem_system_cashe();
 	   `tic;
            `test(16'h0011, DUT.DataOut, "Should be 16'h0011");
 
+           /*************************************
+	    * Seeing if shit works
+	    * *********************************/
+           
+	   rd = 0;
+	   wr = 1;
+	   #1
+           addr = 16'h0010;
+	   force DUT.DataIn = 16'h0010;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   
+	   addr = 16'h0100;
+	   #1
+	   force DUT.DataIn = 16'h0100;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `tic;
+
+	   //Now Read Values
+
+	   rd = 1;
+	   wr = 0;
+
+	   `tic;
+	   `tic;
+	   `tic;
+	   `test(16'h0100, DUT.DataOut, "Should be 16'h0100");
+
+	   addr = 16'h0010;
+	   `tic;
+	   `tic;
+	   `tic;
+	   `test(16'h0010, DUT.DataOut, "Should be 16'h0010");
+
+           $display("Tests Complete");
+
 	$stop;
 
      end
