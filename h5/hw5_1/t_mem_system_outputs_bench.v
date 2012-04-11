@@ -103,8 +103,43 @@ module t_mem_system_outputs_bench();
 
       `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in IDLE state");
       `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in IDLE state");
-      
 
+      // On a read
+      force DUT.Rd = 1;
+      force DUT.Wr = 0;
+      #1;
+
+      `test(0, done, "DUT.done should be 1 in IDLE on READ");
+      `test(0, stall, "DUT.stall should be 0 in IDLE on READ");
+      `test(0, cache_hit, "DUT.cache_hit should be 1 in IDLE on READ");
+      `test(0, err, "DUT.err should be 0 in IDLE on READ");
+
+      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in IDLE on READ");
+      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in IDLE on READ");
+      `test(0, DUT.cache_write, "DUT.cache_write should be 0 in IDLE on READ");
+      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in IDLE on READ");
+
+      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in IDLE on READ");
+      `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in IDLE on READ");
+      
+      // On a write
+      force DUT.Rd = 0;
+      force DUT.Wr = 1;
+      #1;
+      
+      `test(0, done, "DUT.done should be 1 in IDLE on WRITE");
+      `test(0, stall, "DUT.stall should be 0 in IDLE on WRITE");
+      `test(0, cache_hit, "DUT.cache_hit should be 1 in IDLE on WRITE");
+      `test(0, err, "DUT.err should be 0 in IDLE on WRITE");
+
+      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in IDLE on WRITE");
+      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in IDLE on WRITE");
+      `test(1, DUT.cache_write, "DUT.cache_write should be 0 in IDLE on WRITE");
+      `test(1, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in IDLE on WRITE");
+
+      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in IDLE on WRITE");
+      `test(0, DUT.mem_rd, "DUT.mem_rd should be 1 in IDLE on WRITE");
+      
       /********************************************************************************
        *  COMPRD
        * ********************************************************************************/
@@ -119,36 +154,9 @@ module t_mem_system_outputs_bench();
       force DUT.c0.valid = 1;
       #1;
       
-      `test(1, done, "DUT.done should be 1 in COMPRD state on a valid hit");
-      `test(0, stall, "DUT.stall should be 0 in COMPRD state on valid hit");
-      `test(1, cache_hit, "DUT.cache_hit should be 1 in COMPRD state on valid hit");
-      `test(0, err, "DUT.err should be 0 in COMPRD state on valid hit");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPRD state on a valid hit");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPRD state on a valid hit");
-      `test(0, DUT.cache_write, "DUT.cache_write should be 0 in COMPRD state on a valid hit");
-      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPRD state on a valid hit");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPRD state on a valid hit");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in COMPRD state on a valid hit");
-      
-
       // Cache hit when not valid
       force DUT.c0.valid = 0;
       #1;
-
-      `test(0, done, "DUT.done should be 0 in COMPRD state on invalid hit");
-      `test(1, stall, "DUT.stall should be 1 in COMPRD state on invalid hit");
-      `test(0, cache_hit, "DUT.cache_hit should be 0 in COMPRD state on invalid hit");
-      `test(0, err, "DUT.err should be 0 in COMPRD state on invalid hit");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPRD state on invalid hit");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPRD state on invalid hit");
-      `test(0, DUT.cache_write, "DUT.cache_write should be 0 in COMPRD state on invalid hit");
-      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPRD state on invalid hit");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPRD state on invalid hit");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in COMPRD state on invalid hit");
 
       /****************************************
        *  Cache miss
@@ -159,53 +167,17 @@ module t_mem_system_outputs_bench();
       force DUT.c0.dirty = 0;
       #1;
 
-      `test(0, done, "DUT.done should be 0 in COMPRD state on miss but not dirty");
-      `test(1, stall, "DUT.stall should be 1 in COMPRD state on miss but not dirty");
-      `test(0, cache_hit, "DUT.cache_hit should be 0 in COMPRD state on miss but not dirty");
-      `test(0, err, "DUT.err should be 0 in COMPRD state on miss but not dirty");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPRD state miss but not dirty");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPRD state miss but not dirty");
-      `test(0, DUT.cache_write, "DUT.cache_write should be 0 in COMPRD state miss but not dirty");
-      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPRD state miss but not dirty");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPRD state miss but not dirty");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in COMPRD state miss but not dirty");
 
       // Cache miss, dirty, and valid
       force DUT.c0.dirty = 1;
       force DUT.c0.valid = 1;
       #1;
 
-      `test(0, done, "DUT.done should be 0 in COMPRD state on miss, dirty, and valid");
-      `test(1, stall, "DUT.stall should be 1 in COMPRD state on miss, dirty, and valid");
-      `test(0, cache_hit, "DUT.cache_hit should be 0 in COMPRD state on miss, dirty, and valid");
-      `test(0, err, "DUT.err should be 0 in COMPRD state on miss, dirty, and valid");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPRD state miss, dirty, and valid");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPRD state miss, dirty, and valid");
-      `test(0, DUT.cache_write, "DUT.cache_write should be 0 in COMPRD state miss, dirty, and valid");
-      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPRD state miss, dirty, and valid");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPRD state miss, dirty, and valid");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in COMPRD state miss, dirty, and valid");
       
       // Cache miss, dirty, and not valid
       force DUT.c0.valid = 0;
       #1;
 
-      `test(0, done, "DUT.done should be 0 in COMPRD state on miss, dirty, and not valid");
-      `test(1, stall, "DUT.stall should be 1 in COMPRD state on miss, dirty, and not valid");
-      `test(0, cache_hit, "DUT.cache_hit should be 0 in COMPRD state on miss, dirty, and not valid");
-      `test(0, err, "DUT.err should be 0 in COMPRD state on miss, dirty, and not valid");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPRD state miss, dirty, and not valid");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPRD state miss, dirty, and not valid");
-      `test(0, DUT.cache_write, "DUT.cache_write should be 0 in COMPRD state miss, dirty, and not valid");
-      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPRD state miss, dirty, and not valid");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPRD state miss, dirty, and not valid");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 0 in COMPRD state miss, dirty, and not valid");
 
       /********************************************************************************
        *  MEMRD
@@ -305,7 +277,7 @@ module t_mem_system_outputs_bench();
       `test(0, cache_hit, "DUT.cache_hit should be 0 in DONE on hit");
       `test(0, err, "DUT.err should be 0 in DONE on hit");
 
-      `test(0, DUT.cache_enable, "DUT.cache_enable should be 1 in DONE on hit");
+      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in DONE on hit");
       `test(0, DUT.cache_comp, "DUT.cache_comp should be 1 in DONE on hit");
       `test(0, DUT.cache_write, "DUT.cache_write should be 0 in DONE on hit");
       `test(0, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in DONE on hit");
@@ -341,71 +313,72 @@ module t_mem_system_outputs_bench();
       force DUT.c0.valid = 1;
       force DUT.c0.hit = 1;
       #1;
+
+      `test(1, done, "DUT.done in COMPWR on hit and valid");
+      `test(0, stall, "DUT.stall in COMPWR on hit and valid");
+      `test(1, cache_hit, "DUT.cache_hit in COMPWR on hit and valid");
+      `test(0, err, "DUT.err in COMPWR on hit and valid");
+
+      `test(1, DUT.cache_enable, "DUT.cache_enable in COMPWR on hit and valid");
+      `test(0, DUT.cache_comp, "DUT.cache_comp in COMPWR on hit and valid");
+      `test(0, DUT.cache_write, "DUT.cache_write in COMPWR on hit and valid");
+      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in in COMPWR on hit and valid");
+
+      `test(0, DUT.mem_wr, "DUT.mem_wr in COMPWR on hit and valid");
+      `test(0, DUT.mem_rd, "DUT.mem_rd in COMPWR on hit and valid");
       
-      `test(1, done, "DUT.done should be 1 in COMPWR");
-      `test(0, stall, "DUT.stall should be 0 in COMPWR");
-      `test(1, cache_hit, "DUT.cache_hit should be 1 in COMPWR");
-      `test(0, err, "DUT.err should be 0 in COMPWR");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPWR");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPWR");
-      `test(1, DUT.cache_write, "DUT.cache_write should be 0 in COMPWR");
-      `test(1, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPWR");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPWR");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 1 in COMPWR");
-     
       // On hit and not valid
       force DUT.c0.valid = 0;
       #1;
 
-      `test(0, done, "DUT.done should be 0 in COMPWR");
-      `test(1, stall, "DUT.stall should be 1 in COMPWR");
-      `test(0, cache_hit, "DUT.cache_hit should be 0 in COMPWR");
-      `test(0, err, "DUT.err should be 0 in COMPWR");
+      `test(0, done, "DUT.done in COMPWR on hit and not valid");
+      `test(1, stall, "DUT.stall in COMPWR on hit and not valid");
+      `test(0, cache_hit, "DUT.cache_hit in COMPWR on hit and not valid");
+      `test(0, err, "DUT.err in COMPWR on hit and not valid");
 
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPWR");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPWR");
-      `test(1, DUT.cache_write, "DUT.cache_write should be 0 in COMPWR");
-      `test(1, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPWR");
+      `test(0, DUT.cache_enable, "DUT.cache_enable in COMPWR on hit and not valid");
+      `test(0, DUT.cache_comp, "DUT.cache_comp in COMPWR on hit and not valid");
+      `test(0, DUT.cache_write, "DUT.cache_write in COMPWR on hit and not valid");
+      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in in COMPWR on hit and not valid");
 
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPWR");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 1 in COMPWR");      
+      `test(0, DUT.mem_wr, "DUT.mem_wr in COMPWR on hit and not valid");
+      `test(0, DUT.mem_rd, "DUT.mem_rd in COMPWR on hit and not valid");      
 
       // On miss and dirty
       force DUT.c0.hit = 0;
       force DUT.c0.dirty = 1;
       #1;
 
-      `test(0, done, "DUT.done should be 0 in COMPWR");
-      `test(1, stall, "DUT.stall should be 0 in COMPWR");
-      `test(0, cache_hit, "DUT.cache_hit should be 1 in COMPWR");
-      `test(0, err, "DUT.err should be 0 in COMPWR");
+      `test(0, done, "DUT.done in COMPWR on miss and dirty");
+      `test(1, stall, "DUT.stall in COMPWR on miss and dirty");
+      `test(0, cache_hit, "DUT.cache_hit in COMPWR on miss and dirty");
+      `test(0, err, "DUT.err in COMPWR on miss and dirty");
 
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPWR");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPWR");
-      `test(1, DUT.cache_write, "DUT.cache_write should be 0 in COMPWR");
-      `test(1, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPWR");
+      `test(0, DUT.cache_enable, "DUT.cache_enable in COMPWR on miss and dirty");
+      `test(0, DUT.cache_comp, "DUT.cache_comp in COMPWR on miss and dirty");
+      `test(0, DUT.cache_write, "DUT.cache_write in COMPWR on miss and dirty");
+      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in in COMPWR on miss and dirty");
 
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPWR");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 1 in COMPWR");
-      
+      `test(0, DUT.mem_wr, "DUT.mem_wr in COMPWR on miss and dirty");
+      `test(0, DUT.mem_rd, "DUT.mem_rd in COMPWR on miss and dirty");
+
       // On miss and not dirty
       force DUT.c0.dirty = 0;
+
+      `test(0, done, "DUT.done in COMPWR on miss and not dirty");
+      `test(1, stall, "DUT.stall in COMPWR on miss and not dirty");
+      `test(0, cache_hit, "DUT.cache_hit in COMPWR on miss and not dirty");
+      `test(0, err, "DUT.err in COMPWR on miss and not dirty");
+
+      `test(0, DUT.cache_enable, "DUT.cache_enable in COMPWR on miss and not dirty");
+      `test(0, DUT.cache_comp, "DUT.cache_comp in COMPWR on miss and not dirty");
+      `test(0, DUT.cache_write, "DUT.cache_write in COMPWR on miss and not dirty");
+      `test(0, DUT.cache_valid_in, "DUT.cache_valid_in in COMPWR on miss and not dirty");
+
+      `test(0, DUT.mem_wr, "DUT.mem_wr in COMPWR on miss and not dirty");
+      `test(0, DUT.mem_rd, "DUT.mem_rd in COMPWR on miss and not dirty");
+      
       #1;
-
-      `test(0, done, "DUT.done should be 0 in COMPWR");
-      `test(1, stall, "DUT.stall should be 0 in COMPWR");
-      `test(0, cache_hit, "DUT.cache_hit should be 1 in COMPWR");
-      `test(0, err, "DUT.err should be 0 in COMPWR");
-
-      `test(1, DUT.cache_enable, "DUT.cache_enable should be 1 in COMPWR");
-      `test(1, DUT.cache_comp, "DUT.cache_comp should be 1 in COMPWR");
-      `test(1, DUT.cache_write, "DUT.cache_write should be 0 in COMPWR");
-      `test(1, DUT.cache_valid_in, "DUT.cache_valid_in should be 0 in COMPWR");
-
-      `test(0, DUT.mem_wr, "DUT.mem_wr should be 0 in COMPWR");
-      `test(0, DUT.mem_rd, "DUT.mem_rd should be 1 in COMPWR");      
 
       /********************************************************************************
        *  WRMISSDONE
