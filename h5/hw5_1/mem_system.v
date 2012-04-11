@@ -161,8 +161,7 @@ module mem_system(/*AUTOARG*/
 	end
 
         COMPRD : begin
-           next_state = (Rd == 1 && Wr == 0) ? COMPRD : 
-                        (cache_hit == 0 && cache_dirty == 0) ? MEMRD : 
+           next_state = (cache_hit == 0 && cache_dirty == 0) ? MEMRD : 
                         (cache_hit == 1 && cache_valid == 0) ? MEMRD :
                         (cache_hit == 1 && cache_valid == 1) ? DONE :
                         (cache_hit == 0 && cache_dirty == 1 && cache_valid == 0) ? MEMRD :
