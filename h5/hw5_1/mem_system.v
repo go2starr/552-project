@@ -266,7 +266,18 @@ module mem_system(/*AUTOARG*/
          *  IDLE - No actions yet
          */
         IDLE: begin
-           // Defaults
+           if (Rd) begin
+              cache_enable = 1;    // Enable
+              cache_comp = 1;      // Compare tags
+              cache_write = 0;     // Read
+           end
+
+           if (Wr) begin
+              cache_enable = 1;    // Enable
+              cache_comp = 1;      // Compare tags
+              cache_write = 1;     // Read
+              cache_valid_in = 1;  // Valid data
+           end
         end
 
         /*
@@ -282,11 +293,6 @@ module mem_system(/*AUTOARG*/
          *  has been modified.
          */
         COMPRD: begin
-           cache_enable = 1;    // Enable
-           cache_comp = 1;      // Compare tags
-           cache_write = 0;     // Read
-	   Stall = !(cache_hit && cache_valid);  // Stall processor
-           Done = cache_hit && cache_valid;
         end
 
         /*
@@ -348,11 +354,7 @@ module mem_system(/*AUTOARG*/
          *  back to memory.
          */
         COMPWR: begin
-           cache_enable = 1;    // Enable
-           cache_comp = 1;      // Compare tags
-           cache_write = 1;     // Write
-           cache_data_in = DataIn; // Write data
-           cache_valid_in = 1; // Data is valid
+           cache_enable = cache_hit && cache_valid;    // Enable
 	   Stall = ~(cache_hit && cache_valid);
            Done = cache_hit && cache_valid;  
         end
