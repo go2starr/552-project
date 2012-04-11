@@ -239,8 +239,8 @@ module mem_system(/*AUTOARG*/
    always @(*) begin
       // Defaults
       cache_enable = 0;
-      cache_data_in = 16'bx;
-      cache_comp = 1'bx;
+      cache_data_in = 16'b0;
+      cache_comp = 1'b0;
       cache_write = 0;
       cache_valid_in = 0;
 
@@ -292,6 +292,8 @@ module mem_system(/*AUTOARG*/
          *  has been modified.
          */
         COMPRD: begin
+           Stall = 1;
+           cache_enable = cache_hit && cache_valid;
         end
 
         /*
@@ -305,7 +307,7 @@ module mem_system(/*AUTOARG*/
          */
         MEMRD: begin
            mem_addr = { cache_index, cache_tag_in } + (count * 2); // Block base + word offset
-           mem_rd = 1;
+           mem_rd = ~mem_stall;
 	   Stall = 1;   
         end
 
@@ -336,9 +338,10 @@ module mem_system(/*AUTOARG*/
          *  send it out.
          */
         DONE: begin
-	   Done = ~cache_hit;
+	   Done = 1;  //~cache_hit;
+           cache_enable = 1;
            DataOut = cache_data_out;
-           Stall = cache_hit;
+           Stall = 0; //cache_hit;
         end
 
         /*
