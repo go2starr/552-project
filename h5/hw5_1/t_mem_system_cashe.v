@@ -66,8 +66,7 @@ module t_mem_system_cashe();
 	 *  First Test- Write to Address
 	 *  ****************************/
 
-	force DUT.Addr = 16'h1010;
-	release DUT.Addr;
+	addr = 16'h1010;
 	force DUT.DataIn = 16'h1111;
 	#1
 	rd = 0;
@@ -80,36 +79,48 @@ module t_mem_system_cashe();
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
         `test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
+	`test(0, DUT.count, "Count on first word");
+	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
+		 DUT.cache_offset);
+	$display("Cache_valid_in: %b", DUT.cache_valid_in);
+	$display("Cache_write: %b", DUT.cache_write);
+	$display("Cache_comp: %b", DUT.cache_comp);
+	$display("Cache_enable: %b", DUT.cache_enable);
+	
+	
+	`test(1, DUT.cache_write, "Should be writing on first word in INSTALL_CACHE");
 	`tic; 
-	$display("%d", DUT.count);
-	$display("%d", DUT.next_state);
-	$display("Mem stall: %d", DUT.mem_stall);
-	$display("Mem mem stall : %d", DUT.mem.stall);
-	
-	
 	`test(MEMRD, DUT.state, "Should be in MEMRD");
 	`tic; 
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
         `tic; 
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
+	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
+		 DUT.cache_offset);	
 	`tic;  
         `test(MEMRD, DUT.state, "Should be in MEMRD");
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
+	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
+		 DUT.cache_offset);	
 	`tic;  
         `test(MEMRD, DUT.state, "Should be in MEMRD");
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
+	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
+		 DUT.cache_offset);	
 	`tic
 	`test(WRMISSDONE, DUT.state, "Should be Done");
         `tic
 	`test(IDLE, DUT.state, "Should be in IDLE");
+	`test(16'h1111, DUT.cache_data_in, "Data into cache should be data into memory");
         `tic
 	`test(COMPWR, DUT.state, "Should be in COMPWR");
+	`test(1, DUT.cache_hit, "Should be a hit after filling cache with valid block");
 	`tic
 	`test(DONE, DUT.state, "Should be in DONE");
 	`tic
@@ -122,8 +133,16 @@ module t_mem_system_cashe();
 
 	rd = 1;
 	wr = 0;
+	#1;
+	
+	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
+		 DUT.cache_offset);
+	$display("cache_enable: %b, comp: %b", DUT.cache_enable, DUT.cache_comp);
+ 
 	`tic; //Should be in COMPRD
 	`test(COMPRD, DUT.state, "Should be in COMPR");
+	`test(1, DUT.c0.hit, "Should be a hit");
+
 	`tic; //Should be in DONE
 
 	`test(DONE, DUT.state, "Should be Done");
@@ -142,8 +161,8 @@ module t_mem_system_cashe();
 	 **********************/
 	 `test(IDLE, DUT.state, "Should be IDLE");
 
-          force DUT.Addr = 16'h1110;
-	  release DUT.Addr;
+          addr = 16'h1110;
+	
 	  rd = 1;
 	  wr = 0;
 	  `tic;
