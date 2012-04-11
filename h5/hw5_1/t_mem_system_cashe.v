@@ -117,8 +117,10 @@ module t_mem_system_cashe();
 	`test(WRMISSDONE, DUT.state, "Should be Done");
         `tic
 	`test(IDLE, DUT.state, "Should be in IDLE");
+	`test(16'h1111, DUT.cache_data_in, "Data into cache should be data into memory");
         `tic
 	`test(COMPWR, DUT.state, "Should be in COMPWR");
+	`test(1, DUT.cache_hit, "Should be a hit after filling cache with valid block");
 	`tic
 	`test(DONE, DUT.state, "Should be in DONE");
 	`tic

@@ -269,7 +269,6 @@ module mem_system(/*AUTOARG*/
               cache_enable = 1;    // Enable
               cache_comp = 1;      // Compare tags
               cache_write = 0;     // Read
-              cache_data_in = DataIn;
            end
 
            if (Wr) begin
@@ -277,6 +276,7 @@ module mem_system(/*AUTOARG*/
               cache_comp = 1;      // Compare tags
               cache_write = 1;     // Read
               cache_valid_in = 1;  // Valid data
+              cache_data_in = DataIn;
            end
         end
 
