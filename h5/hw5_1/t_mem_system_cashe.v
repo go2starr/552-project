@@ -80,14 +80,6 @@ module t_mem_system_cashe();
 	`tic;  
         `test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
 	`test(0, DUT.count, "Count on first word");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);
-	$display("Cache_valid_in: %b", DUT.cache_valid_in);
-	$display("Cache_write: %b", DUT.cache_write);
-	$display("Cache_comp: %b", DUT.cache_comp);
-	$display("Cache_enable: %b", DUT.cache_enable);
-	
-	
 	`test(1, DUT.cache_write, "Should be writing on first word in INSTALL_CACHE");
 	`tic; 
 	`test(MEMRD, DUT.state, "Should be in MEMRD");
@@ -95,24 +87,18 @@ module t_mem_system_cashe();
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
         `tic; 
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);	
 	`tic;  
         `test(MEMRD, DUT.state, "Should be in MEMRD");
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);	
 	`tic;  
         `test(MEMRD, DUT.state, "Should be in MEMRD");
 	`tic;  
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
 	`test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);	
 	`tic
 	`test(WRMISSDONE, DUT.state, "Should be Done");
         `tic
@@ -135,10 +121,6 @@ module t_mem_system_cashe();
 	wr = 0;
 	#1;
 	
-	$display("Index: %h, Tag: %h, Offset: %d", DUT.cache_index, DUT.cache_tag_in,
-		 DUT.cache_offset);
-	$display("cache_enable: %b, comp: %b", DUT.cache_enable, DUT.cache_comp);
- 
 	`tic; //Should be in COMPRD
 	`test(COMPRD, DUT.state, "Should be in COMPR");
 	`test(1, DUT.c0.hit, "Should be a hit");
@@ -196,8 +178,64 @@ module t_mem_system_cashe();
 	  `tic;
 	  `test(IDLE, DUT.state, "Should be in IDLE");
 
+          /******************************************
+	   * Write to address that is already in CACHE
+	   * *****************************************/
+          rd = 0;
+	  wr = 1;
+	  force DUT.DataIn = 16'h1100;
+           #1
 
-		  
+          `tic;
+	  `test(COMPWR, DUT.state, "Should be in COMPWR");
+	  `tic;
+	  `test(DONE, DUT.state, "Should be in DONE");
+	  `tic
+
+           /****************************************
+	    * Make it dirty
+	    * **************************************/
+
+	  addr = 16'h1100;
+          force DUT.DataIn = 16'h0011;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `tic;
+	  `test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
+	  `tic;
+	  `test(WRMISSDONE, DUT.state, "Should be in WRMISSDONE");
+	  `tic;
+	  `test(IDLE, DUT.state, "Should be in IDLE");
+	  `tic;
+	  `test(COMPWR, DUT.state, "should be in compwr");
+	  `tic;
+	  `test(DONE, DUT.state, "should be in done");
+	  `tic;
+
+           /********************************************
+	    *  Now Read it
+	    * ******************************************/
+
+	   rd = 1;
+	   wr = 0;
+	   #1
+
+	   `tic
+	   `test(COMPRD, DUT.state, "Should be in INSTALL_CACHE");
+	   `tic;
+	   `test(DONE, DUT.state, "Should be in DONE");
+	   `tic;
+           `test(16'h0011, DUT.DataOut, "Should be 16'h0011");
 
 	$stop;
 
