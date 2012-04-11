@@ -25,7 +25,7 @@ module mem_system(/*AUTOARG*/
    output reg [15:0] DataOut;
    output reg        Done;
    output reg        Stall;
-   output            CacheHit;
+   output reg        CacheHit;
    output reg        err;
 
    /* data_mem = 1, inst_mem = 0 *
@@ -88,9 +88,9 @@ module mem_system(/*AUTOARG*/
    // Assigns
    assign cache_index  = Addr [15:8];
    assign cache_tag_in = Addr [7:3];
-   assign cache_offset = (state == INSTALL_CACHE) ? count : Addr[2:1];
-   assign CacheHit     = cache_hit && cache_valid // Cache ok
-                         && (state == COMPRD || state == COMPWR); // Valid state
+   assign cache_offset = (state == INSTALL_CACHE) ? count : Addr[2:1] >> 1;
+//   assign CacheHit     = cache_hit && cache_valid // Cache ok
+//                         && (state == DONE); // Valid state
 
    /****************************************
     *  Memory
@@ -278,6 +278,8 @@ module mem_system(/*AUTOARG*/
               cache_valid_in = 1;  // Valid data
               cache_data_in = DataIn;
            end
+
+           CacheHit = 0;
         end
 
         /*
@@ -296,8 +298,10 @@ module mem_system(/*AUTOARG*/
            Stall = 1;
            cache_enable = cache_hit && cache_valid;
 
-           if (cache_hit && cache_valid)
-             DataOut = cache_data_out;
+           if (cache_hit && cache_valid) begin
+              DataOut = cache_data_out;
+              CacheHit = 1;
+           end
         end
 
         /*
@@ -361,7 +365,10 @@ module mem_system(/*AUTOARG*/
         COMPWR: begin
            cache_enable = cache_hit && cache_valid;    // Enable
 	   Stall = ~(cache_hit && cache_valid);
-           Done = cache_hit && cache_valid;  
+           Done = cache_hit && cache_valid;
+
+           if (cache_hit && cache_valid)
+             CacheHit = 1;
         end
 
         /*

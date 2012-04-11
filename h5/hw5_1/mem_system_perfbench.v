@@ -74,9 +74,10 @@ module mem_system_perfbench(/*AUTOARG*/);
    integer rval;
    
    initial begin
-      $monitor("%b :: DataOut: %h, Cache (en=%b, din=%h, comp=%b, wr=%b, dout=%h, off=%d)  Mem (addr,din,dout) : (%h, %h, %h", 0, DUT.m0.DataOut, DUT.m0.cache_enable, DUT.m0.cache_data_in, DUT.m0.cache_comp, DUT.m0.cache_write, DUT.m0.cache_data_out, DUT.m0.cache_offset,
+      /*
+       $monitor("%b :: DataOut: %h, Cache (en=%b, din=%h, comp=%b, wr=%b, dout=%h, off=%d, valid=%b)  Mem (addr,din,dout) : (%h, %h, %h", 0, DUT.m0.DataOut, DUT.m0.cache_enable, DUT.m0.cache_data_in, DUT.m0.cache_comp, DUT.m0.cache_write, DUT.m0.cache_data_out, DUT.m0.cache_offset, DUT.m0.cache_valid_in,
                DUT.m0.mem_addr, DUT.m0.mem_data_in, DUT.m0.mem_data_out);
-      
+      */
       
       Rd = 1'b0;
       Wr = 1'b0;
