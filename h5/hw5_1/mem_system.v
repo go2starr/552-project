@@ -88,7 +88,7 @@ module mem_system(/*AUTOARG*/
    // Assigns
    assign cache_index  = Addr [15:8];
    assign cache_tag_in = Addr [7:3];
-   assign cache_offset = (state != INSTALL_CACHE) ? Addr [2:0] : count;
+   assign cache_offset = (state == INSTALL_CACHE) ? count : Addr[2:1];
    assign CacheHit     = cache_hit && cache_valid // Cache ok
                          && (state == COMPRD || state == COMPWR); // Valid state
 
@@ -295,6 +295,9 @@ module mem_system(/*AUTOARG*/
         COMPRD: begin
            Stall = 1;
            cache_enable = cache_hit && cache_valid;
+
+           if (cache_hit && cache_valid)
+             DataOut = cache_data_out;
         end
 
         /*
@@ -332,6 +335,9 @@ module mem_system(/*AUTOARG*/
            cache_valid_in = 1;
            Stall = 1;
            next_count = count + 1; // finished a read
+
+           if (count == Addr[2:1])
+             DataOut = mem_data_out;
         end
 
         /*
@@ -341,8 +347,7 @@ module mem_system(/*AUTOARG*/
         DONE: begin
 	   Done = 1;  //~cache_hit;
            cache_enable = 1;
-           DataOut = cache_data_out;
-           Stall = 0; //cache_hit;
+           Stall = 1; //cache_hit;
         end
 
         /*
