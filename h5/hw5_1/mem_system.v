@@ -269,6 +269,7 @@ module mem_system(/*AUTOARG*/
               cache_enable = 1;    // Enable
               cache_comp = 1;      // Compare tags
               cache_write = 0;     // Read
+              cache_data_in = DataIn;
            end
 
            if (Wr) begin
