@@ -80,7 +80,13 @@ module t_mem_system_cashe();
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
 	`tic;  
         `test(INSTALL_CACHE, DUT.state, "Should be in INSTALL_CACHE");
-	`tic;  
+	`tic; 
+	$display("%d", DUT.count);
+	$display("%d", DUT.next_state);
+	$display("Mem stall: %d", DUT.mem_stall);
+	$display("Mem mem stall : %d", DUT.mem.stall);
+	
+	
 	`test(MEMRD, DUT.state, "Should be in MEMRD");
 	`tic; 
 	`test(WAITSTATE, DUT.state, "Should be in WAITSTATE");
