@@ -56,16 +56,39 @@ module mem_system(/*AUTOARG*/
 
    reg               cache_accessed; // Was the cache accessed on the previous cycle?
    reg               next_cache_accessed;
+
+   /****************************************
+    *  Outputs
+    * ****************************************/
+   reg [15:0]        next_data_out;
+   reg               next_done;
+   reg               next_stall;
+   reg               next_cache_hit;
+   reg               next_err;
    
    always @(posedge clk) begin
       if (rst) begin
+         // State
          state <= IDLE;
          count <= 0;
          cache_accessed = 0;
+         // Outputs
+         DataOut <= 0;
+         Done <= 0;
+         Stall <= 0;
+         CacheHit <= 0;
+         err <= 0;
       end else begin
+         // State
          state <= next_state;
          count <= next_count;
          cache_accessed <= next_cache_accessed;
+         // Outputs
+         DataOut <= next_data_out;
+         Done <= next_done;
+         Stall <= next_stall;
+         CacheHit <= next_cache_hit;
+         err <= next_err;
       end
    end
    
@@ -102,7 +125,14 @@ module mem_system(/*AUTOARG*/
    wire          mem_stall;
    wire [3:0]    mem_busy;
    wire          mem_err;
-   
+
+   // Wires
+   wire          write_mem_addr;
+   wire          read_mem_addr;
+
+//   assign write_mem_addr = 
+//   assign read_mem_addr  = { cache_index, cache_tag_in,  3'b0 } + count * 2;
+
    /********************************************************************************
     *  Modules
     * ********************************************************************************/
@@ -177,7 +207,6 @@ module mem_system(/*AUTOARG*/
              if (cache_hit && cache_valid) begin
                 // Stay in idle, the operation completed
                 next_state = IDLE;
-                
              end else begin
                 // Cache missed, is the row dirty?
                 if (cache_dirty) begin
@@ -245,7 +274,7 @@ module mem_system(/*AUTOARG*/
          *  to IDLE.
          */
         RETRY:
-          next_state = IDLE_STATE;
+          next_state = IDLE;
         
       endcase
    end
@@ -267,6 +296,7 @@ module mem_system(/*AUTOARG*/
       Stall = 1;
       Done = 0;
       err = 0;
+      DataOut = DataOut;
 
       // State
       next_count = count;
@@ -290,21 +320,16 @@ module mem_system(/*AUTOARG*/
          *  ERR - Error state, unrecoverable.
          */
         ERR:
-           err = 1;
-
+          next_err = 1;
+        
         /*
-         *  IDLE - 
+         *  IDLE - Two cases: hit, or miss
+         * 
+         *  Hit:
+         *    
          */
         IDLE:
-          // Did we access the cache last cycle?
-          if (cache_accessed) begin
-             // Cache was accessed, we are done if there was a hit
-             if (cache_hit && cache_valid) begin
-                Done = 1;
-             end else begin
-                // Cache missed, row dirty?
-                if (cache_dirty) begin
-          end else begin
+          begin
           end
       endcase
    end   
