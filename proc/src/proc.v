@@ -11,6 +11,7 @@ module proc(
 
    // Outputs
    output err;
+   assign err = 0;
 
    /********************************************************************************
     *   Wires
@@ -50,13 +51,8 @@ module proc(
    /********************************************************************************
     *  Fetch Stage
     *********************************************************************************/
-   // PC
-   register pc_reg(.q(pc), 
-                   .d(next_pc), 
-                   .clk(clk),
-                   .rst(rst),
-                   .we(1'b1));
 
+   // PC + 2
    add16 incpc (.A(16'h0002), 
 		.B(pc),
 		.CI (1'b0), 
@@ -67,11 +63,14 @@ module proc(
 		);
 
    // Next-pc logic
-   next_pc_addr npca (.instr(instr), 
-		      .pc_inc(pc_inc), 
-		      .alu_out(alu_out), 
-		      .brj_dest(brj_dest_addr), 
-		      .bt(bt), 
+   next_pc_addr npca (
+                      // Inputs
+                      .instr(instr), // Instr @ EX
+		      .pc_inc(pc_inc), // PC + 2 @ IF
+		      .alu_out(alu_out), // alu_out @ EX
+		      .brj_dest(brj_dest_addr), // brj_dest @ EX
+		      .bt(bt),                  // bt @ EX
+                      // Outputs
 		      .next_pc(next_pc)
 		      );
 
@@ -88,6 +87,12 @@ module proc(
 		       // Outputs
 		       .data_out (instr)
 		       );
+   // PC
+   register pc_reg(.q(pc), 
+                   .d(next_pc), 
+                   .clk(clk),
+                   .rst(rst),
+                   .we(1'b1));
 
    /********************************************************************************
     *  Decode Stage
@@ -95,25 +100,6 @@ module proc(
    // Assign Rs, Rt
    assign rf_rs1 = instr[10:8]; // Rs
    assign rf_rs2 = (instr[15:11] != 5'b01110) ? instr[7:5] : 3'b111;  // Rt, R7 upon RET instr
-
-   /********************************************************************************
-    *  Fetch Stage ???
-    *********************************************************************************/
-   // RF fetching
-   rf rf(
-                // Inputs
-                .err(err),
-                .clk(clk),
-                .rst(rst),
-                .read1regsel(rf_rs1),
-                .read2regsel(rf_rs2),
-                .writeregsel(rf_ws),
-                .writedata(rf_wd),
-                .write(rf_wr),
-                // Outputs
-                .read1data(rf_rd1),
-                .read2data(rf_rd2)
-                );
 
    /********************************************************************************
     *  Execute Stage
@@ -163,14 +149,17 @@ module proc(
 
    // Calculate branch/jump destination address
    brj_addr_calc bac (.instr(instr), 
-		      .pc_inc(pc_inc), 
+		      .next_pc(pc_inc), 
 		      .dest_addr(brj_dest_addr)); 
    
 
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
-   mem_decode_logic mdl (.instr(instr), 
+   mem_decode_logic mdl (
+                         // Inputs
+                         .instr(instr),
+                         // Outputs
 			 .e_mem(we_mem),
 			 .wr_mem(wr_mem),
 			 .halt(halt)
@@ -196,16 +185,34 @@ module proc(
    
    
    // determine which data to write back into the register file
-   dest_data_decode ddd (.instr(instr), 
-			 .pc_inc(pc_inc), 
+   dest_data_decode ddd (
+                         // Inputs
+                         .instr(instr), 
+			 .next_pc(pc_inc), 
 			 .alu_out(alu_out), 
-			 .mem_out(mem_out), 
+			 .mem_out(mem_out),
+                         // Outputs
 			 .rdata (rf_wd)
                          );       
    
    /********************************************************************************
     *
     *********************************************************************************/
-   assign err = 0;
+   // RF fetching
+   rf rf(
+                // Inputs
+                .err(err),
+                .clk(clk),
+                .rst(rst),
+                .read1regsel(rf_rs1),
+                .read2regsel(rf_rs2),
+                .writeregsel(rf_ws),
+                .writedata(rf_wd),
+                .write(rf_wr),
+                // Outputs
+                .read1data(rf_rd1),
+                .read2data(rf_rd2)
+                );
+   
 
 endmodule // proc

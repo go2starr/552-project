@@ -1,7 +1,7 @@
-module dest_data_decode (instr, pc_inc, alu_out, mem_out, rdata);
+module dest_data_decode (instr, next_pc, alu_out, mem_out, rdata);
    // Inputs
    input [15:0] instr;
-   input [15:0] pc_inc;
+   input [15:0] next_pc;
    input [15:0] alu_out;
    input [15:0] mem_out;
 
@@ -73,9 +73,9 @@ module dest_data_decode (instr, pc_inc, alu_out, mem_out, rdata);
 
 	/* Write PC to R7 */
 	7'b00110xx : // JAL
-	  rdata = pc_inc;
+	  rdata = next_pc;
 	7'b00111xx : // JALR
-	  rdata = pc_inc;
+	  rdata = next_pc;
 
 	/* Write back to Rs */
 	7'b10011xx : // STU
