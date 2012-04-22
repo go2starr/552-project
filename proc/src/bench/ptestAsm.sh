@@ -11,4 +11,4 @@ then
     exit 0
 fi
 
-wsrun_mumble.pl -pipe -prog $1  proc_hier_pbench `find ../../ | grep ".*\.v$"
+wsrun_mumble.pl -pipe -prog $1  proc_hier_pbench `find ../../ | grep ".*\.v$"`

@@ -13,6 +13,9 @@ module proc(
    output err;
    assign err = 0;
 
+   // Internal
+   wire   halt, stall;
+
    /********************************************************************************
     *   Wires
     *********************************************************************************/
@@ -33,6 +36,8 @@ module proc(
 
    // Passed out
    wire [15:0] ID_rf_rd1, ID_rf_rd2;
+   wire [2:0]  ID_rf_ws;
+   wire        ID_wr;
 
    // Internal
    wire [2:0]  ID_rf_rs1, ID_rf_rs2; // Read/Write select
@@ -42,11 +47,12 @@ module proc(
     ****************************************/
    // Passed in
    wire [15:0] EX_instr, EX_pc_inc, EX_rf_rd2, EX_rf_rd1;
+   wire [2:0]  EX_rf_ws;
+   wire        EX_rf_wr;
 
    // Passed out
    wire [15:0] EX_alu_out, EX_brj_dest_addr;
-   wire [2:0]  EX_rf_ws;
-   wire        EX_rf_wr, EX_bt;
+   wire        EX_bt;
 
    // Internal
    wire        EX_cin, EX_alu_ofl, EX_alu_zero, EX_alu_signed;
@@ -100,6 +106,7 @@ module proc(
 		      .alu_out(EX_alu_out), // alu_out @ EX
 		      .brj_dest(EX_brj_dest_addr), // brj_dest @ EX
 		      .bt(EX_bt),                  // bt @ EX
+                      .stall(stall),
                       // Outputs
 		      .next_pc(IF_next_pc)
 		      );
@@ -127,21 +134,48 @@ module proc(
    /********************************************************************************
     *  Decode Stage
     *********************************************************************************/
+   wire [15:0] IF_instr_in;
+   wire [15:0] ID_instr_out;
+   
+   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  || // Stall
+                  (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr) ||
+                  (ID_rf_rs1 == WB_rf_ws  && WB_rf_wr)  ||
+                  (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr)  ||
+                  (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr) ||
+                  (ID_rf_rs2 == WB_rf_ws  && WB_rf_wr);
+   
+   assign IF_instr_in = rst ? 16'h0800 :                  // On reset, insert NOP
+                        stall ? ID_instr_out : IF_instr;  // On stall, hold.  Else, take in piped value
+   assign ID_instr = stall ? 16'h0800 : ID_instr_out;     // Send out NOP on stall
 
    // Pipelined regs
-   register IF_ID_instr  (.d(IF_instr),   .q(ID_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register IF_ID_instr  (.d(IF_instr_in),   .q(ID_instr_out), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
    register IF_ID_pc_inc (.d(IF_pc_inc),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Assign Rs, Rt
    assign ID_rf_rs1 = ID_instr[10:8]; // Rs
    assign ID_rf_rs2 = (ID_instr[15:11] != 5'b01110) ? ID_instr[7:5] : 3'd7;  // Rt, R7 upon RET instr
 
+   // Decode instruction destination
+   alu_destination_decode add(
+                              // Inputs
+                              .instr(ID_instr),
+                              // Outputs
+                              .rd(ID_rf_ws),
+			      .we_reg (ID_rf_wr)
+                              );
+                         
+
    /********************************************************************************
     *  Execute Stage
     *********************************************************************************/
+   wire [15:0] ID_instr_in;
+   assign ID_instr_in = rst ? 16'h0800 : ID_instr;
 
    // Pipelined regs
-   register ID_EX_instr  (.d(ID_instr),   .q(EX_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(3)) ID_EX_rf_ws  (.d(ID_rf_ws),      .q(EX_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(1)) ID_EX_rf_wr  (.d(ID_rf_wr),      .q(EX_rf_wr), .clk(clk), .rst(rst), .we(1'b1));
+   register ID_EX_instr  (.d(ID_instr_in),   .q(EX_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
    register ID_EX_pc_inc (.d(ID_pc_inc),  .q(EX_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
 
    register ID_EX_rf_rd1 (.d(ID_rf_rd1), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1'b1));      
@@ -165,14 +199,6 @@ module proc(
                       // Outputs
                       .alu_op(EX_alu_op));
 
-   // Decode instruction destination
-   alu_destination_decode add(
-                              // Inputs
-                              .instr(EX_instr),
-                              // Outputs
-                              .rd(EX_rf_ws),
-			      .we_reg (EX_rf_wr)
-                              );
 
    // ALU
    ALU alu(
@@ -208,13 +234,18 @@ module proc(
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
-
+   wire        EX_rf_wr_in;
+   wire [15:0] EX_instr_in;
+   
+   assign EX_rf_wr_in = rst ? 0 : EX_rf_wr;
+   assign EX_instr_in = rst ? 16'h0800 : EX_instr;
+   
    // Pipelined regs
-   register EX_MEM_instr   (.d(EX_instr),   .q(MEM_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register EX_MEM_instr   (.d(EX_instr_in),   .q(MEM_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
    register EX_MEM_pc_inc  (.d(EX_pc_inc),  .q(MEM_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
    register EX_MEM_alu_out (.d(EX_alu_out), .q(MEM_alu_out), .clk(clk), .rst(rst), .we(1'b1));
    register #(.WIDTHreg(3)) EX_MEM_rf_ws  (.d(EX_rf_ws),   .q(MEM_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
-   register #(.WIDTHreg(1)) EX_MEM_rf_wr  (.d(EX_rf_wr),   .q(MEM_rf_wr), .clk(clk), .rst(rst), .we(1'b1));            
+   register #(.WIDTHreg(1)) EX_MEM_rf_wr  (.d(EX_rf_wr_in),   .q(MEM_rf_wr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
 
    register EX_MEM_rf_rd2  (.d(EX_rf_rd2), .q(MEM_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));
    
@@ -244,6 +275,11 @@ module proc(
    /********************************************************************************
     *  Write Stage
     *********************************************************************************/
+   wire        MEM_rf_wr_in;
+   assign MEM_rf_wr_in = rst ? 0 : MEM_rf_wr;
+
+   // Halt detection
+   assign halt = MEM_instr[15:11] == 5'b00000;
 
    // Pipelined regs
    register MEM_WB_instr  (.d(MEM_instr),   .q(WB_instr), .clk(clk), .rst(rst), .we(1'b1));
@@ -251,7 +287,7 @@ module proc(
    register MEM_WB_alu_out(.d(MEM_alu_out), .q(WB_alu_out), .clk(clk), .rst(rst), .we(1'b1));
    register MEM_WB_mem_out(.d(MEM_mem_out), .q(WB_mem_out), .clk(clk), .rst(rst), .we(1'b1));
    register #(.WIDTHreg(3)) MEM_WB_rf_ws  (.d(MEM_rf_ws),   .q(WB_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
-   register #(.WIDTHreg(1)) MEM_WB_rf_wr  (.d(MEM_rf_wr),   .q(WB_rf_wr), .clk(clk), .rst(rst), .we(1'b1));         
+   register #(.WIDTHreg(1)) MEM_WB_rf_wr  (.d(MEM_rf_wr_in),   .q(WB_rf_wr), .clk(clk), .rst(1'b0), .we(1'b1)); // Initialized
    
    // determine which data to write back into the register file
    dest_data_decode ddd (

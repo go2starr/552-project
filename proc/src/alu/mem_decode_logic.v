@@ -37,7 +37,7 @@ module mem_decode_logic (instr, e_mem, wr_mem, halt);
 	/* create dump */  
 	7'b00000xx : begin // HALT
 	   wr_mem = 1'b0;
-	   e_mem = 1'b1;
+	   e_mem = 1'b0;
 	   halt = 1'b1;
         end      
         
