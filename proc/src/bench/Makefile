@@ -1,5 +1,5 @@
 all:
-	assemble.sh proc.asm  && vtest t_proc_bench
+	assemble.sh proc.asm  && vtest t_proc_pipe_bench
 
 
 clean:

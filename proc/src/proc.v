@@ -107,11 +107,11 @@ module proc(
    // Instruction memory
    memory2c instr_mem (
    		       // Inputs
-		       .data_in (0),
+		       .data_in (16'b0),
 		       .addr (IF_pc),
-		       .enable (1),
-		       .wr(0),
-		       .createdump(0),
+		       .enable (1'b1),
+		       .wr(1'b0),
+		       .createdump(1'b0),
 		       .clk (clk),
 		       .rst(rst),
 		       // Outputs
@@ -129,8 +129,8 @@ module proc(
     *********************************************************************************/
 
    // Pipelined regs
-   register IF_ID_instr  (.d(IF_instr),   .q(ID_instr), .clk(clk), .rst(rst), .we(1));
-   register IF_ID_pc_inc (.d(IF_pc_inc),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1));   
+   register IF_ID_instr  (.d(IF_instr),   .q(ID_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register IF_ID_pc_inc (.d(IF_pc_inc),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Assign Rs, Rt
    assign ID_rf_rs1 = ID_instr[10:8]; // Rs
@@ -141,11 +141,11 @@ module proc(
     *********************************************************************************/
 
    // Pipelined regs
-   register ID_EX_instr  (.d(ID_instr),   .q(EX_instr), .clk(clk), .rst(rst), .we(1));
-   register ID_EX_pc_inc (.d(ID_pc_inc),  .q(EX_pc_inc), .clk(clk), .rst(rst), .we(1));
+   register ID_EX_instr  (.d(ID_instr),   .q(EX_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register ID_EX_pc_inc (.d(ID_pc_inc),  .q(EX_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
 
-   register ID_EX_rf_rd1 (.d(ID_rf_rd1), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1));      
-   register ID_EX_rf_rd2 (.d(ID_rf_rd2), .q(EX_rf_rd2), .clk(clk), .rst(rst), .we(1));   
+   register ID_EX_rf_rd1 (.d(ID_rf_rd1), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1'b1));      
+   register ID_EX_rf_rd2 (.d(ID_rf_rd2), .q(EX_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
@@ -210,14 +210,13 @@ module proc(
     *********************************************************************************/
 
    // Pipelined regs
-   register EX_MEM_instr   (.d(EX_instr),   .q(MEM_instr), .clk(clk), .rst(rst), .we(1));
-   register EX_MEM_pc_inc  (.d(EX_pc_inc),  .q(MEM_pc_inc), .clk(clk), .rst(rst), .we(1));
-   register EX_MEM_alu_out (.d(EX_alu_out), .q(MEM_alu_out), .clk(clk), .rst(rst), .we(1));
-   register EX_MEM_mem_out (.d(EX_mem_out), .q(MEM_mem_out), .clk(clk), .rst(rst), .we(1));
-   register #(.WIDTHreg(3)) EX_MEM_rf_ws  (.d(EX_rf_ws),   .q(MEM_rf_ws), .clk(clk), .rst(rst), .we(1));
-   register #(.WIDTHreg(1)) EX_MEM_rf_wr  (.d(EX_rf_wr),   .q(MEM_rf_wr), .clk(clk), .rst(rst), .we(1));            
+   register EX_MEM_instr   (.d(EX_instr),   .q(MEM_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register EX_MEM_pc_inc  (.d(EX_pc_inc),  .q(MEM_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
+   register EX_MEM_alu_out (.d(EX_alu_out), .q(MEM_alu_out), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(3)) EX_MEM_rf_ws  (.d(EX_rf_ws),   .q(MEM_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(1)) EX_MEM_rf_wr  (.d(EX_rf_wr),   .q(MEM_rf_wr), .clk(clk), .rst(rst), .we(1'b1));            
 
-   register EX_MEM_rf_rd2  (.d(EX_rf_rd2), .q(MEM_rf_rd2), .clk(clk), .rst(rst), .we(1));
+   register EX_MEM_rf_rd2  (.d(EX_rf_rd2), .q(MEM_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));
    
    mem_decode_logic mdl (
                          // Inputs
@@ -247,12 +246,12 @@ module proc(
     *********************************************************************************/
 
    // Pipelined regs
-   register MEM_WB_instr  (.d(MEM_instr),   .q(WB_instr), .clk(clk), .rst(rst), .we(1));
-   register MEM_WB_pc_inc (.d(MEM_pc_inc),  .q(WB_pc_inc), .clk(clk), .rst(rst), .we(1));
-   register MEM_WB_alu_out(.d(MEM_alu_out), .q(WB_alu_out), .clk(clk), .rst(rst), .we(1));
-   register MEM_WB_mem_out(.d(MEM_mem_out), .q(WB_mem_out), .clk(clk), .rst(rst), .we(1));
-   register #(.WIDTHreg(3)) MEM_WB_rf_ws  (.d(MEM_rf_ws),   .q(WB_rf_ws), .clk(clk), .rst(rst), .we(1));
-   register #(.WIDTHreg(1)) MEM_WB_rf_wr  (.d(MEM_rf_wr),   .q(WB_rf_wr), .clk(clk), .rst(rst), .we(1));         
+   register MEM_WB_instr  (.d(MEM_instr),   .q(WB_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register MEM_WB_pc_inc (.d(MEM_pc_inc),  .q(WB_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
+   register MEM_WB_alu_out(.d(MEM_alu_out), .q(WB_alu_out), .clk(clk), .rst(rst), .we(1'b1));
+   register MEM_WB_mem_out(.d(MEM_mem_out), .q(WB_mem_out), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(3)) MEM_WB_rf_ws  (.d(MEM_rf_ws),   .q(WB_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(1)) MEM_WB_rf_wr  (.d(MEM_rf_wr),   .q(WB_rf_wr), .clk(clk), .rst(rst), .we(1'b1));         
    
    // determine which data to write back into the register file
    dest_data_decode ddd (
