@@ -12,13 +12,12 @@
 
 `define DEBUG 1
 
-//integer no_errs = 0;
 
 // Assertion with debug messages
 `define test(ex, got, msg) \
 if (ex !== got) begin      \
       $display(`C_FAIL);   \
-      $write("ERR:  ");    \
+      $write("ERR @ %3d:  ", cycle);    \
       $display(msg);       \
       $display("  --> Expected: %h  Got: %h", ex, got); \
       $write(`C_ENDC);     \
@@ -31,5 +30,4 @@ end
 `define info(msg) if (`DEBUG) begin `PRINT_C(msg, `C_BLUE); $display(""); end
 
 // Clock advancing
-`define tic @(posedge clk); #3;
-
+`define tic @(posedge clk); #3; cycle = cycle + 1;
