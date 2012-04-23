@@ -1,8 +1,6 @@
 /* $Author: karu $ */
 /* $LastChangedDate: 2009-03-04 23:09:45 -0600 (Wed, 04 Mar 2009) $ */
 /* $Rev: 45 $ */
-// Synthesizable memory
-
 //////////////////////////////////////
 //
 // Memory -- single cycle version
@@ -26,7 +24,7 @@
 //     <hex data 1>
 //     ...etc
 //
-// If input "createdump" is true on rising clock,
+	// If input "createdump" is true on rising clock,
 // contents of memory will be dumped to
 // file "dumpfile", from location 0 up through
 // the highest location modified by a write.
@@ -47,7 +45,7 @@ module memory2c (data_out, data_in, addr, enable, wr, createdump, clk, rst);
 
    wire [15:0]    data_out;
    
-   reg [7:0]      mem [0:63];
+   reg [7:0]      mem [0:65535];
    reg            loaded;
    reg [16:0]     largest;
 
@@ -61,31 +59,25 @@ module memory2c (data_out, data_in, addr, enable, wr, createdump, clk, rst);
    initial begin
       loaded = 0;
       largest = 0;
-      /*
       for (i = 0; i< 65536; i=i+1) begin
          mem[i] = 8'd0;
       end
-       */
    end
 
    always @(posedge clk) begin
       if (rst) begin
          // first init to 0, then load loadfile_all.img
-         /*
          if (!loaded) begin
             $readmemh("loadfile_all.img", mem);
             loaded = 1;
          end
-          */
       end
       else begin
          if (enable & wr) begin
 	        mem[addr] = data_in[15:8];       // The actual write
 	        mem[addr+1] = data_in[7:0];    // The actual write
-            // if ({1'b0, addr} > largest) largest = addr;  
-            // avoid negative numbers
+            if ({1'b0, addr} > largest) largest = addr;  // avoid negative numbers
          end
-         /*
          if (createdump) begin
             mcd = $fopen("dumpfile", "w");
             for (i=0; i<=largest+1; i=i+1) begin
@@ -93,7 +85,6 @@ module memory2c (data_out, data_in, addr, enable, wr, createdump, clk, rst);
             end
             $fclose(mcd);
          end
-          */
       end
    end
 
