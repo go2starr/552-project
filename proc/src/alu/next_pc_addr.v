@@ -18,7 +18,7 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
    // assigns
    assign op = instr[15:11];
    
-   next_pc = (stall & ~bt) ? (pc_inc - 2 ): br_pc; 
+   assign next_pc = (stall & ~bt) ? (pc_inc - 2 ): br_pc; 
 
    always @ (*) begin
          case (op)
@@ -35,7 +35,7 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
 	      br_pc = brj_dest;	
 	   end
 	   5'b00101 : begin  // JR
-	      br__pc = alu_out;
+	      br_pc = alu_out;
 	   end
 	   5'b00110 : begin  // JAL
 	      br_pc = brj_dest;
@@ -53,5 +53,5 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
 	      br_pc = pc_inc;
 	   end
          endcase // case (op)
-   end*/
+   end
 endmodule
