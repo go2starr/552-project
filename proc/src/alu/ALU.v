@@ -50,8 +50,8 @@ module ALU (
    parameter HALT  = 29;
    
    // Wires
-   wire signed [15:0]       opA;
-   wire signed [15:0]       opB;
+   wire [15:0]       opA;
+   wire [15:0]       opB;
 
    // Wires - shifter
    wire [15:0]       shifter_Out;
