@@ -55,8 +55,14 @@ module proc_hier_pbench();
       trace_file = $fopen("verilogsim.ptrace");
       sim_log_file = $fopen("verilogsim.log");
 
-      $monitor("PC: %h, Stall: %b, Rst: %b, Clk: %b, Halt: %b:IF: %h, ID: %h, EX: %h, MEM: %h, WB: %h, EB_alu_out: %h, EX_bt: %b, : (%d, %d, %d, %d), ID_rs1, ID_rs2: (%d,%d)", DUT.p0.IF_pc, DUT.p0.stall, DUT.p0.rst, DUT.p0.clk, DUT.p0.halt,
-               DUT.p0.IF_instr, DUT.p0.ID_instr, DUT.p0.EX_instr, DUT.p0.MEM_instr, DUT.p0.WB_instr, DUT.p0.npca.instr, DUT.p0.EX_bt, DUT.p0.ID_rf_ws, DUT.p0.EX_rf_ws, DUT.p0.MEM_rf_ws, DUT.p0.WB_rf_ws, DUT.p0.ID_rf_rs1, DUT.p0.ID_rf_rs2);
+      $monitor("PC/Stall/Clk/Halt: (%h,%b,%b,%b) : Inst: (%h,%h,%h,%h,%h), rf_ws:(%d, %d, %d, %d), ID_rs: (%d,%d), BT:(%b), BRJDEST(%h), npc:(instr,alu_out,brj_dest,bt,next_pc), %h,%h,%h,%b,%h",
+               DUT.p0.IF_pc, DUT.p0.stall, DUT.p0.clk, DUT.p0.halt,
+               DUT.p0.IF_instr, DUT.p0.ID_instr, DUT.p0.EX_instr, DUT.p0.MEM_instr, DUT.p0.WB_instr, 
+               DUT.p0.ID_rf_ws, DUT.p0.EX_rf_ws, DUT.p0.MEM_rf_ws, DUT.p0.WB_rf_ws, 
+               DUT.p0.ID_rf_rs1, DUT.p0.ID_rf_rs2,
+               DUT.p0.EX_bt, DUT.p0.EX_brj_dest_addr, 
+               DUT.p0.npca.instr, DUT.p0.npca.alu_out, DUT.p0.npca.brj_dest, DUT.p0.npca.bt, DUT.p0.npca.next_pc);
+      
       
    end
 

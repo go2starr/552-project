@@ -146,7 +146,7 @@ module proc(
                   (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr) ||
                   (ID_rf_rs2 == WB_rf_ws  && WB_rf_wr);
 
-   assign IF_instr_in = (rst | (EX_bt && ~stall)) ? 16'h0800 :          // On reset or branch_taken, insert NOP
+   assign IF_instr_in = (rst | EX_bt) ? 16'h0800 :          // On reset or branch_taken, insert NOP
                         stall ? ID_instr_out : IF_instr;  // On stall, hold.  Else, take in piped value
    assign ID_instr = (stall | EX_bt) ? 16'h0800 : ID_instr_out;     // Send out NOP on stall
    assign IF_pc_inc_in = stall ? ID_pc_inc : IF_pc_inc;

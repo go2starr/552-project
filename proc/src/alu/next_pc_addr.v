@@ -18,7 +18,7 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
    assign op = instr[15:11];
    
    always @ (*) begin
-      if (stall)
+      if (stall && ~bt)
         next_pc = pc_inc - 2;
 
       else begin
