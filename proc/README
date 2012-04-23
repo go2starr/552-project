@@ -1,0 +1,20 @@
+========================================
+==     HOW TO RUN TESTBENCHES         ==
+========================================
+
+## How to run all testbenches:
+cd src/bench                        ## Go to testing directory
+./listPTestAsm.sh all.list          ## Run tests on all *.list files in all.list
+
+## How to run a testbench on a single *.asm file:
+cd src/bench                        ## Go to testing directory
+./ptestAsm.sh PATH/TO/ASMFILE.asm   ## Run single testbench
+
+
+========================================
+==   HOW TO GENERATE VFILES.LIST      ==
+========================================
+
+## How to generate vfiles.list (list of all vfiles used in project)
+cd src/bench                         ## Go to testing directory
+./genVFiles.sh                       ## Generate vfiles (output in vfiles.list)
