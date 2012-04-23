@@ -107,6 +107,7 @@ module proc(
 		      .brj_dest(EX_brj_dest_addr), // brj_dest @ EX
 		      .bt(EX_bt),                  // bt @ EX
                       .stall(stall),
+                      .pc(IF_pc),
                       // Outputs
                       .next_pc(IF_next_pc)
 		      );
