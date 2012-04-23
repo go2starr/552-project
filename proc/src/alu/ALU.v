@@ -50,19 +50,19 @@ module ALU (
    parameter HALT  = 29;
    
    // Wires
-   wire [15:0]       opA;
-   wire [15:0]       opB;
+   wire signed [15:0] opA;
+   wire signed [15:0] opB;
 
    // Wires - shifter
-   wire [15:0]       shifter_Out;
-   reg [1:0]         shifter_op;
+   wire [15:0]        shifter_Out;
+   reg [1:0]          shifter_op;
    // Wires - adder
-   wire [15:0]       add_Sum;
-   wire              add_CO, add_P, add_G;
-   wire [15:0]       btr_rd;              
+   wire [15:0]        add_Sum;
+   wire               add_CO, add_P, add_G;
+   wire [15:0]        btr_rd;              
 
    // Wires - sign detection
-   wire              OFL_signed, OFL_unsigned;
+   wire               OFL_signed, OFL_unsigned;
    
    // Module instantiation
    shift16 shifter (opA, opB[3:0], shifter_op, shifter_Out); 
@@ -76,7 +76,7 @@ module ALU (
    btr_calc btr(.Rs(opA), .Rd(btr_rd));
 
    // Operands
-   wire              sub = (Op == SUB);
+   wire               sub = (Op == SUB);
    assign opA = sub ? B     : A;
    assign opB = sub ? ~A    : B;
    assign Cin = sub ? 1'b1  : 1'b0;
@@ -88,7 +88,7 @@ module ALU (
    assign OFL = sign ? OFL_signed : OFL_unsigned;
 
    // Zero detection
-  assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 opA (ie Rs) == 0
+   assign Zero = (opA == 16'h0000) ? 1'b1 : 1'b0;		// Zero gets 1'b1 opA (ie Rs) == 0
 
    
    // Opcode decode 
@@ -133,7 +133,7 @@ module ALU (
 	NOP   : Out = 16'b0;		// Don't care	- 00001 flavor
 	HALT  : Out = 16'b0;		// Don't care
         default:
-         Out = 16'hbada;
+          Out = 16'hbada;
       endcase
    end
    
