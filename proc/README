@@ -1,4 +1,36 @@
 ========================================
+==     CS 552 PIPELINED PROCESSOR     ==
+========================================
+Team members:
+-Mike Starr
+-Katelyn Thode
+-Marcus Fessler
+
+========================================
+==    Timing/Area reports
+========================================
+Find synthesis reports in: ./src/bench/synth
+
+Timing Report:
+slack (MET)                       0.07
+
+Area Report:
+Total cell area:          43001.019601
+
+
+========================================
+==      Vcheck output                 ==
+========================================
+Find vcheck outputs in: ./src/bench/vcheck
+
+
+========================================
+==      Testbench output              ==
+========================================
+Find testbench outputs in: ./src/bench/log_out
+
+
+========================================
 ==     HOW TO RUN TESTBENCHES         ==
 ========================================
 
