@@ -9,7 +9,7 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
    input        stall;
 
    // outputs
-   output reg [15:0] next_pc;
+   output [15:0] next_pc;
 
    // wires
    wire [4:0]        op;
@@ -17,6 +17,11 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
    // assigns
    assign op = instr[15:11];
    
+   next_pc = (stall & ~bt) ? pc_inc - 2 :
+             (op == 5'b01100 || op == 5'b01101 || op == 5'b01111) ? ((bt) ? brj_dest : pc_inc) :
+             (op == 5'00100 || op == 5'b00101 || op == 5'b00111 || op == 5'b01110) ? alu_out :
+             pc_inc; 
+/*
    always @ (*) begin
       if (stall && ~bt)
         next_pc = pc_inc - 2;
@@ -55,5 +60,5 @@ module next_pc_addr (instr, pc_inc, alu_out, brj_dest, bt, stall, next_pc);
 	   end
          endcase // case (op)
       end
-   end
+   end*/
 endmodule
