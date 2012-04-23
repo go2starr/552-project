@@ -16,6 +16,7 @@ module branch_logic (op, zero, top_alu, bt);
    parameter JR   = 5'b00101;
    parameter JAL  = 5'b00110;
    parameter JALR = 5'b00111;
+   parameter RET  = 5'b01110;
    
    always@(*) begin
       case (op)
@@ -26,7 +27,7 @@ module branch_logic (op, zero, top_alu, bt);
         JR   : bt = 1;
         JAL  : bt = 1;
         JALR : bt = 1;
-        
+        RET  : bt = 1;
         default : bt = 0;
       endcase
    end
