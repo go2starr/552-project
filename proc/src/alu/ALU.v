@@ -92,7 +92,7 @@ module ALU (
 
    
    // Opcode decode 
-   always @ (Op, add_Sum, shifter_Out, opA, opB, btr_rd) begin
+   always @ (Op, add_Sum, add_CO, shifter_Out, opA, opB, btr_rd) begin
       case (Op)
         ADD   : Out = add_Sum;
         SUB   : Out = add_Sum;
@@ -122,7 +122,7 @@ module ALU (
 	SLT   : Out = opA < opB;
 	SLE   : Out = opA <= opB;
 	BLTZ  : Out = (opA[15]) ? 16'hFFFF : 16'h0000;	// opA less than zero
-	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;		
+	SCO   : Out = add_CO;
 	LBI   : Out = opB;
 	SLBI  : Out = {opA[7:0], 8'b0} | opB;
 	JR    : Out = add_Sum;
