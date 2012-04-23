@@ -37,7 +37,7 @@ module proc(
    // Passed out
    wire [15:0] ID_rf_rd1, ID_rf_rd2;
    wire [2:0]  ID_rf_ws;
-   wire        ID_wr;
+   wire        ID_rf_wr;
 
    // Internal
    wire [2:0]  ID_rf_rs1, ID_rf_rs2; // Read/Write select
@@ -55,7 +55,7 @@ module proc(
    wire        EX_bt;
 
    // Internal
-   wire        EX_cin, EX_alu_ofl, EX_alu_zero, EX_alu_signed;
+   wire        EX_alu_ofl, EX_alu_zero;
    wire [15:0] EX_alu_op1, EX_alu_op2;
    wire [4:0]  EX_alu_op;
 
@@ -71,7 +71,7 @@ module proc(
    wire [15:0] MEM_mem_out;
 
    // Internal   
-   wire        MEM_we_mem, MEM_wr_mem, MEM_halt, MEM_cd;
+   wire        MEM_we_mem, MEM_wr_mem, MEM_halt;
 
    /****************************************
     *   Write
@@ -108,7 +108,7 @@ module proc(
 		      .bt(EX_bt),                  // bt @ EX
                       .stall(stall),
                       // Outputs
-		      .next_pc(IF_next_pc)
+                      .next_pc(IF_next_pc)
 		      );
 
    // Instruction memory
@@ -153,8 +153,8 @@ module proc(
    register IF_ID_pc_inc (.d(IF_pc_inc),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Assign Rs, Rt
-   assign ID_rf_rs1 = ID_instr[10:8]; // Rs
-   assign ID_rf_rs2 = (ID_instr[15:11] != 5'b01110) ? ID_instr[7:5] : 3'd7;  // Rt, R7 upon RET instr
+   assign ID_rf_rs1 = ID_instr_out[10:8]; // Rs
+   assign ID_rf_rs2 = (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7;  // Rt, R7 upon RET instr
 
    // Decode instruction destination
    alu_destination_decode add(
@@ -206,7 +206,7 @@ module proc(
            .A(EX_alu_op1),
            .B(EX_alu_op2),
            .Op(EX_alu_op),
-           .sign(EX_alu_signed),
+           .sign(1'b0),
            // Outputs
            .Out(EX_alu_out),
            .OFL(EX_alu_ofl),
@@ -264,7 +264,7 @@ module proc(
 		      .addr (MEM_alu_out),
 		      .enable (MEM_we_mem),
 		      .wr(MEM_wr_mem),
-		      .createdump(MEM_cd),	
+		      .createdump(1'b0),	
 		      .clk (clk),
 		      .rst(rst),
 		      // Outputs

@@ -136,30 +136,55 @@ module alu_destination_decode (instr, rd, we_reg);
 	end
 
         /* No write */ 
-	7'b10000xx : // ST
-          we_reg = 1'b0;   
-	7'b01100xx : // BEQZ
-	  we_reg = 1'b0;
-	7'b01101xx : // BNEZ
-	  we_reg = 1'b0; 
-	7'b01111xx : // BLTZ
-	  we_reg = 1'b0; 
-	7'b00100xx : // JINST
-	  we_reg = 1'b0;
-	7'b00101xx : // JR
-	  we_reg = 1'b0;
-	7'b01110xx : // RET
-	  we_reg = 1'b0;
-	7'b00010xx : // SIIC
-	  we_reg = 1'b0;
-	7'b00011xx : // RTI
-	  we_reg = 1'b0;
-	7'b00000xx : // HALT
-	  we_reg = 1'b0;
-	7'b00001xx : // NOP;
-	  we_reg = 1'b0;        
+	7'b10000xx : begin // ST
+           rd = 3'd0;
+           we_reg = 1'b0;
+        end
+	7'b01100xx : begin // BEQZ
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b01101xx : begin // BNEZ
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b01111xx : begin // BLTZ
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b00100xx : begin // JINST
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b00101xx : begin // JR
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b01110xx : begin // RET
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b00010xx : begin // SIIC
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b00011xx : begin // RTI
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b00000xx : begin // HALT
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
+	7'b00001xx : begin // NOP;
+           rd = 3'd0;
+	   we_reg = 1'b0;
+        end
         
-	default	  : we_reg = 1'b0; 
+	default	  : begin
+           rd = 3'd0;
+           we_reg = 1'b0;
+        end
       endcase
    end
 endmodule
