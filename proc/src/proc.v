@@ -136,21 +136,24 @@ module proc(
     *********************************************************************************/
    wire [15:0] IF_instr_in;
    wire [15:0] ID_instr_out;
-   
-   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  || // Stall
+   wire [15:0] IF_pc_inc_in;
+
+   // Stalling?
+   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  ||
                   (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr) ||
                   (ID_rf_rs1 == WB_rf_ws  && WB_rf_wr)  ||
                   (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr)  ||
                   (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr) ||
                   (ID_rf_rs2 == WB_rf_ws  && WB_rf_wr);
-   
-   assign IF_instr_in = rst ? 16'h0800 :                  // On reset, insert NOP
+
+   assign IF_instr_in = (rst | EX_bt) ? 16'h0800 :          // On reset or branch_taken, insert NOP
                         stall ? ID_instr_out : IF_instr;  // On stall, hold.  Else, take in piped value
-   assign ID_instr = stall ? 16'h0800 : ID_instr_out;     // Send out NOP on stall
+   assign ID_instr = (stall | EX_bt) ? 16'h0800 : ID_instr_out;     // Send out NOP on stall
+   assign IF_pc_inc_in = stall ? ID_pc_inc : IF_pc_inc;
 
    // Pipelined regs
    register IF_ID_instr  (.d(IF_instr_in),   .q(ID_instr_out), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
-   register IF_ID_pc_inc (.d(IF_pc_inc),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1'b1));   
+   register IF_ID_pc_inc (.d(IF_pc_inc_in),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Assign Rs, Rt
    assign ID_rf_rs1 = ID_instr_out[10:8]; // Rs
