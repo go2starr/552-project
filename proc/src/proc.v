@@ -209,7 +209,7 @@ module proc(
            .A(EX_alu_op1),
            .B(EX_alu_op2),
            .Op(EX_alu_op),
-           .sign(1'b0),
+           .sign(1'b1),
            // Outputs
            .Out(EX_alu_out),
            .OFL(EX_alu_ofl),

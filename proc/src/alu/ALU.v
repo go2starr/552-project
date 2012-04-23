@@ -50,8 +50,8 @@ module ALU (
    parameter HALT  = 29;
    
    // Wires
-   wire [15:0]       opA;
-   wire [15:0]       opB;
+   wire signed [15:0]       opA;
+   wire signed [15:0]       opB;
 
    // Wires - shifter
    wire [15:0]       shifter_Out;
@@ -76,7 +76,7 @@ module ALU (
    btr_calc btr(.Rs(opA), .Rd(btr_rd));
 
    // Operands
-   wire              sub = (Op == SUB) | (Op == SLT) | (Op == SLE);
+   wire              sub = (Op == SUB);
    assign opA = sub ? B     : A;
    assign opB = sub ? ~A    : B;
    assign Cin = sub ? 1'b1  : 1'b0;
@@ -119,15 +119,8 @@ module ALU (
 	STU   : Out = add_Sum;
 	BTR   : Out = btr_rd;
 	SEQ   : Out = (opA == opB) ? 16'h0001 : 16'h0000;
-	SLT   : Out = ~(opA ^ opB) &&
-                      ~(~opA[15] && opB[15]) && 
-                      ((~add_Sum[15] && ~OFL_signed) ||
-                      (opA[15] && ~opB[15]));
-
-	SLE   : Out = (opA == opB) || 
-                      ~(~opA[15] && opB[15]) && 
-                      ((~add_Sum[15] && ~OFL_signed) ||
-                       (opA[15] && ~opB[15]));
+	SLT   : Out = opA < opB;
+	SLE   : Out = opA <= opB;
 	BLTZ  : Out = (opA[15]) ? 16'hFFFF : 16'h0000;	// opA less than zero
 	SCO   : Out = (add_CO) 	   ? 16'h0001 : 16'h0000;		
 	LBI   : Out = opB;
