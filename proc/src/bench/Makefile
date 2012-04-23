@@ -3,7 +3,7 @@ all:
 
 
 clean:
-	rm -f *.ptrace *.trace *.lst *.img *.dmem *.reg transcript *.vcd *.wlf test.out *.log *.out *.vstf
+	rm -f *.ptrace *.trace *.lst *.img *.dmem *.reg transcript *.vcd *.wlf test.out *.log *.out *.vstf *.svf *.dat dumpfile *.mti *.mpf 
 	rm -f `find .. | grep "\(#\)\|\(~\)"`   
 
 
