@@ -138,15 +138,23 @@ module proc(
    wire [15:0] IF_instr_in;
    wire [15:0] ID_instr_out;
    wire [15:0] IF_pc_inc_in;
+   wire forwardMemExRs1, forwardMemExRs2, forwardWbExRs1, forwardMemExRs2;
 
    // Stalling?
-   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  ||
-                  (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr) ||
+   assign stall =// (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  ||
+                 // (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr) ||
                   (ID_rf_rs1 == WB_rf_ws  && WB_rf_wr)  ||
-                  (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr)  ||
-                  (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr) ||
+                 // (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr)  ||
+                 // (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr) ||
                   (ID_rf_rs2 == WB_rf_ws  && WB_rf_wr);
-
+   
+   // forward from beginning of Mem to beginning of Ex
+   assign forwardMemExRs1 = (ID_rf_rs1 == EX_rf_ws && EX_rf_wr);
+   assign forwardMemExRs2 = (ID_rf_rs2 == EX_rf_ws && EX_rf_wr);   
+   // forward from beginning of WB to begininng of Ex
+   assign forwardWbExRs1 = (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr);
+   assign forwardWbExRs2 = (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr); 
+ 
    assign IF_instr_in = (rst | EX_bt) ? 16'h0800 :          // On reset or branch_taken, insert NOP
                         stall ? ID_instr_out : IF_instr;  // On stall, hold.  Else, take in piped value
    assign ID_instr = (stall | EX_bt) ? 16'h0800 : ID_instr_out;     // Send out NOP on stall
@@ -157,8 +165,9 @@ module proc(
    register IF_ID_pc_inc (.d(IF_pc_inc_in),  .q(ID_pc_inc), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Assign Rs, Rt
-   assign ID_rf_rs1 = ID_instr_out[10:8]; // Rs
-   assign ID_rf_rs2 = (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7;  // Rt, R7 upon RET instr
+   // TODO what is aaa and bbb??? 
+   assign ID_rf_rs1 = forwardMemExRs1 ? aaa : (forwardWbExRs1 ? bbb : ID_instr_out[10:8]); // Rs
+   assign ID_rf_rs2 = forwardMemExRs2 ? aaa : (forwardWbExRs2 ? bbb : (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7);  // Rt, R7 upon RET instr
 
    // Decode instruction destination
    alu_destination_decode add(
