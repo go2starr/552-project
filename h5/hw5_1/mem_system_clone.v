@@ -35,9 +35,12 @@ module mem_system(/*AUTOARG*/
    /* Mem FSM states */
    parameter ERR = 0;           // Error
    parameter IDLE = 1;          // Ready to be used
-   parameter READ_MEM = 2;      // Initiating read request
-   parameter READ_MEM_WAIT = 3; // Waiting for read request to finish
-   parameter READ_MEM_INSTALL = 4; // Installing read request to cache
+   parameter READ_0 = 2;        // (Read, Ready) = (0,x)
+   parameter READ_1 = 3;        // (1,x)
+   parameter READ_2 = 4;        // (2,0)
+   parameter READ_3 = 5;        // (3,1)
+   parameter READ_4 = 6;        // (x,2)
+   parameter READ_5 = 7;        // (x,3)
    parameter WRITE_MEM = 5;        // Writing to memory
    parameter RETRY = 6;            // Re-attempting a read/write operation after miss
    
@@ -54,9 +57,6 @@ module mem_system(/*AUTOARG*/
    reg [1:0]         count;     // Number of words written/read in this block
    reg [1:0]         next_count;
 
-   reg               cache_accessed; // Was the cache accessed on the previous cycle?
-   reg               next_cache_accessed;
-
    /****************************************
     *  Outputs
     * ****************************************/
@@ -71,18 +71,19 @@ module mem_system(/*AUTOARG*/
          // State
          state <= IDLE;
          count <= 0;
-         cache_accessed = 0;
+
          // Outputs
          DataOut <= 0;
          Done <= 0;
          Stall <= 0;
          CacheHit <= 0;
          err <= 0;
+         
       end else begin
          // State
          state <= next_state;
          count <= next_count;
-         cache_accessed <= next_cache_accessed;
+
          // Outputs
          DataOut <= next_data_out;
          Done <= next_done;
@@ -109,8 +110,8 @@ module mem_system(/*AUTOARG*/
    wire          cache_hit, cache_dirty, cache_valid, cache_err;
 
    // Assigns
-   assign cache_index  = Addr [15:8];
    assign cache_tag_in = Addr [7:3];
+   assign cache_index  = Addr [15:8];
 
    /****************************************
     *  Memory
@@ -130,8 +131,6 @@ module mem_system(/*AUTOARG*/
    wire          write_mem_addr;
    wire          read_mem_addr;
 
-//   assign write_mem_addr = 
-//   assign read_mem_addr  = { cache_index, cache_tag_in,  3'b0 } + count * 2;
 
    /********************************************************************************
     *  Modules
@@ -201,57 +200,61 @@ module mem_system(/*AUTOARG*/
          *       - Retry the operation
          */
         IDLE:
-          // Did we access the cache last clock cycle?
-          if (cache_accessed) begin
-             // Did the access hit?
-             if (cache_hit && cache_valid) begin
-                // Stay in idle, the operation completed
-                next_state = IDLE;
-             end else begin
-                // Cache missed, is the row dirty?
-                if (cache_dirty) begin
-                   // Cache is dirty, need to write back to mem
-                   next_state = WRITE_MEM;
-                end else begin
-                   // Cache is not dirty, safe to read block into cache
-                   next_state = READ_MEM;
-                end                
-             end
-          end else begin // if (cache_accessed)
-             // No accesses made; stay here
+          // Did the access hit?
+          if (cache_hit && cache_valid) begin
+             // Stay in idle, the operation completed
              next_state = IDLE;
-          end // else: !if(cache_accessed)
-
-        /*
-         *  READ_MEM - In the read_mem state, the address and control lines
-         *  are driven to memory to make a read.  The read takes two cycles,
-         *  so a wait state is entered.
-         */
-        READ_MEM:
-          next_state = READ_MEM_WAIT;
-
-        /*
-         *  READ_MEM_WAIT - In the read_mem_wait state, we are waiting the
-         *  one stall cycle to access memory.
-         */
-        READ_MEM_WAIT:
-          next_state = READ_MEM_INSTALL;
-
-        /*
-         *  READ_MEM_INSTALL - In the read_mem_install state, the memory data
-         *  out is valid, and should be written to the correct word offset 
-         *  within the cache.
-         */
-        READ_MEM_INSTALL:
-          // Last word?
-          if (count == 3) begin
-             // The block has been read from memory into the cache - retry op
-             next_state = RETRY;
           end else begin
-             // There are more words to read
-             next_state = READ_MEM;
+             // Cache missed, is the row dirty?
+             if (cache_dirty) begin
+                // Cache is dirty, need to write back to mem
+                next_state = WRITE_MEM;
+             end else begin
+                // Cache is not dirty, safe to read block into cache
+                next_state = READ_MEM;
+             end
           end
 
+        /*
+         *  READ_0 - In the READ_0 we begin reading a block of data from memory.
+         *  Reads take two cycles, but can be done in parallel.  We start reading
+         *  from offset 0 here, and in 2 cycles install to cache.
+         */
+        READ_0:
+          next_state = READ_1;
+
+        /*
+         *  READ_1 - Reading from 0, no data available
+         * 
+         */
+        READ_1:
+          next_state = READ_2;
+
+        /*
+         *  READ_2 
+         */
+        READ_2:
+          next_state = READ_3;
+
+        /*
+         *  READ_3
+         */
+        READ_3:
+          next_state = READ_4;
+
+        /*
+         *  READ_4
+         */
+        READ_4:
+          next_state = READ_5;
+
+        /*
+         *  READ_5 - Done reading from memory and installing to cache, retry
+         *  the original memory access.
+         */
+        READ_5:
+          next_state = RETRY;
+              
         /*
          *  WRITE_MEM - In the write_mem stage, a block in the cache is being
          *  written to memory.
@@ -261,7 +264,7 @@ module mem_system(/*AUTOARG*/
           if (count == 3) begin
              // The block has been written to memory from the cache - read in
              // the new block
-             next_state = READ_MEM;
+             next_state = READ_0;
           end else begin
              // There are more words to write
              next_state = WRITE_MEM;
@@ -275,7 +278,6 @@ module mem_system(/*AUTOARG*/
          */
         RETRY:
           next_state = IDLE;
-        
       endcase
    end
 
@@ -314,24 +316,6 @@ module mem_system(/*AUTOARG*/
       mem_data_in = 0;
       mem_wr = 0;
       mem_rd = 0;
-
-      case (state)
-        /*
-         *  ERR - Error state, unrecoverable.
-         */
-        ERR:
-          next_err = 1;
-        
-        /*
-         *  IDLE - Two cases: hit, or miss
-         * 
-         *  Hit:
-         *    
-         */
-        IDLE:
-          begin
-          end
-      endcase
    end   
 endmodule // mem_system
 
