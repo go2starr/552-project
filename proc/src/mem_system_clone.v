@@ -41,8 +41,8 @@ module mem_system(/*AUTOARG*/
    parameter READ_3 = 5;        // (3,1)
    parameter READ_4 = 6;        // (x,2)
    parameter READ_5 = 7;        // (x,3)
-   parameter WRITE_MEM = 5;        // Writing to memory
-   parameter RETRY = 6;            // Re-attempting a read/write operation after miss
+   parameter WRITE_MEM = 8;        // Writing to memory
+   parameter RETRY = 9;            // Re-attempting a read/write operation after miss
    
    /********************************************************************************
     *   Wires
@@ -102,16 +102,18 @@ module mem_system(/*AUTOARG*/
    wire [7:0]    cache_index;
    reg [2:0]     cache_offset;
    reg [15:0]    cache_data_in;
-   reg           cache_comp, cache_write, cache_valid_in;   
+   reg           cache_comp, cache_write, cache_valid_in;
 
    // Outputs
    wire [4:0]    cache_tag_out;
    wire [15:0]   cache_data_out;   
    wire          cache_hit, cache_dirty, cache_valid, cache_err;
+   wire          cache_valid_hit;
 
    // Assigns
-   assign cache_tag_in = Addr [7:3];
+   assign cache_tag_in = (state == WRITE_MEM) ? cache_tag_out : Addr [7:3];
    assign cache_index  = Addr [15:8];
+   assign cache_valid_hit = cache_hit && cache_valid;
 
    /****************************************
     *  Memory
@@ -159,8 +161,8 @@ module mem_system(/*AUTOARG*/
 	                    .valid(cache_valid), 
 	                    .err(cache_err)
 	                    );
-
-   four_bank_mem mem (
+   
+  four_bank_mem mem (
                       // Inputs
                       .clk(clk),
                       .rst(rst),
@@ -180,12 +182,39 @@ module mem_system(/*AUTOARG*/
  *  Next-state logic
  * ********************************************************************************/
    always@(*)begin
+
+      // Outputs
+      Stall = 1;
+      Done = 0;
+      err = 0;
+      DataOut = DataOut;
+      CacheHit = 0;
+
+      // State
+      next_count = 0;
+      
+      // Cache
+      cache_enable = 1;
+      cache_data_in = 0;
+      cache_comp = 0;
+      cache_write = 0;
+      cache_valid_in = 0;
+
+      // Memory
+      mem_addr = 0;
+      mem_data_in = 0;
+      mem_wr = 0;
+      mem_rd = 0;
+      
       case(state)
         /*
          *  ERR - In the error state; stay here.
          */
-        ERR:
-          next_state = ERR;
+        ERR: begin
+           next_state = ERR;
+           err = 1;
+        end
+        
         
         /*
          *  IDLE -  In the idle state, the memory system is ready to be used.
@@ -199,85 +228,183 @@ module mem_system(/*AUTOARG*/
          *       - Read in a new row; install to cache
          *       - Retry the operation
          */
-        IDLE:
-          // Did the access hit?
-          if (cache_hit && cache_valid) begin
-             // Stay in idle, the operation completed
-             next_state = IDLE;
-          end else begin
-             // Cache missed, is the row dirty?
-             if (cache_dirty) begin
+        IDLE: begin
+           // Control
+           cache_data_in = DataIn;
+           cache_comp = 1;      
+           cache_write = Wr;
+           cache_valid_in = Wr;
+           cache_offset = Addr[3:0];
+           
+           // Did the access hit?
+           if (cache_valid_hit) begin
+              // Stay in idle, the operation completed
+              next_state = IDLE;
+
+              // Outputs
+              Stall = 0;
+              Done = 1;
+              DataOut = cache_data_out;
+              CacheHit = 1;
+              
+           end else begin
+              // Cache missed
+              // is the row dirty?
+              if (cache_dirty) begin
                 // Cache is dirty, need to write back to mem
-                next_state = WRITE_MEM;
-             end else begin
-                // Cache is not dirty, safe to read block into cache
-                next_state = READ_MEM;
-             end
-          end
+                 next_state = WRITE_MEM;
+              end else begin
+                 // Cache is not dirty, safe to read block into cache
+                 next_state = READ_0;
+              end
+           end
+        end
 
         /*
          *  READ_0 - In the READ_0 we begin reading a block of data from memory.
          *  Reads take two cycles, but can be done in parallel.  We start reading
          *  from offset 0 here, and in 2 cycles install to cache.
          */
-        READ_0:
-          next_state = READ_1;
+        READ_0: begin
+           next_state = READ_1;
+           
+           // Mem control
+           mem_addr = { Addr[15:3], 2'd0, 1'b0 };
+           mem_rd = 1;
+           
+        end
 
         /*
          *  READ_1 - Reading from 0, no data available
          * 
          */
-        READ_1:
+        READ_1: begin
           next_state = READ_2;
 
+           // Mem control
+           mem_addr = { Addr[15:3], 2'd1, 1'b0 };           
+           mem_rd = 1;
+
+        end
+        
         /*
          *  READ_2 
          */
-        READ_2:
-          next_state = READ_3;
+        READ_2: begin
+           next_state = READ_3;
+           
+           // Mem control
+           mem_addr = { Addr[15:3], 2'd2, 1'b0 };                      
+           mem_rd = 1;
 
+           // Cache control
+           cache_write = 1;
+           cache_offset = {2'd0, 1'b0};
+           cache_comp = 0;
+           cache_data_in = mem_data_out;
+           cache_valid_in = 1;
+           
+        end
+        
         /*
          *  READ_3
          */
-        READ_3:
+        READ_3: begin
           next_state = READ_4;
+
+           // Mem control
+           mem_addr = { Addr[15:3], 2'd3, 1'b0 };                      
+           mem_rd = 1;
+
+           // Cache control
+           cache_write = 1;
+           cache_offset = {2'd1, 1'b0};
+           cache_comp = 0;
+           cache_data_in = mem_data_out;           
+           cache_valid_in = 1;           
+        end
 
         /*
          *  READ_4
          */
-        READ_4:
+        READ_4: begin
           next_state = READ_5;
+
+           // Cache control
+           cache_write = 1;
+           cache_offset = {2'd2, 1'b0};
+           cache_comp = 0;
+           cache_data_in = mem_data_out;           
+           cache_valid_in = 1;           
+        end
 
         /*
          *  READ_5 - Done reading from memory and installing to cache, retry
          *  the original memory access.
          */
-        READ_5:
-          next_state = RETRY;
-              
+        READ_5: begin
+           next_state = RETRY;
+           
+           // Cache control
+           cache_write = 1;
+           cache_offset = {2'd3, 1'b0};
+           cache_comp = 0;
+           cache_data_in = mem_data_out;           
+           cache_valid_in = 1;           
+        end
         /*
          *  WRITE_MEM - In the write_mem stage, a block in the cache is being
          *  written to memory.
          */
-        WRITE_MEM:
-          // Last word?
-          if (count == 3) begin
-             // The block has been written to memory from the cache - read in
-             // the new block
-             next_state = READ_0;
-          end else begin
-             // There are more words to write
-             next_state = WRITE_MEM;
-          end
+        WRITE_MEM: begin
+           // Mem control
+           mem_wr = 1;
+           mem_rd = 0;
+           mem_addr = { cache_index, cache_tag_out, count, 1'b0};
+           mem_data_in = cache_data_out;
 
+           // Cache control
+           cache_offset = {count, 1'b0};
+           cache_comp = 0;
+           cache_write = 0;
+           cache_valid_in = 0;
+           
+           // Last word?
+           if (count == 3) begin
+              // The block has been written to memory from the cache - read in
+              // the new block
+              next_state = READ_0;
+              next_count = 0;
+           end else begin
+              // There are more words to write
+              next_state = WRITE_MEM;
+              next_count = count + 1;
+           end
+        end
+        
         /*
          *  RETRY - In the retry state, a cache miss had occurred before during
          *  this read/write cycle, but the correct block has been installed to
          *  the cache since then.  A cache hit will now occur, and we will return
          *  to IDLE.
          */
-        RETRY:
-          next_state = IDLE;
+        RETRY: begin
+           next_state = IDLE;
+           
+           // Cache Control
+           cache_data_in = DataIn;
+           cache_comp = 1;
+           cache_write = Wr;
+           cache_valid_in = 1;
+           cache_offset = Addr[3:0];
+
+           // Outputs
+           Stall = 0;
+           Done = 1;
+           DataOut = cache_data_out;
+           CacheHit = 0;
+           
+        end
       endcase
    end
 
@@ -294,28 +421,7 @@ module mem_system(/*AUTOARG*/
    //     - err
    
    always @(*) begin
-      // Outputs
-      Stall = 1;
-      Done = 0;
-      err = 0;
-      DataOut = DataOut;
 
-      // State
-      next_count = count;
-      next_cache_accessed = 0;
-      
-      // Cache
-      cache_enable = 0;
-      cache_data_in = 0;
-      cache_comp = 0;
-      cache_write = 0;
-      cache_valid_in = 0;
-
-      // Memory
-      mem_addr = 0;
-      mem_data_in = 0;
-      mem_wr = 0;
-      mem_rd = 0;
    end   
 endmodule // mem_system
 
