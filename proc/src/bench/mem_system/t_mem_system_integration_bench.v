@@ -61,7 +61,7 @@ module t_mem_system_integration_bench();
       createdump = 0;
 
       /********************************************************************************
-       *  Test 1 - Write and read back
+       *  Test 1 - Write and read back, then read different offset, write different offset
        *********************************************************************************/
       `tic;
       `tic;
@@ -119,6 +119,102 @@ module t_mem_system_integration_bench();
       `test(1, DUT.CacheHit, "Should hit when reading from same address as just written to");
       `test(16'hdead, DUT.DataOut, "Should read back same data as written to cache");
       `test(1, DUT.Done, "Should be done on cache hit");
+      
+      // IDLE
+      addr = 16'h1230;
+      data_in = 16'hfee1;
+      wr = 1;
+      rd = 0;
+
+      #1;
+      `test(1, DUT.CacheHit, "Should hit when writing to a tag already in cache");
+      `test(1, DUT.Done, "Should be done on cache hit");
+
+      // IDLE
+      wr = 0;
+      rd = 1;
+
+      #1;
+      `test(1, DUT.CacheHit, "Should hit when reading back");
+      `test(1, DUT.Done, "Should be done on cache hit");
+
+      /********************************************************************************
+       *  Test 2 - Write with cache miss and dirty
+       *********************************************************************************/
+      addr = 16'h1244;          // Same index, different tag
+      wr = 1;
+      rd = 0;
+      data_in = 16'habcd;
+
+      #1;
+      `test(0, DUT.CacheHit, "Should not hit with wrong tag");
+      `test(0, DUT.Done, "Should not be done on cache miss");
+      `test(1, DUT.Stall, "Should stall on cache miss");
+
+      `tic;
+      `test(WRITE_MEM, DUT.state, "Should go to write mem on dirty");
+      `tic;
+      `test(WRITE_MEM, DUT.state, "Should go to write mem on dirty");
+      `tic;
+      `test(WRITE_MEM, DUT.state, "Should go to write mem on dirty");
+      `tic;
+      `test(WRITE_MEM, DUT.state, "Should go to write mem on dirty");
+      `tic;
+      `test(READ_0, DUT.state, "Should be reading from mem");
+      `tic;
+      `test(READ_1, DUT.state, "Should be reading from mem");
+      `tic;
+      `test(READ_2, DUT.state, "Should be reading from mem");
+      `tic;
+      `test(READ_3, DUT.state, "Should be reading from mem");
+      `tic;
+      `test(READ_4, DUT.state, "Should be reading from mem");
+      `tic;
+      `test(READ_5, DUT.state, "Should be reading from mem");
+      `tic;
+      `test(RETRY, DUT.state, "Should be back in RETRY");      
+      `tic;
+      `test(IDLE, DUT.state, "Should be back in IDLE");
+
+      rd = 1;
+      wr = 0;
+      #1;
+      `test(1, DUT.CacheHit, "Should be hit after writing");
+      `test(1, DUT.Done, "Should be done on hit");
+      `test(0, DUT.Stall, "Should not stall on hit");
+      `test(16'habcd, DUT.DataOut, "Should have the right data");
+
+      /********************************************************************************
+       *  Test 3 - Read back from memory
+       *********************************************************************************/
+      addr = 16'h1234;
+      rd = 0;
+      wr = 1;
+
+      // IDLE
+      #1;
+      `test(0, DUT.CacheHit, "Should miss");
+      `tic;
+
+      // WM
+      `test(WRITE_MEM, DUT.state, "Write back");
+      `tic;
+      `test(WRITE_MEM, DUT.state, "Write back 2");
+      
+      `tic;
+      `tic;
+      `tic;
+      
+      // READ_0
+      `test(READ_0, DUT.state, "Read0");
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       

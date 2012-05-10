@@ -372,6 +372,7 @@ module mem_system(/*AUTOARG*/
               // The block has been written to memory from the cache - read in
               // the new block
               next_state = READ_0;
+              next_count = 0;
            end else begin
               // There are more words to write
               next_state = WRITE_MEM;
