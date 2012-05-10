@@ -4,10 +4,12 @@ module t_mem_system_cashe();
      //Inputs
      reg [15:0] addr, data_in;
      reg        rd, wr, createdump;
+     integer cycle;
 
      // Outputs
      wire [15:0] data_out;
      wire        done, stall, cache_hit, err;
+     wire clk, rst;
      
      //Band aid fix
      integer no_errs;
@@ -35,10 +37,7 @@ module t_mem_system_cashe();
 			 .createdump(createdump),                                                         .clk(clk),                                                                       .rst(rst)                                                                        );
      
      
-     initial clk = 0;
-     always begin
-	  #50 clk = ~clk;
-     end
+     clkrst cr(clk, rst, err);
 
      initial begin
         `info("Tests starting...");
@@ -50,16 +49,7 @@ module t_mem_system_cashe();
 	rd = 0;
 	wr = 0;
 	createdump = 0;
-	rst = 0;
 
-        /*****************************
-	 * Reset
-	 * ***************************/
-
-	rst = 1;
-	`tic;
-	rst = 0;
-	`tic
         
 	/*******************************
 	 *  First Test- Write to Address
@@ -67,18 +57,15 @@ module t_mem_system_cashe();
 
 	addr = 16'h1010;
 	force DUT.DataIn = 16'h1111;
-        force DUT.mem_data_out = 16'h dead;
 	#1
 	rd = 0;
 	wr = 1;
-	`tic;  
-	`test(WRITE_MEM, DUT.state, "Should be in WRITE_MEM");
-	`tic;  
-	`test(WRITE_MEM, DUT.state, "Should be in WRITE_MEM");
 	`tic;
-        `test(16'h1010, DUT.mem_addr, "Right addr on first mem access");
-	`tic;  
-	`test(1, DUT.cache_write, "writing on first word in INSTALL_CACHE");
+	`tic;
+
+	`test(IDLE, DUT.state, "Should be in IDLE");
+	`tic;
+	`test(16'h1010, DUT.mem_addr, "Right addr on first mem access");
 	`test(READ_0, DUT.state, "Should be in READ_0");
 	`tic;
 	`test(READ_1, DUT.state, "Should be in READ_1");
@@ -92,15 +79,13 @@ module t_mem_system_cashe();
 	`test(READ_5, DUT.state, "Should be in READ_5");
 	`tic;  
         `test(RETRY, DUT.state, "Should be in RETRY");
-	`tic;  
+	`tic; 
+	`test(1, DUT.cache_write, "writing on first word in INSTALL_CACHE");
 	`test(IDLE, DUT.state, "Should be in IDLE");
 	`tic;  
 	`test(16'h1111, DUT.cache_data_in, "Data into cache should be data into memory");
         `tic;
-	`test(WRITE_MEM, DUT.state, "Should be in WRITE_MEM");
 	`test(1, DUT.cache_hit, "Should be a hit after filling cache with valid block");
-	`tic;
-	`tic;
 	`tic;
 	`test(IDLE, DUT.state, "Should be in IDLE");
 	#1
@@ -112,13 +97,8 @@ module t_mem_system_cashe();
 	rd = 1;
 	wr = 0;
 	#1;
-	
-	`tic; //Should be in COMPRD
-	`test(READ_0, DUT.state, "Should be in READ_0");
 	`test(1, DUT.c0.hit, "Should be a hit");
-
 	`tic; //Should be in DONE
-
 	`test(IDLE, DUT.state, "Should be Done");
         `test(16'h1111, DUT.DataOut, "Should be 16'h1111");
 	`tic
@@ -167,12 +147,7 @@ module t_mem_system_cashe();
            #1
 
           `tic;
-	  `test(WRITE_MEM, DUT.state, "Should be in WRITE_MEM");
-	  `tic;
-	  `tic;
-	  `tic
 	  `test(IDLE, DUT.state, "Should be in IDLE");
-	  `tic
 
            /****************************************
 	    * Make it dirty
@@ -180,16 +155,25 @@ module t_mem_system_cashe();
 
 	  addr = 16'h1100;
           force DUT.DataIn = 16'h0011;
+	  
+	  `test(IDLE, DUT.state, "Should be IDLE");
+	  `tic;
+	  `test(WRITE_MEM, DUT.state, "Should be write because its dirty");
 	  `tic;
 	  `tic;
 	  `tic;
+	  `tic;
+	  `test(READ_0, DUT.state, "Should be READ_0");
+	  `tic;
+	  `test(READ_1, DUT.state, "Should be READ_1");
+	  `tic;
+	  `test(READ_2, DUT.state, "Should be READ_2");
+	  `tic;
+	  `test(READ_3, DUT.state, "Should be READ_3");
 	  `tic;
 	  `tic;
 	  `tic;
 	  `test(RETRY, DUT.state, "Should be in RETRY");
-	  `tic;
-	  `tic;
-	  `tic;
 	  `tic;
 	  `test(IDLE, DUT.state, "Should be IDLE");
 
