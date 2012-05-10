@@ -321,6 +321,8 @@ module t_mem_system_clone_bench();
       `test(0, DUT.cache_comp, "Cache comp set in READ_2");
       `test(1, DUT.cache_write, "Cache write in READ_2");
       `test(1, DUT.cache_valid_in, "cache_valid_in in READ_2");
+      `test(DUT.mem_data_out, DUT.cache_data_in, "Cache data in is not mem out in READ_2");
+      
       
       /****************************************
        *  READ_3
@@ -389,10 +391,11 @@ module t_mem_system_clone_bench();
 
       // On read
       force DUT.Rd = 1;
+      force DUT.Wr = 0;
       #1;
-      `test(0, DUT.cache_write, "Cache right should be low on read");
+      `test(0, DUT.cache_write, "Cache write should be low on read");
 
-      force DUT.rd = 0;
+      force DUT.Rd = 0;
       force DUT.Wr = 1;
       #1;
       `test(1, DUT.cache_write, "Cache write should be high on write");
