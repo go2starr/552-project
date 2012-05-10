@@ -271,14 +271,14 @@ module t_mem_system_clone_bench();
       `test(DUT.count + 1, DUT.next_count, "Next count not incremented in WRITEMEM");
       
       // Mem control
-      `test({DUT.cache_index, DUT.cache_tag_out, DUT.count, 0}, DUT.mem_addr, "Mem address not correct in WRITEMEM");
+      `test({DUT.cache_index, DUT.cache_tag_out, DUT.count, 1'b0}, DUT.mem_addr, "Mem address not correct in WRITEMEM");
       `test(DUT.cache_data_out, DUT.mem_data_in, "Mem data is not cache data out in WRITEMEM");
       `test(1, DUT.mem_wr, "Mem Wr not set in WRITEMEM");
       `test(0, DUT.mem_rd, "Mem Rd not set in WRITEMEM");
 
       // Cache control
       `test(1, DUT.cache_enable, "Cache not enabled in WRITEMEM");
-      `test({count, 0}, DUT.cache_offset, "Cache offset is not count in WRITEMEM");
+      `test({DUT.count, 1'b0}, DUT.cache_offset, "Cache offset is not count in WRITEMEM");
       `test(0, DUT.cache_comp, "Cache comp set in WRITEMEM");
       `test(0, DUT.cache_write, "Cache write set in WRITEMEM");
 
@@ -289,7 +289,7 @@ module t_mem_system_clone_bench();
       #1;
 
       // Mem control
-      `test({Addr[15:3], 0, 0}, DUT.mem_addr, "Mem address not correct in READ_0");
+      `test({DUT.Addr[15:3], 2'd0, 1'b0}, DUT.mem_addr, "Mem address not correct in READ_0");
       `test(0, DUT.mem_wr, "Mem wr set in READ_0");
       `test(1, DUT.mem_rd, "Meme rd not set in READ_0");
 
@@ -300,7 +300,7 @@ module t_mem_system_clone_bench();
       #1;
 
       // Mem control
-      `test({Addr[15:3], 1, 0}, DUT.mem_addr, "Mem address not correct in READ_1");
+      `test({DUT.Addr[15:3], 2'd1, 1'b0}, DUT.mem_addr, "Mem address not correct in READ_1");
       `test(0, DUT.mem_wr, "Mem wr set in READ_1");
       `test(1, DUT.mem_rd, "Meme rd not set in READ_1");
 
@@ -311,13 +311,13 @@ module t_mem_system_clone_bench();
       #1;
 
       // Mem control
-      `test({Addr[15:3], 2, 0}, DUT.mem_addr, "Mem address not correct in READ_2");
+      `test({DUT.Addr[15:3], 2'd2, 1'b0}, DUT.mem_addr, "Mem address not correct in READ_2");
       `test(0, DUT.mem_wr, "Mem wr set in READ_2");
       `test(1, DUT.mem_rd, "Meme rd not set in READ_2");
 
       // Cache control (install)
       `test(1, DUT.cache_enable, "Cache not enabled in READ_2");
-      `test({0, 0}, DUT.cache_offset, "Cache offset in READ_2");
+      `test({2'b0, 1'b0}, DUT.cache_offset, "Cache offset in READ_2");
       `test(0, DUT.cache_comp, "Cache comp set in READ_2");
       `test(1, DUT.cache_write, "Cache write in READ_2");
       `test(1, DUT.cache_valid_in, "cache_valid_in in READ_2");
@@ -329,13 +329,13 @@ module t_mem_system_clone_bench();
       #1;
 
       // Mem control
-      `test({Addr[15:3], 3, 0}, DUT.mem_addr, "Mem address not correct in READ_3");
+      `test({DUT.Addr[15:3], 2'd3, 1'b0}, DUT.mem_addr, "Mem address not correct in READ_3");
       `test(0, DUT.mem_wr, "Mem wr set in READ_3");
       `test(1, DUT.mem_rd, "Meme rd not set in READ_3");
 
       // Cache control (install)
       `test(1, DUT.cache_enable, "Cache not enabled in READ_2");
-      `test({1, 0}, DUT.cache_offset, "Cache offset in READ_2");
+      `test({2'd1, 1'b0}, DUT.cache_offset, "Cache offset in READ_2");
       `test(0, DUT.cache_comp, "Cache comp set in READ_2");
       `test(1, DUT.cache_write, "Cache write in READ_2");
       `test(1, DUT.cache_valid_in, "cache_valid_in in READ_2");      
@@ -352,7 +352,7 @@ module t_mem_system_clone_bench();
 
       // Cache control (install)
       `test(1, DUT.cache_enable, "Cache not enabled in READ_2");
-      `test({2, 0}, DUT.cache_offset, "Cache offset in READ_2");
+      `test({2'd2, 1'b0}, DUT.cache_offset, "Cache offset in READ_2");
       `test(0, DUT.cache_comp, "Cache comp set in READ_2");
       `test(1, DUT.cache_write, "Cache write in READ_2");
       `test(1, DUT.cache_valid_in, "cache_valid_in in READ_2");      
@@ -365,7 +365,7 @@ module t_mem_system_clone_bench();
 
       // Cache control (install)
       `test(1, DUT.cache_enable, "Cache not enabled in READ_2");
-      `test({3, 0}, DUT.cache_offset, "Cache offset in READ_2");
+      `test({2'd3, 1'b0}, DUT.cache_offset, "Cache offset in READ_2");
       `test(0, DUT.cache_comp, "Cache comp set in READ_2");
       `test(1, DUT.cache_write, "Cache write in READ_2");
       `test(1, DUT.cache_valid_in, "cache_valid_in in READ_2");
