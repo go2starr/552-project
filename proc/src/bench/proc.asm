@@ -2,9 +2,20 @@
         lbi     r0, 0x0 // r0 <- 0
         addi    r1, , r0, 0x1 // r1 <- 1
         lbi     r2, 0x2 // r2 <- 2
-
         lbi     r3, 0x3 // r3 <- 3
-        lbi     r4, 0x4 // r4 <- 4
+        st      r1, r0, 0x0 // MEM[0] <- 1
+        ld      r2, r0, 0x0 // r2 <- MEM[0] 
+        add     r0, r2, r1  // r0 <- 1 + 1
+        lbi     r4, 0x04  // r4 <- 4
+        lbi     r5, 0x05  // r5 <- 5
+        nop
+        nop
+        nop
+        nop          
+
+
+
+ 
         add     r4, 0x5 // r4 <- r4 + 5 == 9 && should stall
         sub     r4, 0x1 // r4 <- r4 - 1 == 8 && should stall
         and     r2, 0x4 // r2 <- r2 && 4 == 0
