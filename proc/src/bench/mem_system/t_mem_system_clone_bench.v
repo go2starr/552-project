@@ -24,6 +24,7 @@ module t_mem_system_clone_bench();
    parameter READ_5 = 7;        // (x,3)
    parameter WRITE_MEM = 8;        // Writing to memory
    parameter RETRY = 9;            // Re-attempting a read/write operation after miss
+      
    
    // Counters, etc.
    integer     i,j,k;

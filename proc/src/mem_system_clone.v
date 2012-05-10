@@ -233,7 +233,7 @@ module mem_system(/*AUTOARG*/
            cache_data_in = DataIn;
            cache_comp = 1;      
            cache_write = Wr;
-           cache_valid_in = 1;
+           cache_valid_in = Wr;
            
            // Did the access hit?
            if (cache_valid_hit) begin
