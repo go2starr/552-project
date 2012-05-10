@@ -166,10 +166,10 @@ module proc(
    assign ID_rf_rs1 = ID_instr_out[10:8];  // Rs
    assign ID_rf_rs2 = (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7; // Rt, R7 upon RET instruction
 
-   assign ID_rf_rd1f = forwardMemExRs1 ? MEM_alu_out : 
+   assign ID_rf_rd1f = forwardMemExRs1 ? EX_alu_out : 
                        forwardWbExRs1 ? WB_rf_wd : 
                        ID_rf_rd1;
-   assign ID_rf_rd2f = forwardMemExRs2 ? MEM_alu_out : 
+   assign ID_rf_rd2f = forwardMemExRs2 ? EX_alu_out : 
                        forwardWbExRs2 ? WB_rf_wd : 
                        ID_rf_rd2;
 
