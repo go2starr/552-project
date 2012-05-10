@@ -142,12 +142,9 @@ module proc(
    wire [15:0] ID_rf_rd1f, ID_rf_rd2f;
 
    // Stalling?
-   assign stall = //(ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  ||
-                  (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr) ||
-                  //(ID_rf_rs1 == WB_rf_ws  && WB_rf_wr)  ||
-                  //(ID_rf_rs2 == EX_rf_ws  && EX_rf_wr);//  ||
-                  (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr);// ||
-                  //(ID_rf_rs2 == WB_rf_ws  && WB_rf_wr);
+   assign stall = (ID_rf_rs1 == EX_rf_ws && EX_rf_wr && EX_instr[15:11] == 5'b10001) ||
+                  (ID_rf_rs2 == EX_rf_ws && EX_rf_wr && EX_instr[15:11] == 5'b10001);
+                  
    
    // forward from beginning of Mem to beginning of Ex
    assign forwardMemExRs1 = (ID_rf_rs1 == EX_rf_ws && EX_rf_wr);
@@ -169,10 +166,10 @@ module proc(
    assign ID_rf_rs1 = ID_instr_out[10:8];  // Rs
    assign ID_rf_rs2 = (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7; // Rt, R7 upon RET instruction
 
-   assign ID_rf_rd1f = forwardMemExRs1 ? EX_alu_out : 
+   assign ID_rf_rd1f = forwardMemExRs1 ? MEM_alu_out : 
                        forwardWbExRs1 ? WB_rf_wd : 
                        ID_rf_rd1;
-   assign ID_rf_rd2f = forwardMemExRs2 ? EX_alu_out : 
+   assign ID_rf_rd2f = forwardMemExRs2 ? MEM_alu_out : 
                        forwardWbExRs2 ? WB_rf_wd : 
                        ID_rf_rd2;
 
