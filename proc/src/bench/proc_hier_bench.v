@@ -125,7 +125,7 @@ module proc_hier_bench();
    // names on the right hand side
 
    assign PC = DUT.p0.pc_reg.q;
-   assign Inst = DUT.p0.instr;
+   assign Inst = DUT.p0.IF_instr;
    
    assign RegWrite = DUT.p0.rf.write;
    // Is memory being read, one bit signal (1 means yes, 0 means no)
