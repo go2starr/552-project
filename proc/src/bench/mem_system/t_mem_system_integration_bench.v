@@ -52,7 +52,11 @@ module t_mem_system_integration_bench();
       // $monitor("%d :: en,tag,index,offset,data_in,comp,write,valid_in : %b, %h, %h, %h, %h, %b, %b, %b",
       // DUT.state, DUT.cache_enable, DUT.cache_tag_in, DUT.cache_index, DUT.cache_offset, DUT.cache_data_in, DUT.cache_comp, DUT.cache_write, DUT.cache_valid_in);
       
-
+      $monitor("%d :: add %h, din %h, dout %h, wr %b, rd %b, count %h\t en %b,tag %h,index %h,offset %h,din %h, dout %h, comp %b,write %b,valid_in %b",
+               DUT.state, DUT.mem_addr, DUT.mem_data_in, DUT.mem_data_out, DUT.mem_wr, DUT.mem_rd,
+               DUT.count,
+               DUT.cache_enable, DUT.cache_tag_in, DUT.cache_index, DUT.cache_offset, DUT.cache_data_in, DUT.cache_data_out, DUT.cache_comp, DUT.cache_write, DUT.cache_valid_in);
+      
       // Init
       addr = 0;
       data_in = 0;
@@ -188,8 +192,8 @@ module t_mem_system_integration_bench();
        *  Test 3 - Read back from memory
        *********************************************************************************/
       addr = 16'h1234;
-      rd = 0;
-      wr = 1;
+      rd = 1;
+      wr = 0;
 
       // IDLE
       #1;
@@ -197,17 +201,27 @@ module t_mem_system_integration_bench();
       `tic;
 
       // WM
-      `test(WRITE_MEM, DUT.state, "Write back");
       `tic;
-      `test(WRITE_MEM, DUT.state, "Write back 2");
-      
       `tic;
       `tic;
       `tic;
       
       // READ_0
-      `test(READ_0, DUT.state, "Read0");
+      `tic;
+      `tic;
+      `tic;
+      `tic;
+      `tic;
+      `tic;
+
+      // RETRY
+      `tic;
+      `test(1, DUT.Done, "Should be done in RETRY");
+      `test(16'hdead, DUT.DataOut, "Should read data back from memory");
       
+
+      // IDLE
+      `test(16'hdead, DUT.DataOut, "Should read back from memory");
       
       
       

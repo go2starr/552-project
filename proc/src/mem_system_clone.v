@@ -111,7 +111,7 @@ module mem_system(/*AUTOARG*/
    wire          cache_valid_hit;
 
    // Assigns
-   assign cache_tag_in = Addr [7:3];
+   assign cache_tag_in = (state == WRITE_MEM) ? cache_tag_out : Addr [7:3];
    assign cache_index  = Addr [15:8];
    assign cache_valid_hit = cache_hit && cache_valid;
 
@@ -191,7 +191,7 @@ module mem_system(/*AUTOARG*/
       CacheHit = 0;
 
       // State
-      next_count = count;
+      next_count = 0;
       
       // Cache
       cache_enable = 1;
@@ -234,6 +234,7 @@ module mem_system(/*AUTOARG*/
            cache_comp = 1;      
            cache_write = Wr;
            cache_valid_in = Wr;
+           cache_offset = Addr[3:0];
            
            // Did the access hit?
            if (cache_valid_hit) begin
@@ -358,6 +359,7 @@ module mem_system(/*AUTOARG*/
         WRITE_MEM: begin
            // Mem control
            mem_wr = 1;
+           mem_rd = 0;
            mem_addr = { cache_index, cache_tag_out, count, 1'b0};
            mem_data_in = cache_data_out;
 
@@ -365,7 +367,7 @@ module mem_system(/*AUTOARG*/
            cache_offset = {count, 1'b0};
            cache_comp = 0;
            cache_write = 0;
-           cache_valid_in = 1;
+           cache_valid_in = 0;
            
            // Last word?
            if (count == 3) begin
@@ -394,6 +396,7 @@ module mem_system(/*AUTOARG*/
            cache_comp = 1;
            cache_write = Wr;
            cache_valid_in = 1;
+           cache_offset = Addr[3:0];
 
            // Outputs
            Stall = 0;
