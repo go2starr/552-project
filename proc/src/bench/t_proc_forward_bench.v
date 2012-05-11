@@ -229,7 +229,7 @@ module t_proc_forward_bench();
       /*********************************************************************************
       *   lbi r4, 4
       *********************************************************************************/
-      `tic;
+/*      `tic;
       
       // IF
       `test(16'h0e, dut.IF_pc, "(8) PC did not increment");
@@ -271,7 +271,7 @@ module t_proc_forward_bench();
       `test(1, dut.EX_instr, "EX");
       `test(1, dut.MEM_instr, "MEM");
       `test(1, dut.WB_instr, "WB");
-
+*/
       `info("Tests end");
       $stop;
    end // initial begin

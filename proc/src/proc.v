@@ -141,13 +141,13 @@ module proc(
 
    wire [15:0] forwardMemExRs1, forwardMemExRs2, forwardWbExRs1, forwardWbExRs2; 
 
-   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr && EX_instr == 5'b10001)  ||
-                  (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr && EX_instr == 5'b10001);
+   assign stall = ((ID_rf_rs1 == EX_rf_ws)  && EX_rf_wr && (EX_instr == 5'b10001))  ||
+                  ((ID_rf_rs2 == EX_rf_ws)  && EX_rf_wr && (EX_instr == 5'b10001));
 
    assign forwardMemExRs1 = ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));  // if load calculating the address; don't forward data
    assign forwardMemExRs2 = ((ID_rf_rs2 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));
    assign forwardWbExRs1 = ((ID_rf_rs1 == MEM_rf_ws) && MEM_rf_wr);
-   assign forwardWbExRs2 = ((ID_rf_rs2 == MEM_rf_ws) && MEM_rf_ws);
+   assign forwardWbExRs2 = ((ID_rf_rs2 == MEM_rf_ws) && MEM_rf_wr);
 
    assign IF_instr_in = (rst | EX_bt) ? 16'h0800 :          // On reset or branch_taken, insert NOP
                         stall ? ID_instr_out : IF_instr;  // On stall, hold.  Else, take in piped value
@@ -162,7 +162,7 @@ module proc(
    assign ID_rf_rs1 = ID_instr_out[10:8];  // Rs
    assign ID_rf_rs2 = (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7; // Rt, R7 upon RET instruction
 
-   wire [15:0] ID_rf_rd1f, ID_rf_rd2f; // only mem out if load - else alu out?
+   wire [15:0] ID_rf_rd1f, ID_rf_rd2f; // only mem out if load - else alu out
    assign ID_rf_rd1f = forwardMemExRs1 ? EX_alu_out : 
                        (forwardWbExRs1 && MEM_instr == 5'b10001) ? MEM_mem_out :
                        forwardWbExRs1 ? MEM_alu_out : ID_rf_rd1;
