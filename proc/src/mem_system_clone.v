@@ -57,6 +57,17 @@ module mem_system(/*AUTOARG*/
    reg [1:0]         count;     // Number of words written/read in this block
    reg [1:0]         next_count;
 
+   reg [15:0]        retry_addr; // Address gets wiped out in retry
+   reg [15:0]        next_retry_addr;
+
+   reg [15:0]        retry_din; // Din gets wiped on retry
+   reg [15:0]        next_retry_din;
+   
+   reg               retry_wr;  // Wr gets wiped in retry
+   reg               next_retry_wr;
+
+   
+
    /****************************************
     *  Outputs
     * ****************************************/
@@ -71,7 +82,10 @@ module mem_system(/*AUTOARG*/
          // State
          state <= IDLE;
          count <= 0;
-
+         retry_addr <= 0;
+         retry_wr <= 0;
+         retry_din <= 0;
+         
          // Outputs
          DataOut <= 0;
          Done <= 0;
@@ -83,6 +97,9 @@ module mem_system(/*AUTOARG*/
          // State
          state <= next_state;
          count <= next_count;
+         retry_addr <= next_retry_addr;
+         retry_wr <= next_retry_wr;
+         retry_din <= next_retry_din;
 
          // Outputs
          DataOut <= next_data_out;
@@ -111,8 +128,12 @@ module mem_system(/*AUTOARG*/
    wire          cache_valid_hit;
 
    // Assigns
-   assign cache_tag_in = (state == WRITE_MEM) ? cache_tag_out : Addr [7:3];
-   assign cache_index  = Addr [15:8];
+   assign cache_tag_in = (state == WRITE_MEM) ? cache_tag_out : 
+                         (state == RETRY) ? retry_addr[7:3] :
+                         Addr [7:3];
+   
+   assign cache_index  = (state == RETRY) ? retry_addr[15:8] :
+                         Addr [15:8];
    assign cache_valid_hit = cache_hit && cache_valid;
 
    /****************************************
@@ -344,6 +365,9 @@ module mem_system(/*AUTOARG*/
          */
         READ_5: begin
            next_state = RETRY;
+           next_retry_addr = Addr;
+           next_retry_wr = Wr;
+           next_retry_din = DataIn;
            
            // Cache control
            cache_write = 1;
@@ -392,11 +416,11 @@ module mem_system(/*AUTOARG*/
            next_state = IDLE;
            
            // Cache Control
-           cache_data_in = DataIn;
+           cache_data_in = retry_din;
            cache_comp = 1;
-           cache_write = Wr;
-           cache_valid_in = 1;
-           cache_offset = Addr[3:0];
+           cache_write = retry_wr;
+           cache_valid_in = Wr;
+           cache_offset = retry_addr[3:0];
 
            // Outputs
            Stall = 0;
