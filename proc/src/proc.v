@@ -139,12 +139,15 @@ module proc(
    wire [15:0] ID_instr_out;
    wire [15:0] IF_pc_inc_in;
 
-   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr)  ||
-                  (ID_rf_rs1 == MEM_rf_ws && MEM_rf_wr) ||
-                  (ID_rf_rs1 == WB_rf_ws  && WB_rf_wr)  ||
-                  (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr)  ||
-                  (ID_rf_rs2 == MEM_rf_ws && MEM_rf_wr) ||
-                  (ID_rf_rs2 == WB_rf_ws  && WB_rf_wr);
+   wire [15:0] forwardMemExRs1, forwardMemExRs2, forwardWbExRs1, forwardWbExRs2; 
+
+   assign stall = (ID_rf_rs1 == EX_rf_ws  && EX_rf_wr && EX_instr == 5'b10001)  ||
+                  (ID_rf_rs2 == EX_rf_ws  && EX_rf_wr && EX_instr == 5'b10001);
+
+   assign forwardMemExRs1 = ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));  // if load calculating the address; don't forward data
+   assign forwardMemExRs2 = ((ID_rf_rs2 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));
+   assign forwardWbExRs1 = ((ID_rf_rs1 == MEM_rf_ws) && MEM_rf_wr);
+   assign forwardWbExRs2 = ((ID_rf_rs2 == MEM_rf_ws) && MEM_rf_ws);
 
    assign IF_instr_in = (rst | EX_bt) ? 16'h0800 :          // On reset or branch_taken, insert NOP
                         stall ? ID_instr_out : IF_instr;  // On stall, hold.  Else, take in piped value
@@ -158,6 +161,15 @@ module proc(
    // Assign Rs, Rt 
    assign ID_rf_rs1 = ID_instr_out[10:8];  // Rs
    assign ID_rf_rs2 = (ID_instr_out[15:11] != 5'b01110) ? ID_instr_out[7:5] : 3'd7; // Rt, R7 upon RET instruction
+
+   wire [15:0] ID_rf_rd1f, ID_rf_rd2f; // only mem out if load - else alu out?
+   assign ID_rf_rd1f = forwardMemExRs1 ? EX_alu_out : 
+                       (forwardWbExRs1 && MEM_instr == 5'b10001) ? MEM_mem_out :
+                       forwardWbExRs1 ? MEM_alu_out : ID_rf_rd1;
+
+   assign ID_rf_rd2f = forwardMemExRs2 ? EX_alu_out :
+                       (forwardWbExRs2 && MEM_instr == 5'b10001) ? MEM_mem_out : 
+                       forwardWbExRs2 ? MEM_alu_out : ID_rf_rd2;
 
    // Decode instruction destination
    alu_destination_decode add(
@@ -181,8 +193,8 @@ module proc(
    register ID_EX_instr  (.d(ID_instr_in),   .q(EX_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
    register ID_EX_pc_inc (.d(ID_pc_inc),  .q(EX_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
 
-   register ID_EX_rf_rd1 (.d(ID_rf_rd1), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1'b1));      
-   register ID_EX_rf_rd2 (.d(ID_rf_rd2), .q(EX_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));   
+   register ID_EX_rf_rd1 (.d(ID_rf_rd1f), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1'b1));      
+   register ID_EX_rf_rd2 (.d(ID_rf_rd2f), .q(EX_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
