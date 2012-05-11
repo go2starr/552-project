@@ -239,7 +239,7 @@ module t_mem_setass_cashe();
            #1
           
           `test(1, DUT.victimway, "victimway should be inverted back to 1");
-	   tic;
+	`tic;
 	  `test(IDLE, DUT.state, "Should be in IDLE");
 
            /****************************************

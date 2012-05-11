@@ -86,7 +86,7 @@ module mem_system(/*AUTOARG*/
          // State
          state <= IDLE;
          count <= 0;
-         victim <= 0;
+         victim <= 1;
          victimway <= 0;
          retry_addr <= 0;
          retry_wr <= 0;
@@ -156,7 +156,7 @@ module mem_system(/*AUTOARG*/
    wire          cache_hit_1, cache_dirty_1, cache_valid_1, cache_err_1;
    wire          cache_valid_hit_1;
 
-   assign cache_valid_hit_1 = cache_hit && cache_valid;
+   assign cache_valid_hit_1 = cache_hit_1 && cache_valid_1;
 
    /****************************************
     *   Both Caches
@@ -259,6 +259,7 @@ module mem_system(/*AUTOARG*/
       
 
       // State
+      next_victimway = ~victimway;
       next_victim = victim;
       next_count = 0;
       
@@ -323,15 +324,16 @@ module mem_system(/*AUTOARG*/
 
               if (cache_valid_hit)
                 DataOut = cache_data_out;
-              else 
+              else if (cache_valid_hit_1)
                 DataOut = cache_data_out_1;
+              else
+                next_state = ERR;
               CacheHit = 1;
-              
            end else begin
               // Cache missed
               // is the row dirty?
               if (both_cache_dirty) begin
-                 // Choose a vitcim cache
+                 // Choose a victim cache
                  if (cache_valid && !cache_valid_1)
                    next_victim = 1;
                  else if (!cache_valid && cache_valid)
@@ -401,7 +403,6 @@ module mem_system(/*AUTOARG*/
            cache_comp = 0;
            cache_data_in = mem_data_out;
            cache_valid_in = 1;
-           
         end
         
         /*
@@ -468,6 +469,7 @@ module mem_system(/*AUTOARG*/
            cache_data_in = mem_data_out;           
            cache_valid_in = 1;           
         end
+
         /*
          *  WRITE_MEM - In the write_mem stage, a block in the cache is being
          *  written to memory.
@@ -476,14 +478,17 @@ module mem_system(/*AUTOARG*/
            // Mem control
            mem_wr = 1;
            mem_rd = 0;
-           mem_addr = { cache_index, cache_tag_out, count, 1'b0};
-           mem_data_in = cache_data_out;
 
            // Cache control
-           if (!victim)
-             cache_enable = 1;
-           else
-             cache_enable_1 = 1;
+           if (!victim) begin
+              mem_addr = { cache_index, cache_tag_out, count, 1'b0};
+              mem_data_in = cache_data_out;
+              cache_enable = 1;
+           end else begin
+              mem_addr = { cache_index, cache_tag_out_1, count, 1'b0};              
+              mem_data_in = cache_data_out_1;
+              cache_enable_1 = 1;
+           end
            
            cache_offset = {count, 1'b0};
            cache_comp = 0;
@@ -527,8 +532,10 @@ module mem_system(/*AUTOARG*/
            Done = 1;
            if (cache_valid_hit)
              DataOut = cache_data_out;
-           else 
-             DataOut = cache_data_out_1;           
+           else if (cache_valid_hit_1)
+             DataOut = cache_data_out_1;
+           else
+             next_state = ERR;
            CacheHit = 0;
         end
       endcase
