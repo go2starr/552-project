@@ -41,7 +41,7 @@ module mem_system_perfbench(/*AUTOARG*/);
                        .DataIn          (DataIn[15:0]),
                        .Rd              (Rd),
                        .Wr              (Wr),
-		               .createdump      (1'b0));
+		       .createdump      (1'b0));
 
    wire [15:0]          DataOut_ref;
    wire                 Done_ref;
@@ -62,22 +62,23 @@ module mem_system_perfbench(/*AUTOARG*/);
                       .clk( DUT.clkgen.clk),
                       .rst( DUT.clkgen.rst) );
    
-   reg    reg_readorwrite;
-   integer n_requests;
-   integer n_replies;
-   integer n_cache_hits;
-   reg     test_success;
-   integer req_cycle;
+   reg                  reg_readorwrite;
+   integer              n_requests;
+   integer              n_replies;
+   integer              n_cache_hits;
+   reg                  test_success;
+   integer              req_cycle;
    
    // variables for reading address trace
-   integer fd;
-   integer rval;
+   integer              fd;
+   integer              rval;
    
    initial begin
-      
-       $monitor("%d :: DataOut: %h, Cache (en=%b, din=%h, comp=%b, wr=%b, dout=%h, off=%d, valid=%b)  Mem (addr,din,dout) : (%h, %h, %h).  Count: %d, Done: %b  Stall: %b", DUT.m0.state, DUT.m0.DataOut, DUT.m0.cache_enable, DUT.m0.cache_data_in, DUT.m0.c0.offset, DUT.m0.cache_write, DUT.m0.cache_data_out, DUT.m0.cache_offset, DUT.m0.cache_valid_in,
+/*
+       $monitor("%d::add: %h, dio:(%h/%h), C:(en=%b, din=%h, cmp=%b,wr=%b, dout=%h, off=%d, ind=%h, tag=%h, hit=%b, drty=%b) mem(addr,din,dout) :(%h, %h, %h) ct: %d, don: %b  stall: %b", DUT.m0.state, DUT.m0.Addr, DUT.m0.DataIn, DUT.m0.DataOut, DUT.m0.cache_enable, DUT.m0.cache_data_in, DUT.m0.c0.comp, DUT.m0.cache_write, DUT.m0.cache_data_out, DUT.m0.cache_offset, DUT.m0.cache_index, DUT.m0.cache_tag_in, DUT.m0.cache_hit, DUT.m0.cache_dirty,
                DUT.m0.mem_addr, DUT.m0.mem_data_in, DUT.m0.mem_data_out, DUT.m0.count, DUT.m0.Done, DUT.m0.Stall );
-      
+ */
+
       Rd = 1'b0;
       Wr = 1'b0;
       Addr = 16'd0;
@@ -133,12 +134,12 @@ module mem_system_perfbench(/*AUTOARG*/);
             end
             
          end
-           
+         
 	 if (Rd) begin
 	    if (DataOut != DataOut_ref) begin
-                $display("ERROR Ref: 0x%04x DUT: 0x%04x", DataOut_ref, DataOut);
-                test_success = 1'b0;
-             end
+               $display("ERROR Ref: 0x%04x DUT: 0x%04x", DataOut_ref, DataOut);
+               test_success = 1'b0;
+            end
          end
 
          Rd = 1'd0;
@@ -153,38 +154,38 @@ module mem_system_perfbench(/*AUTOARG*/);
 
    task read_line;
       reg [1023:0] line;
-      integer rval;
+      integer      rval;
       
       begin
-         if (!rst && (!Stall)) begin
-	        if (n_replies != n_requests) begin
-               if (Rd) begin
-		          $display("LOG: ReqNum %4d Cycle %8d ReqCycle %8d Rd Addr 0x%04x RefValue 0x%04x\n",
-			               n_replies, DUT.clkgen.cycle_count, req_cycle, Addr, DataOut_ref);
-               end
-               if (Wr) begin
-		          $display("LOG: ReQNum %4d Cycle %8d ReqCycle %8d Wr Addr 0x%04x Value 0x%04x\n",
-			               n_replies, DUT.clkgen.cycle_count, req_cycle, Addr, DataIn);
-               end
-	           $display("ERROR! Request dropped");
-               test_success = 1'b0;               
-	           n_replies = n_requests;	       
-	        end            
-            rval = $fscanf(fd, "%d %d %d %d", 
-                           Wr, Rd, Addr, DataIn);
-            if (rval == 0) begin
-               rval = $fgets(line, fd);
-               $display("Line interpretted as comment: %s", line);
-            end
+           if (!rst && (!Stall)) begin
+	      if (n_replies != n_requests) begin
+                 if (Rd) begin
+		    $display("LOG: ReqNum %4d Cycle %8d ReqCycle %8d Rd Addr 0x%04x RefValue 0x%04x\n",
+			     n_replies, DUT.clkgen.cycle_count, req_cycle, Addr, DataOut_ref);
+                 end
+                 if (Wr) begin
+		    $display("LOG: ReQNum %4d Cycle %8d ReqCycle %8d Wr Addr 0x%04x Value 0x%04x\n",
+			     n_replies, DUT.clkgen.cycle_count, req_cycle, Addr, DataIn);
+                 end
+	         $display("ERROR! Request dropped");
+                 test_success = 1'b0;               
+	         n_replies = n_requests;	       
+	      end            
+              rval = $fscanf(fd, "%d %d %d %d", 
+                             Wr, Rd, Addr, DataIn);
+              if (rval == 0) begin
+                 rval = $fgets(line, fd);
+                 $display("Line interpretted as comment: %s", line);
+              end
 
-            if (rval <= 0) begin
-               end_simulation;
-            end
-            if (Wr | Rd) begin
-               req_cycle = DUT.clkgen.cycle_count;
-               n_requests = n_requests + 1;
-            end
-         end // if (!rst && (!Stall))
+              if (rval <= 0) begin
+                 end_simulation;
+              end
+              if (Wr | Rd) begin
+                 req_cycle = DUT.clkgen.cycle_count;
+                 n_requests = n_requests + 1;
+              end
+           end // if (!rst && (!Stall))
       end         
    endtask 
 
@@ -196,7 +197,7 @@ module mem_system_perfbench(/*AUTOARG*/);
                   DUT.clkgen.cycle_count,
                   n_cache_hits );
          if (!test_success)  begin
-           $display("Test status: FAIL");
+            $display("Test status: FAIL");
          end else begin
             $display("Test status: SUCCESS");
          end
