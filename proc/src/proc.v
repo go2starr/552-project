@@ -70,7 +70,8 @@ module proc(
    // Passed out
    wire [15:0] MEM_mem_out;
 
-   // Internal   
+   // Internal
+   wire        MEM_mem_stall, MEM_mem_done;
    wire        MEM_we_mem, MEM_wr_mem, MEM_halt;
 
    /****************************************
@@ -113,18 +114,23 @@ module proc(
 		      );
 
    // Instruction memory
-   memory2c instr_mem (
-   		       // Inputs
-		       .data_in (16'b0),
-		       .addr (IF_pc),
-		       .enable (1'b1),
-		       .wr(1'b0),
-		       .createdump(1'b0),
-		       .clk (clk),
-		       .rst(rst),
-		       // Outputs
-		       .data_out (IF_instr)
-		       );
+   mem_system #(0) icache (
+                      // Inputs
+                      .Addr(IF_pc),
+                      .DataIn(16'b0),
+                      .Rd(1'b1),
+                           .Wr(1'b0),
+                           .createdump(1'b0),
+                      .clk(clk),
+                      .rst(rst),
+                      // Outputs
+                      .DataOut(IF_instr),
+                      .Done(IF_mem_done),
+                      .Stall(IF_mem_stall),
+                      .CacheHit(IF_mem_hit),
+                           .err(IF_mem_err)
+                           );
+
    // PC
    register pc_reg(.q(IF_pc), 
                    .d(IF_next_pc), 
@@ -141,7 +147,8 @@ module proc(
 
 //   wire forwardMemExRs1, forwardMemExRs2, forwardWbExRs1, forwardWbExRs2; 
 
-   assign stall = ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr[15:11] == 5'b10001))  ||
+   assign stall = IF_mem_stall || !IF_mem_done || MEM_mem_stall || !MEM_mem_done || 
+                  ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr[15:11] == 5'b10001))  ||
                   ((ID_rf_rs2 == EX_rf_ws) && EX_rf_wr && (EX_instr[15:11] == 5'b10001));
 
    assign forwardExDecRs1 = ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));  // if load calculating the address; don't forward data
@@ -190,16 +197,29 @@ module proc(
     *  Execute Stage
     *********************************************************************************/
    wire [15:0] ID_instr_in;
+
+   wire [2:0]  EX_rf_ws_in;
+   wire        EX_rf_wr_in;
+   wire [15:0] EX_instr_in, EX_pc_inc_in, EX_rf_rd1_in, EX_rf_rd2_in;
+
+   
    assign ID_instr_in = rst ? 16'h0800 : ID_instr;
 
-   // Pipelined regs
-   register #(.WIDTHreg(3)) ID_EX_rf_ws  (.d(ID_rf_ws),      .q(EX_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
-   register #(.WIDTHreg(1)) ID_EX_rf_wr  (.d(ID_rf_wr),      .q(EX_rf_wr), .clk(clk), .rst(rst), .we(1'b1));
-   register ID_EX_instr  (.d(ID_instr_in),   .q(EX_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
-   register ID_EX_pc_inc (.d(ID_pc_inc),  .q(EX_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
+   assign EX_rf_ws_in = MEM_mem_stall ? EX_rf_ws   : ID_rf_ws;
+   assign EX_rf_wr_in = MEM_mem_stall ? EX_rf_wr   : ID_rf_wr;
+   assign EX_instr_in = MEM_mem_stall ? EX_instr   : ID_instr_in;
+   assign EX_pc_inc_in = MEM_mem_stall ? EX_pc_inc : ID_pc_inc;
+   assign EX_rf_rd1_in = MEM_mem_stall ? EX_rf_rd1 : ID_rf_rd1f;
+   assign EX_rf_rd2_in = MEM_mem_stall ? EX_rf_rd2 : ID_rf_rd2f;
 
-   register ID_EX_rf_rd1 (.d(ID_rf_rd1f), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1'b1));      
-   register ID_EX_rf_rd2 (.d(ID_rf_rd2f), .q(EX_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));   
+   // Pipelined regs
+   register #(.WIDTHreg(3)) ID_EX_rf_ws  (.d(EX_rf_ws_in),      .q(EX_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(1)) ID_EX_rf_wr  (.d(EX_rf_wr_in),      .q(EX_rf_wr), .clk(clk), .rst(rst), .we(1'b1));
+   register ID_EX_instr  (.d(EX_instr_in),   .q(EX_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
+   register ID_EX_pc_inc (.d(EX_pc_inc_in),  .q(EX_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
+
+   register ID_EX_rf_rd1 (.d(EX_rf_rd1_in), .q(EX_rf_rd1), .clk(clk), .rst(rst), .we(1'b1));      
+   register ID_EX_rf_rd2 (.d(EX_rf_rd2_in), .q(EX_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));   
    
    // Decode instruction operands (post-fetch)	
    alu_operand_decode aopd(
@@ -254,20 +274,28 @@ module proc(
    /********************************************************************************
     *  Memory Stage
     *********************************************************************************/
-   wire        EX_rf_wr_in;
-   wire [15:0] EX_instr_in;
+   wire [15:0] MEM_instr_in, MEM_pc_inc_in, MEM_alu_out_in;
+   wire [2:0]  MEM_rf_ws_in;
+   wire        MEM_rf_wr_in;
+   wire [15:0] MEM_rf_rd2_in;
    
-   assign EX_rf_wr_in = rst ? 0 : EX_rf_wr;
    assign EX_instr_in = rst ? 16'h0800 : EX_instr;
-   
-   // Pipelined regs
-   register EX_MEM_instr   (.d(EX_instr_in),   .q(MEM_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
-   register EX_MEM_pc_inc  (.d(EX_pc_inc),  .q(MEM_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
-   register EX_MEM_alu_out (.d(EX_alu_out), .q(MEM_alu_out), .clk(clk), .rst(rst), .we(1'b1));
-   register #(.WIDTHreg(3)) EX_MEM_rf_ws  (.d(EX_rf_ws),   .q(MEM_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
-   register #(.WIDTHreg(1)) EX_MEM_rf_wr  (.d(EX_rf_wr_in),   .q(MEM_rf_wr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
 
-   register EX_MEM_rf_rd2  (.d(EX_rf_rd2), .q(MEM_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));
+   assign MEM_instr_in = rst ? 16'h0800 : MEM_mem_stall ? MEM_instr : EX_instr_in;
+   assign MEM_pc_inc_in = MEM_mem_stall ? MEM_pc_inc : EX_pc_inc;
+   assign MEM_alu_out_in = rst ? 16'h0 : MEM_mem_stall ? MEM_alu_out : EX_alu_out;
+   assign MEM_rf_ws_in = MEM_mem_stall ? MEM_rf_ws : EX_rf_ws;
+   assign MEM_rf_wr_in = rst ? 0 : MEM_mem_stall ? MEM_rf_wr : EX_rf_wr_in;
+   assign MEM_rf_rd2_in = rst ? 0 : MEM_mem_stall ? MEM_rf_rd2 : EX_rf_rd2;
+
+   // Pipelined regs
+   register EX_MEM_instr   (.d(MEM_instr_in),   .q(MEM_instr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
+   register EX_MEM_pc_inc  (.d(MEM_pc_inc_in),  .q(MEM_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
+   register EX_MEM_alu_out (.d(MEM_alu_out_in), .q(MEM_alu_out), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(3)) EX_MEM_rf_ws  (.d(MEM_rf_ws_in),   .q(MEM_rf_ws), .clk(clk), .rst(rst), .we(1'b1));
+   register #(.WIDTHreg(1)) EX_MEM_rf_wr  (.d(MEM_rf_wr_in),   .q(MEM_rf_wr), .clk(clk), .rst(1'b0), .we(1'b1)); // Init'd
+
+   register EX_MEM_rf_rd2  (.d(MEM_rf_rd2_in), .q(MEM_rf_rd2), .clk(clk), .rst(rst), .we(1'b1));
    
    mem_decode_logic mdl (
                          // Inputs
@@ -277,32 +305,37 @@ module proc(
 			 .wr_mem(MEM_wr_mem),
 			 .halt(MEM_halt)
 			 );
-   
-   memory2c data_mem (
-   		      // Inputs
-		      .data_in (MEM_rf_rd2),
-		      .addr (MEM_alu_out),
-		      .enable (MEM_we_mem),
-		      .wr(MEM_wr_mem),
-		      .createdump(1'b0),	
-		      .clk (clk),
-		      .rst(rst),
-		      // Outputs
-		      .data_out (MEM_mem_out)
-		      );
+
+   // Data memory
+   mem_system #(1) dcache (
+                           // Inputs
+                           .Addr(MEM_alu_out),
+                           .DataIn(MEM_rf_rd2),
+                           .Rd(!MEM_wr_mem),
+                           .Wr(MEM_wr_mem),
+                           .createdump(1'b0),
+                           .clk(clk),
+                           .rst(rst),
+                           // Outputs
+                           .DataOut(MEM_mem_out),
+                           .Done(MEM_mem_done),
+                           .Stall(MEM_mem_stall),
+                           .CacheHit(MEM_mem_hit),
+                           .err(MEM_mem_err)
+                           );
    
    
    /********************************************************************************
     *  Write Stage
     *********************************************************************************/
-   wire        MEM_rf_wr_in;
-   assign MEM_rf_wr_in = rst ? 0 : MEM_rf_wr;
+   wire [15:0] WB_instr_in;
+   assign WB_instr_in = rst ? 16'b0 : MEM_mem_stall ? 16'h0800 : WB_instr;
 
    // Halt detection
    assign halt = MEM_instr[15:11] == 5'b00000;
 
    // Pipelined regs
-   register MEM_WB_instr  (.d(MEM_instr),   .q(WB_instr), .clk(clk), .rst(rst), .we(1'b1));
+   register MEM_WB_instr  (.d(MEM_instr),   .q(WB_instr_in), .clk(clk), .rst(rst), .we(1'b1));
    register MEM_WB_pc_inc (.d(MEM_pc_inc),  .q(WB_pc_inc), .clk(clk), .rst(rst), .we(1'b1));
    register MEM_WB_alu_out(.d(MEM_alu_out), .q(WB_alu_out), .clk(clk), .rst(rst), .we(1'b1));
    register MEM_WB_mem_out(.d(MEM_mem_out), .q(WB_mem_out), .clk(clk), .rst(rst), .we(1'b1));
