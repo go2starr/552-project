@@ -141,8 +141,8 @@ module proc(
 
 //   wire forwardMemExRs1, forwardMemExRs2, forwardWbExRs1, forwardWbExRs2; 
 
-   assign stall = ((ID_rf_rs1 == EX_rf_ws)  && EX_rf_wr && (EX_instr == 5'b10001))  ||
-                  ((ID_rf_rs2 == EX_rf_ws)  && EX_rf_wr && (EX_instr == 5'b10001));
+   assign stall = ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr[15:11] == 5'b10001))  ||
+                  ((ID_rf_rs2 == EX_rf_ws) && EX_rf_wr && (EX_instr[15:11] == 5'b10001));
 
    assign forwardExDecRs1 = ((ID_rf_rs1 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));  // if load calculating the address; don't forward data
    assign forwardExDecRs2 = ((ID_rf_rs2 == EX_rf_ws) && EX_rf_wr && (EX_instr != 5'b10001));
