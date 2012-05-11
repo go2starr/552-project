@@ -55,14 +55,14 @@ module proc_hier_pbench();
       trace_file = $fopen("verilogsim.ptrace");
       sim_log_file = $fopen("verilogsim.log");
 
-     
+     /*
       $monitor("PC/Stall/Clk/Halt: (%h,%b,%b,%b) : Inst: (%h,%h,%h,%h,%h), rf_ws:(%d, %d, %d, %d) (A,B,Out,Op,AddSum,CO): (%h,%h,%h,%h,%h,%b) (%b, %b, %b, %b)",
                DUT.p0.IF_pc, DUT.p0.stall, DUT.p0.clk, DUT.p0.halt,
                DUT.p0.IF_instr, DUT.p0.ID_instr, DUT.p0.EX_instr, DUT.p0.MEM_instr, DUT.p0.WB_instr, 
                DUT.p0.ID_rf_ws, DUT.p0.EX_rf_ws, DUT.p0.MEM_rf_ws, DUT.p0.WB_rf_ws,
                DUT.p0.alu.A, DUT.p0.alu.B, DUT.p0.alu.Out, DUT.p0.alu.Op, DUT.p0.alu.add_Sum,
                DUT.p0.alu.add_CO, DUT.p0.forwardExDecRs1, DUT.p0.forwardMemDecRs1, DUT.p0.forwardExDecRs2, DUT.p0.forwardMemDecRs2);
-     
+     */
       
 
       
