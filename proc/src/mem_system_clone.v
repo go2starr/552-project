@@ -57,6 +57,12 @@ module mem_system(/*AUTOARG*/
    reg [1:0]         count;     // Number of words written/read in this block
    reg [1:0]         next_count;
 
+   reg               victim;    // Actual victim cache on replacement
+   reg               next_victim;
+   
+   reg               victimway; // Victim cache on replacement using pseudo-random
+   reg               next_victimway;
+
    reg [15:0]        retry_addr; // Address gets wiped out in retry
    reg [15:0]        next_retry_addr;
 
@@ -65,8 +71,6 @@ module mem_system(/*AUTOARG*/
    
    reg               retry_wr;  // Wr gets wiped in retry
    reg               next_retry_wr;
-
-   
 
    /****************************************
     *  Outputs
@@ -82,6 +86,8 @@ module mem_system(/*AUTOARG*/
          // State
          state <= IDLE;
          count <= 0;
+         victim <= 0;
+         victimway <= 0;
          retry_addr <= 0;
          retry_wr <= 0;
          retry_din <= 0;
@@ -97,6 +103,8 @@ module mem_system(/*AUTOARG*/
          // State
          state <= next_state;
          count <= next_count;
+         victim <= next_victim;
+         victimway <= next_victimway;
          retry_addr <= next_retry_addr;
          retry_wr <= next_retry_wr;
          retry_din <= next_retry_din;
@@ -111,7 +119,7 @@ module mem_system(/*AUTOARG*/
    end
    
    /****************************************
-    *   Cache
+    *   Cache 0
     * ****************************************/
    // Inputs
    reg           cache_enable;
@@ -120,7 +128,7 @@ module mem_system(/*AUTOARG*/
    reg [2:0]     cache_offset;
    reg [15:0]    cache_data_in;
    reg           cache_comp, cache_write, cache_valid_in;
-
+   
    // Outputs
    wire [4:0]    cache_tag_out;
    wire [15:0]   cache_data_out;   
@@ -135,6 +143,26 @@ module mem_system(/*AUTOARG*/
    assign cache_index  = (state == RETRY) ? retry_addr[15:8] :
                          Addr [15:8];
    assign cache_valid_hit = cache_hit && cache_valid;
+
+   /****************************************
+    *   Cache 1
+    * ****************************************/
+   // Inputs
+   reg           cache_enable_1;
+   
+   // Outputs
+   wire [4:0]    cache_tag_out_1;
+   wire [15:0]   cache_data_out_1;   
+   wire          cache_hit_1, cache_dirty_1, cache_valid_1, cache_err_1;
+   wire          cache_valid_hit_1;
+
+   assign cache_valid_hit_1 = cache_hit && cache_valid;
+
+   /****************************************
+    *   Both Caches
+    *****************************************/
+   assign either_cache_valid = cache_valid_hit | cache_valid_hit_1;
+   assign both_cache_dirty = cache_dirty & cache_dirty_1;
 
    /****************************************
     *  Memory
@@ -154,13 +182,9 @@ module mem_system(/*AUTOARG*/
    wire          write_mem_addr;
    wire          read_mem_addr;
 
-
    /********************************************************************************
     *  Modules
     * ********************************************************************************/
-   // You must pass the mem_type parameter 
-   // and createdump inputs to the 
-   // cache modules
    cache #(0 + mem_type) c0(
 	                    // Inputs
                             .enable(cache_enable),
@@ -181,6 +205,28 @@ module mem_system(/*AUTOARG*/
 	                    .dirty(cache_dirty), 
 	                    .valid(cache_valid), 
 	                    .err(cache_err)
+	                    );
+
+   cache #(0 + mem_type) c1(
+	                    // Inputs
+                            .enable(cache_enable_1),
+	                    .clk(clk), 
+	                    .rst(rst), 
+	                    .createdump(createdump),
+	                    .tag_in(cache_tag_in), 
+	                    .index(cache_index), 
+	                    .offset(cache_offset), 
+	                    .data_in(cache_data_in), 
+	                    .comp(cache_comp), 
+	                    .write(cache_write), 
+	                    .valid_in(cache_valid_in), 
+	                    // Outputs
+	                    .tag_out(cache_tag_out_1), 
+	                    .data_out(cache_data_out_1), 
+	                    .hit(cache_hit_1), 
+	                    .dirty(cache_dirty_1), 
+	                    .valid(cache_valid_1), 
+	                    .err(cache_err_1)
 	                    );
    
   four_bank_mem mem (
@@ -210,12 +256,19 @@ module mem_system(/*AUTOARG*/
       err = 0;
       DataOut = DataOut;
       CacheHit = 0;
+      
 
       // State
+      next_victim = victim;
       next_count = 0;
       
-      // Cache
-      cache_enable = 1;
+      // Cache 0
+      cache_enable = 0;
+
+      // Cache 1
+      cache_enable_1 = 0;
+      
+      // Caches
       cache_data_in = 0;
       cache_comp = 0;
       cache_write = 0;
@@ -250,7 +303,9 @@ module mem_system(/*AUTOARG*/
          *       - Retry the operation
          */
         IDLE: begin
-           // Control
+           // Cache control
+           cache_enable = 1;
+           cache_enable_1 = 1;
            cache_data_in = DataIn;
            cache_comp = 1;      
            cache_write = Wr;
@@ -258,24 +313,42 @@ module mem_system(/*AUTOARG*/
            cache_offset = Addr[3:0];
            
            // Did the access hit?
-           if (cache_valid_hit) begin
+           if (either_cache_valid) begin
               // Stay in idle, the operation completed
               next_state = IDLE;
 
               // Outputs
               Stall = 0;
               Done = 1;
-              DataOut = cache_data_out;
+
+              if (cache_valid_hit)
+                DataOut = cache_data_out;
+              else 
+                DataOut = cache_data_out_1;
               CacheHit = 1;
               
            end else begin
               // Cache missed
               // is the row dirty?
-              if (cache_dirty) begin
-                // Cache is dirty, need to write back to mem
+              if (both_cache_dirty) begin
+                 // Choose a vitcim cache
+                 if (cache_valid && !cache_valid_1)
+                   next_victim = 1;
+                 else if (!cache_valid && cache_valid)
+                   next_victim = 0;
+                 else if (!cache_valid && !cache_valid_1)
+                   next_victim = 0;
+                 else
+                   next_victim = victimway;
+
+                 // Cache is dirty, need to write back to mem
                  next_state = WRITE_MEM;
               end else begin
-                 // Cache is not dirty, safe to read block into cache
+                 // One cache is not dirty, safe to read block into cache
+                 if (cache_dirty)
+                   next_victim = 1;
+                 else
+                   next_victim = 0;
                  next_state = READ_0;
               end
            end
@@ -319,6 +392,10 @@ module mem_system(/*AUTOARG*/
            mem_rd = 1;
 
            // Cache control
+           if (!victim)
+             cache_enable = 1;
+           else
+             cache_enable_1 = 1;
            cache_write = 1;
            cache_offset = {2'd0, 1'b0};
            cache_comp = 0;
@@ -338,6 +415,11 @@ module mem_system(/*AUTOARG*/
            mem_rd = 1;
 
            // Cache control
+           if (!victim)
+             cache_enable = 1;
+           else
+             cache_enable_1 = 1;
+           
            cache_write = 1;
            cache_offset = {2'd1, 1'b0};
            cache_comp = 0;
@@ -352,6 +434,11 @@ module mem_system(/*AUTOARG*/
           next_state = READ_5;
 
            // Cache control
+           if (!victim)
+             cache_enable = 1;
+           else
+             cache_enable_1 = 1;
+           
            cache_write = 1;
            cache_offset = {2'd2, 1'b0};
            cache_comp = 0;
@@ -370,6 +457,11 @@ module mem_system(/*AUTOARG*/
            next_retry_din = DataIn;
            
            // Cache control
+           if (!victim)
+             cache_enable = 1;
+           else
+             cache_enable_1 = 1;
+           
            cache_write = 1;
            cache_offset = {2'd3, 1'b0};
            cache_comp = 0;
@@ -388,6 +480,11 @@ module mem_system(/*AUTOARG*/
            mem_data_in = cache_data_out;
 
            // Cache control
+           if (!victim)
+             cache_enable = 1;
+           else
+             cache_enable_1 = 1;
+           
            cache_offset = {count, 1'b0};
            cache_comp = 0;
            cache_write = 0;
@@ -416,37 +513,26 @@ module mem_system(/*AUTOARG*/
            next_state = IDLE;
            
            // Cache Control
+           cache_enable = 1;
+           cache_enable_1 = 1;           
+
            cache_data_in = retry_din;
            cache_comp = 1;
            cache_write = retry_wr;
-           cache_valid_in = Wr;
+           cache_valid_in = retry_wr;
            cache_offset = retry_addr[3:0];
 
            // Outputs
            Stall = 0;
            Done = 1;
-           DataOut = cache_data_out;
+           if (cache_valid_hit)
+             DataOut = cache_data_out;
+           else 
+             DataOut = cache_data_out_1;           
            CacheHit = 0;
-           
         end
       endcase
    end
-
-/********************************************************************************
- *  Next-output logic
- * ********************************************************************************/
-   //   Mem:
-   //     - addr
-   //     - data_in
-   //     - wr
-   //     - rd
-   //   Mem_System:
-   //     - next_count
-   //     - err
-   
-   always @(*) begin
-
-   end   
 endmodule // mem_system
 
 

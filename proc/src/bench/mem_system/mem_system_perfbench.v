@@ -74,10 +74,8 @@ module mem_system_perfbench(/*AUTOARG*/);
    integer              rval;
    
    initial begin
-/*
        $monitor("%d::add: %h, dio:(%h/%h), C:(en=%b, din=%h, cmp=%b,wr=%b, dout=%h, off=%d, ind=%h, tag=%h, hit=%b, drty=%b) mem(addr,din,dout) :(%h, %h, %h) ct: %d, don: %b  stall: %b", DUT.m0.state, DUT.m0.Addr, DUT.m0.DataIn, DUT.m0.DataOut, DUT.m0.cache_enable, DUT.m0.cache_data_in, DUT.m0.c0.comp, DUT.m0.cache_write, DUT.m0.cache_data_out, DUT.m0.cache_offset, DUT.m0.cache_index, DUT.m0.cache_tag_in, DUT.m0.cache_hit, DUT.m0.cache_dirty,
                DUT.m0.mem_addr, DUT.m0.mem_data_in, DUT.m0.mem_data_out, DUT.m0.count, DUT.m0.Done, DUT.m0.Stall );
- */
 
       Rd = 1'b0;
       Wr = 1'b0;
